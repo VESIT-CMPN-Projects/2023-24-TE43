@@ -5,7 +5,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,43 +32,38 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("RememberReturnType")
+@Preview(showBackground = true, widthDp = 390, heightDp = 770, showSystemUi = true)
 @Composable
-fun Login(navController: NavController){
+fun Login_otp(navController: NavController){
     val textFieldState= remember {
         mutableStateOf("")
     }
     Column(
-            modifier= Modifier
-                .fillMaxSize(), verticalArrangement = Arrangement.Top, horizontalAlignment = Alignment.CenterHorizontally
-        ){
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 30.dp)
-            ) {
-                Image(painter = painterResource(id = R.drawable.img),contentDescription = "Login",modifier=Modifier
-                    .size(390.dp),contentScale = ContentScale.Fit
-                )}
-            Box(modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(top = 30.dp))
-            {
-                TextField(value =  textFieldState.value,label = {
-                    Text("Enter Your Phone Number")
-                }, onValueChange = {
-                    textFieldState.value=it
-                }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),modifier=Modifier.align(Alignment.CenterEnd).width(335.dp))
-                Image(painter = painterResource(id = R.drawable.next), contentDescription = "Get otp", contentScale = ContentScale.Fit, modifier = Modifier.size(50.dp).align(
-                    Alignment.CenterEnd).clickable{
-                        navController.navigate("Login_otp")
-                })
-            }
+        modifier= Modifier
+            .fillMaxSize(), verticalArrangement = Arrangement.Top, horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 30.dp)
+        ) {
+            Image(painter = painterResource(id = R.drawable.otp),contentDescription = "Login",modifier=Modifier
+                .size(390.dp),contentScale = ContentScale.Fit
+            )}
+        Box(modifier = Modifier
+            .align(Alignment.CenterHorizontally)
+            .padding(top = 30.dp))
+        {
+            TextField(value =  textFieldState.value,label = {
+                Text("Enter Your OTP")}, onValueChange = {
+                textFieldState.value=it
+            }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),modifier=Modifier.align(Alignment.CenterEnd).width(335.dp))
+            Image(painter = painterResource(id = R.drawable.next), contentDescription = "Get otp", contentScale = ContentScale.Fit, modifier = Modifier.size(50.dp).align(
+                Alignment.CenterEnd))
+        }
 
     }
 }
