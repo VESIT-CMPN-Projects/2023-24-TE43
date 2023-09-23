@@ -20,5 +20,8 @@ fun Navigator(){
         composable(route="Login_otp"){
             Login_otp(navController)
         }
+        composable(route="Security"){
+            safety(navController)
+        }
     }
 }
