@@ -31,12 +31,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("RememberReturnType")
 @Preview(showBackground = true, widthDp = 390, heightDp = 770, showSystemUi = true)
 @Composable
-fun Login_otp(){
+fun Login_otp(navController: NavController){
     val textFieldState= remember {
         mutableStateOf("")
     }

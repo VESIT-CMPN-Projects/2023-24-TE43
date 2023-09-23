@@ -17,6 +17,9 @@ fun Navigator(){
         composable(route="Login"){
             Login(navController)
         }
+        composable(route="Login_otp"){
+            Login_otp(navController)
+        }
     }
 
 }
