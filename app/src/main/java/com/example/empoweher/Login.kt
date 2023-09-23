@@ -27,12 +27,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("RememberReturnType")
-@Preview(showBackground = true, widthDp = 390, heightDp = 770, showSystemUi = true)
+
 @Composable
-fun Login(){
+fun Login(navController: NavController){
     val textFieldState= remember {
         mutableStateOf("")
     }
@@ -57,7 +58,7 @@ fun Login(){
                 TextField(value = "Enter Your Phone No.", onValueChange = {
                     textFieldState.value=it
                 })
-                Image(painter = painterResource(id = R.drawable.next), contentDescription = "Get otp", contentScale = ContentScale.Fit, modifier = Modifier.size(50.dp).align(Alignment))
+//                Image(painter = painterResource(id = R.drawable.next), contentDescription = "Get otp", contentScale = ContentScale.Fit, modifier = Modifier.size(50.dp).align(Alignment.End))
             }
 
     }
