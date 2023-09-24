@@ -1,4 +1,4 @@
-package com.example.empoweher.presentation
+package com.example.empoweher.model
 
 data class SignInResult(
     val data: UserData?,

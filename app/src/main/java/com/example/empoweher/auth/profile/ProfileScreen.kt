@@ -1,4 +1,4 @@
-package com.example.empoweher
+package com.example.empoweher.auth.profile
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -14,7 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.empoweher.presentation.UserData
+import com.example.empoweher.model.UserData
 
 
 @Composable

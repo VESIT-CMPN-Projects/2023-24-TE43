@@ -1,9 +1,16 @@
-package com.example.empoweher.presentation
+package com.example.empoweher.auth.signin
 
 import androidx.lifecycle.ViewModel
+import com.example.empoweher.model.SignInResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+
+
+data class SignInState(
+    val isSignInSuccessful: Boolean = false,
+    val signInError: String? = null
+)
 
 class SignInViewModel: ViewModel() {
 

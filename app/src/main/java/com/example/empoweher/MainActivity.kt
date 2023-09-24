@@ -3,22 +3,28 @@ package com.example.empoweher
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.empoweher.ui.theme.EmpoweHerTheme
-import java.security.Security
+import androidx.lifecycle.lifecycleScope
+import com.example.empoweher.auth.signin.GoogleAuthUiClient
+import com.example.empoweher.screen.App
+import com.google.android.gms.auth.api.identity.Identity
 
 class MainActivity : ComponentActivity() {
+
+    private val googleAuthUiClient by lazy {
+        GoogleAuthUiClient(
+            context = applicationContext,
+            oneTapClient = Identity.getSignInClient(applicationContext)
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-           safety()
+
+            App(
+                googleAuthUiClient = googleAuthUiClient,
+                lifecycleScope = lifecycleScope,
+            )
         }
     }
 }
