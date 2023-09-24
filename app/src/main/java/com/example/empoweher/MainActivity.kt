@@ -12,12 +12,13 @@ import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.empoweher.ui.theme.EmpoweHerTheme
+import java.security.Security
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-           Navigator()
+           safety()
         }
     }
 }

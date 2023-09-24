@@ -3,6 +3,7 @@
 package com.example.empoweher
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -21,10 +23,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,70 +39,82 @@ import androidx.navigation.NavController
 @Preview(showBackground = true, heightDp = 790, widthDp = 400, showSystemUi = true)
 @Composable
 fun safety(){
-
+    Text(text = "Safety Features", textAlign = TextAlign.Center, fontSize = 40.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top=40.dp, start = 60.dp), fontFamily = FontFamily(
+        Font(R.font.font1)
+    ))
     Column(
-        verticalArrangement = Arrangement.SpaceEvenly,
+        modifier=Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        Row (Modifier.padding(8.dp),Arrangement.SpaceEvenly) {
-
+    ) {
+        Row(Modifier.padding(8.dp), Arrangement.SpaceBetween) {
             Column {
-                Image(
-                    painter = painterResource(id = R.drawable.fakecall),
-                    contentDescription = "FakeCall",
-                    Modifier.size(180.dp)
+                Box(modifier = Modifier.size(180.dp)) {
+                    Image(
+                        painter = painterResource(id = R.drawable.fakecall),
+                        contentDescription = "FakeCall",
+                        contentScale = ContentScale.Fit,modifier = Modifier.clip(CircleShape)
+                    )
+                }
+                Text(
+                    text = "Fake Call",
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    fontSize=20.sp,fontFamily = FontFamily(
+                        Font(R.font.font1))
                 )
-
-                Text(text = "Fake Call", fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
             }
-
-            Spacer(modifier = Modifier.width(20.dp))
-
-            Column{
-                Image(
-                    painter = painterResource(id = R.drawable.police),
-                    contentDescription = "Police",
-                    Modifier.size(180.dp)
-                )
+            Column {
+                Box(modifier = Modifier.size(180.dp)) {
+                    Image(
+                        painter = painterResource(id = R.drawable.police),
+                        contentDescription = "Police",
+                        contentScale = ContentScale.Fit
+                    )
+                }
                 Text(
                     text = "Police",
                     fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center
+                    modifier = Modifier.align(Alignment.CenterHorizontally),fontSize=20.sp,fontFamily = FontFamily(
+                        Font(R.font.font1))
                 )
             }
-
         }
-
-        Row (Modifier.padding(8.dp),Arrangement.SpaceEvenly) {
-
+        Spacer(modifier = Modifier.width(20.dp))
+        Row(Modifier.padding(8.dp), Arrangement.SpaceEvenly) {
             Column {
-                Image(
-                    painter = painterResource(id = R.drawable.alert),
-                    contentDescription = "Alert",
-                    Modifier.size(120.dp)
-                )
-                Text(text = "Alert", fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
-            }
-
-            Spacer(modifier = Modifier.width(20.dp))
-
-            Column{
-                Image(
-                    painter = painterResource(id = R.drawable.emergency),
-                    contentDescription = "Emrgency SOS",
-                    Modifier.size(120.dp)
-                )
+                Box(modifier = Modifier.size(180.dp)) {
+                    Image(
+                        painter = painterResource(id = R.drawable.alert),
+                        contentDescription = "Alert",
+                        contentScale = ContentScale.Fit, modifier = Modifier.clip(CircleShape)
+                    )
+                }
                 Text(
-                    text = "Emrgency SOS",
+                    text = "Alert",
                     fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center
+                    modifier = Modifier.align(Alignment.CenterHorizontally),fontSize=20.sp,fontFamily = FontFamily(
+                        Font(R.font.font1))
                 )
             }
-
+            Column {
+                Box(modifier = Modifier.size(180.dp)) {
+                    Image(
+                        painter = painterResource(id = R.drawable.emergency),
+                        contentDescription = "Emergency",
+                        contentScale = ContentScale.Fit,modifier = Modifier.clip(CircleShape)
+                    )
+                }
+                Text(
+                    text = "Emergency",
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.align(Alignment.CenterHorizontally),fontSize=20.sp,fontFamily = FontFamily(
+                        Font(R.font.font1))
+                )
+            }
         }
+
     }
-
-
 }
 
 
