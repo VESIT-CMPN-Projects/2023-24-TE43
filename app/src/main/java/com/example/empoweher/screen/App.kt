@@ -70,6 +70,9 @@ fun App(
             NavHost(navController = navController, startDestination = startDestination) {
 
                 composable(Screen.Login.route) {
+                    LaunchedEffect(key1 = Unit){
+                        shouldShowScaffold = false
+                    }
                     val viewModel = viewModel<SignInViewModel>()
                     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -86,6 +89,11 @@ fun App(
                             }
                         }
                     )
+                    DisposableEffect(Unit) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
 
                     SignInScreen(
                         state = state,
