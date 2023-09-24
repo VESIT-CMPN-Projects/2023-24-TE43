@@ -23,6 +23,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.empoweher.EmergencyList
 import com.example.empoweher.auth.signin.GoogleAuthUiClient
 import com.example.empoweher.auth.signin.SignInScreen
 import com.example.empoweher.auth.signin.SignInViewModel
@@ -132,6 +133,17 @@ fun App(
                         shouldShowScaffold = false
                     }
                     FakeCall()
+                    DisposableEffect(Unit) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
+                }
+                composable(route = Screen.EmergencyList.route) {
+                    LaunchedEffect(key1 = Unit){
+                        shouldShowScaffold = false
+                    }
+                    EmergencyList()
                     DisposableEffect(Unit) {
                         onDispose {
                             shouldShowScaffold = true

@@ -112,7 +112,13 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                 )
             }
             Column {
-                Box(modifier = Modifier.size(180.dp)) {
+                Box(
+                    modifier = Modifier
+                            .size(180.dp)
+                            .clickable {
+                                navigateToNextScreen(Screen.EmergencyList.route)
+                            }
+                ) {
                     Image(
                         painter = painterResource(id = R.drawable.emergency),
                         contentDescription = "Emergency",
@@ -130,7 +136,6 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                 )
             }
         }
-
     }
 }
 
