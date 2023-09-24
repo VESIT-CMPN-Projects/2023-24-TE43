@@ -3,7 +3,6 @@
 package com.example.empoweher
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -25,16 +25,81 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-
-
-@Preview(showBackground = true, widthDp = 390, heightDp = 770, showSystemUi = true)
+@Preview(showBackground = true, heightDp = 790, widthDp = 400, showSystemUi = true)
 @Composable
-fun safety(navController: NavController){
+fun safety(){
+
+    Column(
+        verticalArrangement = Arrangement.SpaceEvenly,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Row (Modifier.padding(8.dp),Arrangement.SpaceEvenly) {
+
+            Column {
+                Image(
+                    painter = painterResource(id = R.drawable.fakecall),
+                    contentDescription = "FakeCall",
+                    Modifier.size(180.dp)
+                )
+
+                Text(text = "Fake Call", fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+            }
+
+            Spacer(modifier = Modifier.width(20.dp))
+
+            Column{
+                Image(
+                    painter = painterResource(id = R.drawable.police),
+                    contentDescription = "Police",
+                    Modifier.size(180.dp)
+                )
+                Text(
+                    text = "Police",
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                )
+            }
+
+        }
+
+        Row (Modifier.padding(8.dp),Arrangement.SpaceEvenly) {
+
+            Column {
+                Image(
+                    painter = painterResource(id = R.drawable.alert),
+                    contentDescription = "Alert",
+                    Modifier.size(120.dp)
+                )
+                Text(text = "Alert", fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+            }
+
+            Spacer(modifier = Modifier.width(20.dp))
+
+            Column{
+                Image(
+                    painter = painterResource(id = R.drawable.emergency),
+                    contentDescription = "Emrgency SOS",
+                    Modifier.size(120.dp)
+                )
+                Text(
+                    text = "Emrgency SOS",
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                )
+            }
+
+        }
+    }
+
 
 }
+
+
 
 
