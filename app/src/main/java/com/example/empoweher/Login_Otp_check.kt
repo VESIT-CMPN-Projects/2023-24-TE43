@@ -5,6 +5,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,7 +36,6 @@ import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("RememberReturnType")
-@Preview(showBackground = true, widthDp = 390, heightDp = 770, showSystemUi = true)
 @Composable
 fun Login_otp(navController: NavController){
     val textFieldState= remember {
