@@ -2,6 +2,8 @@ package com.example.empoweher.auth.signin
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,12 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.empoweher.R
-import com.example.empoweher.model.Screen
 
 @Composable
 fun SignInScreen(
@@ -48,12 +50,14 @@ fun SignInScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .background(Color(0xfff7e7d7))
+            .padding(16.dp)
+            ,
         verticalArrangement = Arrangement.Center,
 //        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
-            painter = painterResource(id = R.drawable.img),
+            painter = painterResource(id = R.drawable.women_login),
             contentDescription = "Login",
             modifier=Modifier
             .size(390.dp),
@@ -63,5 +67,16 @@ fun SignInScreen(
         Button(onClick = onSignInClick, modifier = Modifier.align(Alignment.CenterHorizontally)) {
             Text(text = "Sign in")
         }
+        Image(
+            painter = painterResource(id = R.drawable.google_signin),
+            contentDescription = "Google",
+            modifier=Modifier
+                .size(100.dp)
+                .clickable {
+                    onSignInClick()
+                },
+            contentScale = ContentScale.Fit
+        )
+
     }
 }

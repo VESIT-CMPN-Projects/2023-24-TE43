@@ -1,4 +1,4 @@
-package com.example.empoweher
+package com.example.empoweher.screen
 
 import androidx.compose.runtime.Composable
 
