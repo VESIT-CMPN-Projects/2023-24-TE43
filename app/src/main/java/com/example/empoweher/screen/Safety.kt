@@ -39,7 +39,7 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
         textAlign = TextAlign.Center,
         fontSize = 40.sp,
         fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(top = 40.dp, start = 60.dp),
+        modifier = Modifier.padding(top = 40.dp, start = 40.dp),
         fontFamily = FontFamily(
             Font(R.font.font1)
         )
