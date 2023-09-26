@@ -1,5 +1,6 @@
 package com.example.empoweher.screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.empoweher.model.BottomNavigationItem
 import com.example.empoweher.slider
@@ -39,8 +41,8 @@ import com.example.empoweher.slider
         .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Spacer(modifier=Modifier.height(30.dp))
-        Box(modifier = Modifier.width(300.dp).height(250.dp)) {
+        Spacer(modifier=Modifier.height(60.dp))
+        Box(modifier = Modifier.width(350.dp).height(250.dp)) {
             slider()
         }
     }

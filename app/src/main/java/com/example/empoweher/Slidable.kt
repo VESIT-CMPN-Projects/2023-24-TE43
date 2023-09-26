@@ -46,7 +46,7 @@ fun slider() {
             IconButton(onClick = {
                 scope.launch {
                     pagerState.animateScrollToPage(
-                        pagerState.currentPage + 1
+                        pagerState.currentPage - 1
                     )
                 }
             }, modifier = Modifier.align(Alignment.CenterStart))
@@ -59,13 +59,13 @@ fun slider() {
             Image(
                 painter = painterResource(id = values[index]),
                 contentDescription = null,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier.width(300.dp)
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.width(250.dp)
             )
             IconButton(onClick = {
                 scope.launch {
                     pagerState.animateScrollToPage(
-                        pagerState.currentPage - 1
+                        pagerState.currentPage + 1
                     )
                 }
             }, modifier = Modifier.align(Alignment.CenterStart))
