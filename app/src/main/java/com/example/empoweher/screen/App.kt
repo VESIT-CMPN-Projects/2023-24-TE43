@@ -138,6 +138,19 @@ fun App(
                         }
                     }
                 }
+
+                composable(route = Screen.Map.route) {
+                    LaunchedEffect(key1 = Unit){
+                        shouldShowScaffold = false
+                    }
+                    map()
+                    DisposableEffect(Unit) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
+                }
+
                 composable(route = Screen.EmergencyList.route) {
                     LaunchedEffect(key1 = Unit){
                         shouldShowScaffold = false
