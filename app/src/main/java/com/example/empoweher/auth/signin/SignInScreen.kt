@@ -54,7 +54,7 @@ fun SignInScreen(
             .padding(16.dp)
             ,
         verticalArrangement = Arrangement.Center,
-//        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
             painter = painterResource(id = R.drawable.women_login),
@@ -64,14 +64,11 @@ fun SignInScreen(
             contentScale = ContentScale.Fit
         )
         Spacer(modifier = Modifier.height(12.dp))
-        Button(onClick = onSignInClick, modifier = Modifier.align(Alignment.CenterHorizontally)) {
-            Text(text = "Sign in")
-        }
         Image(
             painter = painterResource(id = R.drawable.google_signin),
             contentDescription = "Google",
             modifier=Modifier
-                .size(100.dp)
+                .size(175.dp)
                 .clickable {
                     onSignInClick()
                 },

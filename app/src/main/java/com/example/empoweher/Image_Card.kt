@@ -43,6 +43,7 @@ fun image_card(
                     .padding(12.dp),
                 fontSize = 16.sp,
                 color = Color.Black
+
             )
         }
     }
