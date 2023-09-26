@@ -26,6 +26,7 @@ import com.example.empoweher.model.BottomNavigationItem
     navigateToNextScreen: (route: String)->Unit,
     ){
 
+
     }
 
 
