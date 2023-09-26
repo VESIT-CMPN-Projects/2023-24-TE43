@@ -149,6 +149,19 @@ fun App(
                         }
                     }
                 }
+
+                composable(route = Screen.Temp1.route) {
+
+                    temp1()
+
+                }
+                composable(route = Screen.Temp2.route) {
+
+                    temp2()
+
+                }
+
+
             }
         }
     }
