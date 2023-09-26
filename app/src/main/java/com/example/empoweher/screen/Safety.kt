@@ -77,7 +77,11 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                     Image(
                         painter = painterResource(id = R.drawable.police),
                         contentDescription = "Police",
-                        contentScale = ContentScale.Fit
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier.clickable {
+                            navigateToNextScreen(Screen.Map.route)
+                        }
+
                     )
                 }
                 Text(

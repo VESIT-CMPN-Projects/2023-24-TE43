@@ -10,6 +10,7 @@ sealed class Screen(val route:String)
     object Events: Screen(route = "temp2")
     object Settings: Screen(route = "settings")
     object EmergencyList: Screen(route = "emergencyList")
+    object Map: Screen(route = "map")
     object Temp1: Screen(route = "temp1")
     object Temp2: Screen(route = "temp2")
 }
