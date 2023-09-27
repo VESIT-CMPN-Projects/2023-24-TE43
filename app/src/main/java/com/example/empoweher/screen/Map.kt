@@ -1,7 +1,7 @@
 package com.example.empoweher.screen
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,10 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat.startActivity
 
 @Composable
-fun map(){
+fun map() {
     val mContext = LocalContext.current
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -23,19 +22,15 @@ fun map(){
     ) {
         Button(
             onClick = {
-
-                Intent(Intent.ACTION_MAIN).also {
-                    it.`package`="com.google.android.apps.maps"
-                    try {
-                        mContext.startActivity(it)
-                    } catch (e: ActivityNotFoundException){
-                        e.printStackTrace()
-                    }
-                }
-                }
-                ) {
-                Text(text = "Click on me")
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://www.google.com/maps/search/nearby+police+station/")
+                ).setPackage("com.google.android.apps.maps")
+                mContext.startActivity(intent)
             }
+        ) {
+            Text(text = "Click on me")
+        }
     }
 }
 

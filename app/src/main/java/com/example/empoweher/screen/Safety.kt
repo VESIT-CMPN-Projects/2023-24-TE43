@@ -73,7 +73,9 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                 )
             }
             Column {
-                Box(modifier = Modifier.size(180.dp)) {
+                Box(modifier = Modifier.size(180.dp).clickable {
+//                    navigateToNextScreen(/*Screen.ScreenName.route*/)
+                }) {
                     Image(
                         painter = painterResource(id = R.drawable.police),
                         contentDescription = "Police",
