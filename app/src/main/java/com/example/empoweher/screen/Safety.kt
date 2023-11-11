@@ -3,6 +3,8 @@
 package com.example.empoweher.screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -19,6 +22,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -34,12 +39,15 @@ import com.example.empoweher.model.Screen
 @Preview(showBackground = true, heightDp = 790, widthDp = 400, showSystemUi = true)
 @Composable
 fun Safety(navigateToNextScreen: (route: String)->Unit) {
+    Box()
+    {
     Text(
         text = "Safety Features",
         textAlign = TextAlign.Center,
         fontSize = 40.sp,
         fontWeight = FontWeight.Bold,
         modifier = Modifier.padding(top = 40.dp, start = 40.dp),
+        color=Color(0xffffA500),
         fontFamily = FontFamily(
             Font(R.font.font1)
         )
@@ -53,6 +61,7 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
             Column {
                 Box(modifier = Modifier
                     .size(180.dp)
+                    .border(5.dp, Color(R.color.pink))
                     .clickable {
                         navigateToNextScreen(Screen.FakeCall.route)
                     }
@@ -72,10 +81,14 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                     )
                 )
             }
+            Spacer(modifier = Modifier.width(8.dp))
             Column {
-                Box(modifier = Modifier.size(180.dp).clickable {
+                Box(modifier = Modifier
+                    .border(5.dp, Color(R.color.violet))
+                    .size(180.dp)
+                    .clickable {
 //                    navigateToNextScreen(/*Screen.ScreenName.route*/)
-                }) {
+                    }) {
                     Image(
                         painter = painterResource(id = R.drawable.police),
                         contentDescription = "Police",
@@ -97,10 +110,12 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                 )
             }
         }
-        Spacer(modifier = Modifier.width(20.dp))
+        Spacer(modifier = Modifier.width(8.dp))
         Row(Modifier.padding(8.dp), Arrangement.SpaceEvenly) {
             Column {
-                Box(modifier = Modifier.size(180.dp)) {
+                Box(modifier = Modifier
+                    .size(180.dp)
+                    .border(5.dp, Color(R.color.violet))) {
                     Image(
                         painter = painterResource(id = R.drawable.alert),
                         contentDescription = "Alert",
@@ -117,13 +132,15 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                     )
                 )
             }
+            Spacer(modifier = Modifier.width(8.dp))
             Column {
                 Box(
                     modifier = Modifier
-                            .size(180.dp)
-                            .clickable {
-                                navigateToNextScreen(Screen.EmergencyList.route)
-                            }
+                        .size(180.dp)
+                        .border(5.dp, Color(R.color.pink))
+                        .clickable {
+                            navigateToNextScreen(Screen.EmergencyList.route)
+                        }
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.emergency),
@@ -142,6 +159,7 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                 )
             }
         }
+    }
     }
 }
 

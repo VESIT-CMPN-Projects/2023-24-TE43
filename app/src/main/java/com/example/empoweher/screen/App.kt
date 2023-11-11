@@ -173,8 +173,15 @@ fun App(
 
                 }
                 composable(route = Screen.Temp2.route) {
-
+                    LaunchedEffect(key1 = Unit){
+                        shouldShowScaffold = false
+                    }
                     temp2()
+                    DisposableEffect(Unit) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
 
                 }
 
