@@ -2,6 +2,7 @@ package com.example.empoweher.screen
 
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,8 +31,7 @@ import com.google.firebase.database.ValueEventListener
 
 @Composable
 fun temp2() {
-var vmodel:mainviewmodel by viewModels()
-
+    val viewModel = viewModel { mainviewmodel() }
 
 
 }
