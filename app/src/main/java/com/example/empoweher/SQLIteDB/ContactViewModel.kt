@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ContactViewModel(
-    private val dao: ContactDao
+    private var dao: ContactDao
 ): ViewModel() {
     private val _state = MutableStateFlow(ContactState())
 
