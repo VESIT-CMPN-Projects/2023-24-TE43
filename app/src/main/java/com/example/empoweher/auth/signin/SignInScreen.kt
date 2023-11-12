@@ -31,6 +31,7 @@ fun SignInScreen(
     navigateToHome: () -> Unit,
 ) {
     val context = LocalContext.current
+    navigateToHome()
     LaunchedEffect(key1 = state.signInError) {
         state.signInError?.let { error ->
             Toast.makeText(
