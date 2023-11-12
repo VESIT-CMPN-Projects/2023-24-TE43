@@ -1,7 +1,10 @@
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("kotlin-kapt")
 }
 
 android {
@@ -78,4 +81,13 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     implementation ("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
     implementation ("io.coil-kt:coil-compose:2.2.2")
+
+    //Room
+
+
+    implementation("androidx.room:room-ktx:2.6.0")
+    //Dagger - Hilt
+    implementation ("com.google.dagger:hilt-android:2.46.1")
+    kapt ("com.google.dagger:hilt-android-compiler:2.46.1")
+    kapt ("androidx.hilt:hilt-compiler:1.0.0")
 }
