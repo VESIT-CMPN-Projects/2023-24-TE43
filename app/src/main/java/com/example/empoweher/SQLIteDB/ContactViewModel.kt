@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ContactViewModel(
-    private var dao: ContactDao
+    private val dao: ContactDao
 ): ViewModel() {
     private val _state = MutableStateFlow(ContactState())
 
@@ -36,7 +36,7 @@ class ContactViewModel(
                 )
 
                 viewModelScope.launch {
-                    dao.upsertContact(contact)
+                    dao.insertContact(contact)
                 }
 
                 _state.update {it.copy(

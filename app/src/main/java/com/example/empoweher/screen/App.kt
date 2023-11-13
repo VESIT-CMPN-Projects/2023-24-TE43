@@ -177,6 +177,11 @@ fun App(
                     temp2()
 
                 }
+                composable(route = Screen.LocationScreen.route) {
+
+                    LocationScreen()
+
+                }
 
 
             }

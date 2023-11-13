@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.math.BigInteger
 
-@Entity
+@Entity(tableName = "contact")
 data class Contact(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,

@@ -100,7 +100,10 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
         Spacer(modifier = Modifier.width(20.dp))
         Row(Modifier.padding(8.dp), Arrangement.SpaceEvenly) {
             Column {
-                Box(modifier = Modifier.size(180.dp)) {
+                Box(modifier = Modifier.size(180.dp)
+                    .clickable {
+                        navigateToNextScreen(Screen.LocationScreen.route)
+                    } ) {
                     Image(
                         painter = painterResource(id = R.drawable.alert),
                         contentDescription = "Alert",
