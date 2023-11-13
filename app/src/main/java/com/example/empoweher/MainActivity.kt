@@ -13,27 +13,9 @@ import com.example.empoweher.SQLIteDB.ContactViewModel
 import com.example.empoweher.auth.signin.GoogleAuthUiClient
 import com.example.empoweher.screen.App
 import com.google.android.gms.auth.api.identity.Identity
+import dagger.hilt.android.AndroidEntryPoint
 
 class MainActivity : ComponentActivity() {
-
-    private val db by lazy {
-        Room.databaseBuilder(
-            applicationContext,
-            ContactDatabase::class.java,
-            "contacts.db"
-        ).build()
-    }
-//    private val viewModel by viewModels<ContactViewModel>(
-//        factoryProducer = {
-//            object : ViewModelProvider.Factory {
-//
-//                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-//
-//                    return ContactViewModel(db.dao) as T
-//                }
-//            }
-//        }
-//    )
 
     private val googleAuthUiClient by lazy {
         GoogleAuthUiClient(

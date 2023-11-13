@@ -5,7 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
     id("kotlin-kapt")
-
+    id("com.google.dagger.hilt.android")
 }
 
 android {
