@@ -73,9 +73,11 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                 )
             }
             Column {
-                Box(modifier = Modifier.size(180.dp).clickable {
+                Box(modifier = Modifier
+                    .size(180.dp)
+                    .clickable {
 //                    navigateToNextScreen(/*Screen.ScreenName.route*/)
-                }) {
+                    }) {
                     Image(
                         painter = painterResource(id = R.drawable.police),
                         contentDescription = "Police",
@@ -120,10 +122,10 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
             Column {
                 Box(
                     modifier = Modifier
-                            .size(180.dp)
-                            .clickable {
-                                navigateToNextScreen(Screen.EmergencyList.route)
-                            }
+                        .size(180.dp)
+                        .clickable {
+                            navigateToNextScreen(Screen.ContactsList.route)
+                        }
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.emergency),
@@ -134,7 +136,8 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                 Text(
                     text = "Emergency",
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally),
                     fontSize = 20.sp,
                     fontFamily = FontFamily(
                         Font(R.font.font1)

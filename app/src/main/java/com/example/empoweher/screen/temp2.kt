@@ -168,14 +168,8 @@ fun temp2(){
                     }) {
                         Text(text = "SAVE CONTACT")
                     }
-
-
                 }
 
             }
         }
 }
-
-
-
-//

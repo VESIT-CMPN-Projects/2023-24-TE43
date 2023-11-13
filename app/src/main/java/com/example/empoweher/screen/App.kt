@@ -178,7 +178,9 @@ fun App(
 
                 }
 
-
+                composable(route = Screen.ContactsList.route) {
+                    ContactsList()
+                }
             }
         }
     }
