@@ -2,6 +2,8 @@
 
 package com.example.empoweher.screen
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -25,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -83,6 +86,7 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
             }
             Spacer(modifier = Modifier.width(8.dp))
             Column {
+                val context= LocalContext.current
                 Box(modifier = Modifier
                     .border(5.dp, Color(R.color.violet))
                     .size(180.dp)
@@ -94,7 +98,12 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                         contentDescription = "Police",
                         contentScale = ContentScale.Fit,
                         modifier = Modifier.clickable {
-                            navigateToNextScreen(Screen.Map.route)
+                            val intent= Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://www.google.com/maps/search/nearby+police+station/"),
+                            ).setPackage("com.google.android.apps.maps")
+                            context.startActivity(intent)
+
                         }
 
                     )

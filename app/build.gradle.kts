@@ -83,4 +83,13 @@ dependencies {
 //    implementation ("androidx.activity:activity-ktx:1.8.0")
     implementation("androidx.fragment:fragment-ktx:1.6.2")
 
+    //Coil
+    implementation("io.coil-kt:coil-compose:2.5.0")
+
+    //Firebase Storage
+    implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
+    implementation("com.google.firebase:firebase-storage")
+
+
+
 }

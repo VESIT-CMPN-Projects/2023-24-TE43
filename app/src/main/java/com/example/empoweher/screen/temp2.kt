@@ -15,8 +15,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -34,16 +37,46 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun temp2() {
-    val viewModel = viewModel { mainviewmodel() }
+    val viewModel = viewModel {mainviewmodel()}
     when( val result= viewModel.response.value){
-        is DataState.Success ->{
+        is DataState.Loading -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+        is DataState.Success -> {
             ShowLazyList(result.data)
         }
-        else->{
-
+        is DataState.Failure -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = result.message,
+                    fontSize = 30.sp,
+                )
+            }
+        }
+        else -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Error Fetching data",
+                    fontSize = 30.sp,
+                )
+            }
         }
     }
 
@@ -62,7 +95,10 @@ fun ShowLazyList(data: MutableList<event>) {
             Box(
                 modifier = Modifier
                     .height(250.dp)
-                    .width(300.dp),
+                    .width(300.dp)
+                    .clickable {
+                    },
+
 
                 ) {
                 EventCard(

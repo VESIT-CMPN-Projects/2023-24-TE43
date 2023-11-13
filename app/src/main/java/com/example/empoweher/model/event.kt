@@ -1,6 +1,10 @@
 package com.example.empoweher.model
 
 data class event (
-    var name : String?=null,var place:String?=null
+    var eventId : String?=null,
+    var name : String?=null,
+    var address:String?=null,
+
+
 )
 
