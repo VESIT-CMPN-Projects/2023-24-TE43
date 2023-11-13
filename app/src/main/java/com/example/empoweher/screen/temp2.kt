@@ -26,7 +26,7 @@ import com.google.firebase.database.FirebaseDatabase
 
 @Composable
 fun temp2() {
-    /*Insert Data Code
+    /*Insert Data Code*/
     Row {
         Text(text = "Click to insert Data",modifier = Modifier
             .fillMaxSize()
@@ -62,7 +62,7 @@ fun temp2() {
                     .child(id)
                     .child("capacity").setValue(696969);
             })
-    }*/
+    }
 
     /*Retrieve Data Code*/
     val viewModel = viewModel {mainviewmodel()}
