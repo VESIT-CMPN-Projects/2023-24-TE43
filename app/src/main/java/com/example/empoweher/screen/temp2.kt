@@ -107,11 +107,6 @@ fun temp2() {
 @Composable
 fun ShowLazyList(data: MutableList<event>) {
     val painter = painterResource(id = R.drawable.event)
-    val contentDescription = "Hello"
-    val eventTitle = "Women Awareness Drive"
-    val eventLocation = "Kalyan"
-    val eventHost = "Vaibhav"
-    val eventCost = "899"
     LazyColumn{
         items(data){each->
             Box(
@@ -119,6 +114,7 @@ fun ShowLazyList(data: MutableList<event>) {
                     .height(250.dp)
                     .width(300.dp)
                     .clickable {
+
                     },
                 ) {
                 EventCard(
@@ -126,7 +122,7 @@ fun ShowLazyList(data: MutableList<event>) {
                     contentDescription = each.description!!,
                     eventTitle = each.eventName!!,
                     eventLocation = each.address!!,
-                    eventHost = each.hostName!!,
+                    eventHost = "praful",
                     eventCapacity = each.capacity
                 )
             }
