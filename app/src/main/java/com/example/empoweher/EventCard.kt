@@ -18,17 +18,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.empoweher.R
 
 /*Isko box mai dalna 300dp height aur 250dp width*/
 @Composable
 fun EventCard(
-    painter : Painter,
+    painter: Painter,
     contentDescription: String,
     eventTitle: String,
     eventLocation:String,
     eventHost:String,
-    eventCost:String
+    eventCapacity: Int
 ){
     Card(
         modifier= Modifier
@@ -86,7 +85,7 @@ fun EventCard(
 
                     )
                     Text(
-                        text = "Cost: " + eventCost+" Rs", fontWeight = FontWeight.Bold, fontSize = 16.sp,
+                        text = "Cost: " + eventCapacity.toString()+" Rs", fontWeight = FontWeight.Bold, fontSize = 16.sp,
                         modifier = Modifier
                             .padding(2.dp)
 
