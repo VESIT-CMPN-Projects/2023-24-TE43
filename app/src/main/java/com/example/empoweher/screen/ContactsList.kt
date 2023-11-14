@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,13 +16,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.SwipeToDismiss
 import com.example.empoweher.R
 import androidx.compose.material3.Text
@@ -39,6 +45,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.room.Room
@@ -53,6 +60,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import com.example.empoweher.R
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
@@ -69,19 +77,9 @@ fun ContactsList(){
         }
     }
 
-    LazyColumn(
-        modifier= Modifier
-            .fillMaxSize()
-            .background(colorResource(id = R.color.cream)),
-        content = {
-            items(List){item->
-                Contacts(fName = item.firstName, lName =item.lastName , pNum =item.phoneNumber , checked =item.emergency )
+//    Text(text = List.toString())
 
-
-            }
-        }
-    )
-
+    lazy(list = List.toMutableList())
 
 
 
@@ -160,15 +158,18 @@ fun lazy(list: MutableList<Contact>){
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val database = Room.databaseBuilder(context, ContactDatabase::class.java,"contacts").build()
-        LazyColumn(state = rememberLazyListState(),
-            content = {
-        items(list){item ->
+    LazyColumn(state = rememberLazyListState(),
+            content = { itemsIndexed(items = list, key = { _, listItem ->
+                listItem.hashCode()
+            }) { index, item ->
 
             val state = rememberDismissState(
                 confirmValueChange = {
                     if(it==DismissValue.DismissedToEnd){
-                        scope.launch {
+                        Log.d("deleteContact1",item.firstName)
+                        scope.launch(Dispatchers.IO) {
                             database.itemDao().deleteContact(item)
+                            Log.d("deleteContact2",item.firstName)
                         }
                     }
                     true
@@ -179,17 +180,29 @@ fun lazy(list: MutableList<Contact>){
                 state = state,
                 background = {
                              val color = when(state.dismissDirection){
-                                 DismissDirection.StartToEnd-> Color.Red
+                                 DismissDirection.StartToEnd-> colorResource(id = R.color.redorange)
                                  DismissDirection.EndToStart-> Color.DarkGray
                                  null -> Color.Transparent
                              }
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(color)
+                            .padding(8.dp)
+                    ){
+                        Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete",
+                            modifier = Modifier.align(Alignment.CenterEnd))
+                    }
                 },
                 dismissContent = {
                     Contacts(fName = item.firstName, lName = item.lastName, pNum = item.phoneNumber,checked = item.emergency)
-                })
-
+                },
+                directions=setOf(DismissDirection.StartToEnd)
+            )
+            Divider()
         }
     })
+
 }
 
 //suspend fun getList(database: ContactDatabase){
@@ -199,4 +212,3 @@ fun lazy(list: MutableList<Contact>){
 //    }
 //    Log.d("Hellllo",list.await().toString())
 //}
-
