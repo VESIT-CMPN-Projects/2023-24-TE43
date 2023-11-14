@@ -54,6 +54,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import com.example.empoweher.R
+import com.example.empoweher.model.Screen
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
@@ -89,6 +90,9 @@ fun Contacts(fName: String, lName: String, pNum: String,checked: Boolean){
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
+            .clickable {
+
+            }
 
     ){
         Column(
@@ -159,7 +163,6 @@ fun lazy(list: MutableList<Contact>){
             Divider()
         }
     })
-
 }
 
 //suspend fun getList(database: ContactDatabase){
