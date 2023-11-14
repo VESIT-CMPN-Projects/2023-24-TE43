@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -45,8 +47,10 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.room.Room
 import com.example.empoweher.SQLIteDB.Contact
 import com.example.empoweher.SQLIteDB.ContactDatabase
@@ -60,104 +64,65 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import com.example.empoweher.R
+import com.example.empoweher.model.Screen
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun ContactsList(){
+fun ContactsList(navigateToNextScreen: (route: String)->Unit) {
 
     val context = LocalContext.current
-    val database = Room.databaseBuilder(context, ContactDatabase::class.java,"contacts").build()
-    var List by remember { mutableStateOf(emptyList<Contact>())}
-    var scope= rememberCoroutineScope()
+    val database = Room.databaseBuilder(context, ContactDatabase::class.java, "contacts").build()
+    var List by remember { mutableStateOf(emptyList<Contact>()) }
+    var scope = rememberCoroutineScope()
+    var key by remember {
+        mutableStateOf(0)
+    }
 
-    LaunchedEffect(Unit){
+    LaunchedEffect(key % 2 == 0) {
         scope.launch(Dispatchers.IO) {
             List = database.itemDao().getAllItems().toMutableList()
         }
     }
-
-//    Text(text = List.toString())
-
-    lazy(list = List.toMutableList())
-
-
-
-}
-
-suspend fun func(database: ContactDatabase){
-    database.itemDao().getAllItems().toMutableList()
-}
-
-@Composable
-fun Contacts(fName: String, lName: String, pNum: String,checked: Boolean) {
-    if (checked) {
-        Card(
-            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = colorResource(id = R.color.orchid),
-            ),
-            modifier = Modifier
-                .padding(8.dp)
-                .fillMaxWidth()
-                .clickable {
-
-                },
-
-            ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth()
-
-            ) {
-                Text(
-                    text = "Name : " + fName + " " + lName,
+    if (List.isEmpty()){
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .background(colorResource(id = R.color.cream)))
+        {
+            Spacer(modifier = Modifier.height(70.dp))
+            Text(text = "No Contacts Saved!!",modifier=Modifier.fillMaxWidth(),
+                fontSize = 25.sp,
+                textAlign = TextAlign.Center,
+                fontFamily = FontFamily(Font(R.font.font1)))
+            Text(
+                    text = "Please Click Below",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .wrapContentHeight()
+                        .clickable
+                        {
+                            navigateToNextScreen(Screen.Temp2.route)
+                        },
+                    fontSize = 25.sp,
+                    textAlign = TextAlign.Center,
                     fontFamily = FontFamily(Font(R.font.font1))
                 )
-                Text(text = "Contact Number : " + pNum, fontFamily = FontFamily(Font(R.font.font1)))
-                Text("Emergency Contact : Yes", fontFamily = FontFamily(Font(R.font.font1)))
-            }
         }
+    }else {
+        lazy(list = List.toMutableList(), { key++ })
     }
-        else{
-            Card(
-                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = colorResource(id = R.color.mauve)
-                ),
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth()
-                    .clickable {
 
-                    },
-
-                ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth()
-
-                ) {
-                    Text(
-                        text = "Name : " + fName + " " + lName,
-                        fontFamily = FontFamily(Font(R.font.font1))
-                    )
-                    Text(text = "Contact Number : " + pNum, fontFamily = FontFamily(Font(R.font.font1)))
-                    Text("Emergency Contact : No", fontFamily = FontFamily(Font(R.font.font1)))
-                }
-            }
-        }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun lazy(list: MutableList<Contact>){
+fun lazy(list: MutableList<Contact>,increment:()->Unit){
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val database = Room.databaseBuilder(context, ContactDatabase::class.java,"contacts").build()
-    LazyColumn(state = rememberLazyListState(),
+    LazyColumn(modifier= Modifier
+        .fillMaxSize()
+        .background(colorResource(id = R.color.cream))
+        , state = rememberLazyListState(),
             content = { itemsIndexed(items = list, key = { _, listItem ->
                 listItem.hashCode()
             }) { index, item ->
@@ -168,6 +133,7 @@ fun lazy(list: MutableList<Contact>){
                         Log.d("deleteContact1",item.firstName)
                         scope.launch(Dispatchers.IO) {
                             database.itemDao().deleteContact(item)
+                            increment()
                             Log.d("deleteContact2",item.firstName)
                         }
                     }
@@ -194,20 +160,11 @@ fun lazy(list: MutableList<Contact>){
                     }
                 },
                 dismissContent = {
-                    Contacts(fName = item.firstName, lName = item.lastName, pNum = item.phoneNumber,checked = item.emergency)
+                    ContactCard(fName = item.firstName, lName = item.lastName, pNum = item.phoneNumber,checked = item.emergency)
                 },
                 directions=setOf(DismissDirection.StartToEnd)
             )
-            Divider()
         }
     })
 
 }
-
-//suspend fun getList(database: ContactDatabase){
-//    var scope = rememberCoroutineScope()
-//    var list = scope.async(context = Dispatchers.IO) {
-//        database.itemDao().getAllItems().toMutableList()
-//    }
-//    Log.d("Hellllo",list.await().toString())
-//}

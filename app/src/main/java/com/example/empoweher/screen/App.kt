@@ -184,7 +184,10 @@ fun App(
                 }
 
                 composable(route = Screen.ContactsList.route) {
-                    ContactsList()
+                    ContactsList(
+                        navigateToNextScreen = { route ->
+                            navController.navigate(route)
+                        })
                 }
             }
         }
