@@ -12,9 +12,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DismissDirection
+import androidx.compose.material3.DismissValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -22,12 +28,15 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.room.Room
 import com.example.empoweher.SQLIteDB.Contact
 import com.example.empoweher.SQLIteDB.ContactDatabase
+import com.example.empoweher.SQLIteDB.getList
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -37,22 +46,39 @@ import kotlinx.coroutines.launch
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun ContactsList(){
-
     val context = LocalContext.current
     val database = Room.databaseBuilder(context, ContactDatabase::class.java,"contacts").build()
+    var list = mutableListOf<Contact>()
+    var scope = CoroutineScope(Dispatchers.IO)
+    scope.launch {
 
-    var List by remember { mutableStateOf(emptyList<Contact>())}
+        var deferred = scope.async {
+            var list = getList(database)
+            Log.d("Hellllo2", list.await().toString())
+        }
+        deferred.await()
 
-    var scope = rememberCoroutineScope()
-    var list = scope.async(context = Dispatchers.IO) {
-        database.itemDao().getAllItems().toMutableList()
     }
+    Log.d("Hellllo3",list.toString())
+//    var List by remember { mutableStateOf(emptyList<Contact>())}
+//
+//    var scope = rememberCoroutineScope()
+//    var list = scope.async(context = Dispatchers.IO) {
+//        database.itemDao().getAllItems().toMutableList()
+//    }
+//    Log.d("Hellllo",list.await().toString())
 //    LaunchedEffect(key1 = Unit){
 //        List = database.itemDao().getAllItems().toMutableList()
 //    }
 
-    Log.d("Hellllo",List.toString())
-    Contacts("aman","raju","69",true)
+//    list.invokeOnCompletion {
+//        if(it==null){
+////            lazy(list.getCompleted())
+//        }
+//    }
+//
+//    Log.d("Hellllo",List.toString())
+//    Contacts("aman","raju","69",true)
 //    LazyColumn(content = {
 //        items(list){item ->
 //            Contacts("aman","raju","69",true)
@@ -71,14 +97,6 @@ fun Contacts(fName: String, lName: String, pNum: String,checked: Boolean){
         modifier = Modifier.padding(8.dp)
     ){
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(8.dp)
-
-        ) {
-
-        }
-
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
@@ -94,6 +112,50 @@ fun Contacts(fName: String, lName: String, pNum: String,checked: Boolean){
     }
 }
 
-//fun getCategoryList(): MutableList<Contact>{
-//
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun lazy(list: MutableList<Contact>){
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val database = Room.databaseBuilder(context, ContactDatabase::class.java,"contacts").build()
+        LazyColumn(state = rememberLazyListState(),
+            content = {
+        items(list){item ->
+
+            val state = rememberDismissState(
+                confirmValueChange = {
+                    if(it==DismissValue.DismissedToEnd){
+                        scope.launch {
+                            database.itemDao().deleteContact(item.phoneNumber)
+                        }
+                    }
+                    true
+                }
+            )
+
+            SwipeToDismiss(
+                state = state,
+                background = {
+                             val color = when(state.dismissDirection){
+                                 DismissDirection.StartToEnd-> Color.Red
+                                 DismissDirection.EndToStart-> Color.DarkGray
+                                 null -> Color.Transparent
+                             }
+                },
+                dismissContent = {
+                    Contacts(fName = item.firstName, lName = item.lastName, pNum = item.phoneNumber,checked = item.emergency)
+                })
+
+        }
+    })
+}
+
+//suspend fun getList(database: ContactDatabase){
+//    var scope = rememberCoroutineScope()
+//    var list = scope.async(context = Dispatchers.IO) {
+//        database.itemDao().getAllItems().toMutableList()
+//    }
+//    Log.d("Hellllo",list.await().toString())
 //}
+

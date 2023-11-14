@@ -17,7 +17,7 @@ interface ContactDao {
     suspend fun insertContact(contact: Contact)
 
     @Delete
-    suspend fun deleteContact(contact: Contact)
+    suspend fun deleteContact(phoneNumber: String)
 
     @Update
     suspend fun updateContact(contact: Contact)

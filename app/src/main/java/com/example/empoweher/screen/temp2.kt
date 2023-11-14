@@ -44,8 +44,6 @@ fun temp2(){
     val scope = rememberCoroutineScope()
 
 
-
-
         val painter = painterResource(id = R.drawable.background_for_form)
         var fName by remember{
             mutableStateOf("")
