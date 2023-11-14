@@ -2,6 +2,8 @@
 
 package com.example.empoweher.screen
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -34,6 +37,7 @@ import com.example.empoweher.model.Screen
 @Preview(showBackground = true, heightDp = 790, widthDp = 400, showSystemUi = true)
 @Composable
 fun Safety(navigateToNextScreen: (route: String)->Unit) {
+    val context=LocalContext.current
     Text(
         text = "Safety Features",
         textAlign = TextAlign.Center,
@@ -75,15 +79,18 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
             Column {
                 Box(modifier = Modifier
                     .size(180.dp)
-                    .clickable {
-//                    navigateToNextScreen(/*Screen.ScreenName.route*/)
-                    }) {
+                ) {
                     Image(
                         painter = painterResource(id = R.drawable.police),
                         contentDescription = "Police",
                         contentScale = ContentScale.Fit,
                         modifier = Modifier.clickable {
-                            navigateToNextScreen(Screen.Map.route)
+
+                            val intent = Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://www.google.com/maps/search/nearby+police+station/")
+                            ).setPackage("com.google.android.apps.maps")
+                            context.startActivity(intent)
                         }
 
                     )
@@ -102,7 +109,12 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
         Spacer(modifier = Modifier.width(20.dp))
         Row(Modifier.padding(8.dp), Arrangement.SpaceEvenly) {
             Column {
-                Box(modifier = Modifier.size(180.dp)) {
+                Box(
+                    modifier = Modifier.size(180.dp)
+                        .clickable {
+                            navigateToNextScreen(Screen.EventForm.route)
+                        }
+                ) {
                     Image(
                         painter = painterResource(id = R.drawable.alert),
                         contentDescription = "Alert",
