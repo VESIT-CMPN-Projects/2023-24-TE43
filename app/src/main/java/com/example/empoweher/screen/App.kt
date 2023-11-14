@@ -177,6 +177,11 @@ fun App(
                     temp2()
 
                 }
+                composable(route = Screen.EventForm.route) {
+
+                    EventForm()
+
+                }
 
                 composable(route = Screen.ContactsList.route) {
                     ContactsList()
