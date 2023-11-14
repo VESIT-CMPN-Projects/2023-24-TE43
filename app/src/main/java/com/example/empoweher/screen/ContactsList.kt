@@ -52,7 +52,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.room.Room
-import com.example.empoweher.SQLIteDB.Contact
+import com.example.empoweher.SQLIteDB.Contact 
 import com.example.empoweher.SQLIteDB.ContactDatabase
 import com.example.empoweher.SQLIteDB.getList
 import kotlinx.coroutines.CoroutineScope
