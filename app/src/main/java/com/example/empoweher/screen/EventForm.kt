@@ -1,5 +1,6 @@
 package com.example.empoweher.screen
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -61,6 +62,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import coil.compose.rememberAsyncImagePainter
 
+@SuppressLint("SuspiciousIndentation")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventForm(){
@@ -106,7 +108,9 @@ fun EventForm(){
 
     var selectedImage by remember { mutableStateOf<Uri?>(null) }
 
-
+    var imgBtnText by remember {
+        mutableStateOf("Select From Device")
+    }
 
 
 
@@ -588,16 +592,24 @@ fun EventForm(){
                     .fillMaxWidth()
                     .padding(5.dp, 10.dp)
             ) {
+                Row (
+                    modifier=Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically)
+                {
+                    Text(
+                        text = "Event Image : ",
+                        fontSize = 23.sp,
+                        fontFamily = FontFamily(Font(R.font.font1)),
+                    )
                 val launcher =
                     rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri ->
                         selectedImage = uri
                     }
                 val painter = rememberAsyncImagePainter(selectedImage)
-                Column {
                     Button(onClick = {
                         launcher.launch("image/*")
                     }) {
-                        Text(text = "CLICK")
+                        Text(imgBtnText)
                     }
                     Image(painter = painter, contentDescription = "cd")
                 }
