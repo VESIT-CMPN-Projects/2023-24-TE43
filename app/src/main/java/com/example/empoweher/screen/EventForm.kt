@@ -1,6 +1,8 @@
 package com.example.empoweher.screen
 
+import android.annotation.SuppressLint
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -40,6 +43,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -57,10 +61,13 @@ import java.util.Date
 import java.util.Locale
 import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 
+@SuppressLint("SuspiciousIndentation")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventForm(){
@@ -72,6 +79,9 @@ fun EventForm(){
         mutableStateOf("")
     }
     var address by remember {
+        mutableStateOf("")
+    }
+    var city by remember {
         mutableStateOf("")
     }
 
@@ -105,6 +115,19 @@ fun EventForm(){
     var tag by remember { mutableStateOf("") }
 
     var selectedImage by remember { mutableStateOf<Uri?>(null) }
+
+    var cost by remember{
+        mutableStateOf("")
+    }
+
+    var capacity by remember{
+        mutableStateOf("")
+    }
+
+    var contactNumber by remember{
+        mutableStateOf("")
+    }
+
 
 
 
@@ -235,6 +258,50 @@ fun EventForm(){
 
                     })
             }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp, 10.dp)
+
+            ) {
+                Row (
+                    modifier=Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                )
+                {
+                    Text(
+                        text = "Event City: ",
+                        fontSize = 23.sp,
+                        fontFamily = FontFamily(Font(R.font.font1)),
+
+                        )
+
+                    OutlinedTextField(
+                        value = city,
+                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
+                        placeholder = { Text("Example : Thane") },
+                        modifier = Modifier
+                            .padding(),
+                        onValueChange = { str ->
+                            if (str.length <= 30) {
+                                city = str
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Only 30 characters Allowed",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                            }
+
+                        })
+                }
+
+
+
+            }
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -591,17 +658,163 @@ fun EventForm(){
                 val launcher =
                     rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri ->
                         selectedImage = uri
+                        Log.d("JWSH",selectedImage.toString())
                     }
-                val painter = rememberAsyncImagePainter(selectedImage)
-                Column {
-                    Button(onClick = {
-                        launcher.launch("image/*")
-                    }) {
-                        Text(text = "CLICK")
+                    val painter = rememberAsyncImagePainter(selectedImage)
+
+                    Text(
+                        text = "Event Image : ",
+                        fontSize = 23.sp,
+                        fontFamily = FontFamily(Font(R.font.font1)),
+                    )
+
+                    Row(
+                    modifier=Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Button(onClick = {
+                            launcher.launch("image/*")
+                        }) {
+                            Text(text = "Click To Add Image")
+                        }
+
+                        Spacer(modifier= Modifier.width(100.dp))
+
+                        Image(
+                            painter = painter,
+                            contentDescription = "Hello",
+                            modifier = Modifier
+                                .height(120.dp)
+                                .width(120.dp)
+                                .clip(RoundedCornerShape(10.dp)),
+                            contentScale = ContentScale.Crop,
+
+
+                        )
+
                     }
-                    Image(painter = painter, contentDescription = "cd")
-                }
+
             }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp, 10.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Event Cost in Rs : ",
+                        fontSize = 23.sp,
+                        fontFamily = FontFamily(Font(R.font.font1)),
+                    )
+                    OutlinedTextField(
+                        value = cost,
+                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
+                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                        modifier = Modifier
+                            .padding(2.dp, 0.dp),
+                        placeholder = { Text("Cost: ") },
+                        onValueChange = { str ->
+                            if(str.isNotEmpty()){
+                                if(str.toDouble() in 1.0..100000.0){
+                                    cost = str.toInt().toString()
+                                }
+                                else{
+                                    Toast.makeText(context,"Enter Valid Cost 1-100000",Toast.LENGTH_SHORT).show()
+
+                                }
+                            }
+                            else{
+                                cost=""
+                            }
+                        })
+
+                }
+
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp, 10.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Event Capacity : ",
+                        fontSize = 23.sp,
+                        fontFamily = FontFamily(Font(R.font.font1)),
+                    )
+                    OutlinedTextField(
+                        value = capacity,
+                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
+                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                        modifier = Modifier
+                            .padding(2.dp, 0.dp),
+                        placeholder = { Text("Number Of People ") },
+                        onValueChange = { str ->
+                            if(str.isNotEmpty()){
+                                if(str.toDouble() in 1.0..1000.0){
+                                    capacity = str.toInt().toString()
+                                }
+                                else{
+                                    Toast.makeText(context,"Enter Valid Capacity 1-1000",Toast.LENGTH_SHORT).show()
+
+                                }
+                            }
+                            else{
+                                capacity=""
+                            }
+                        })
+
+                }
+
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp, 10.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Contact Number : ",
+                        fontSize = 23.sp,
+                        fontFamily = FontFamily(Font(R.font.font1)),
+                    )
+                    OutlinedTextField(
+                        value = contactNumber,
+                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
+                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                        modifier = Modifier
+                            .padding(2.dp, 0.dp),
+                        placeholder = { Text("Contact Number ") },
+                        onValueChange = { str ->
+                            if(str.isNotEmpty()){
+                                if(str.length <=10){
+                                    contactNumber = str
+                                }
+                                else{
+                                    Toast.makeText(context,"Enter Valid Phone Number",Toast.LENGTH_SHORT).show()
+
+                                }
+                            }
+                            else{
+                                contactNumber=""
+                            }
+                        })
+
+                }
+
+            }
+
 
 
 
