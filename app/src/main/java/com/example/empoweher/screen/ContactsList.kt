@@ -166,5 +166,4 @@ fun lazy(list: MutableList<Contact>,increment:()->Unit){
             )
         }
     })
-
 }
