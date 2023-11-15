@@ -1,6 +1,11 @@
 package com.example.empoweher.screen
 
+import android.net.Uri
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,10 +19,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -44,6 +55,11 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import androidx.compose.ui.unit.toSize
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
+import coil.compose.rememberAsyncImagePainter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -83,6 +99,14 @@ fun EventForm(){
     var minute by remember {
         mutableStateOf("")
     }
+
+    var duration by remember {
+        mutableStateOf("")
+    }
+
+    var tag by remember { mutableStateOf("") }
+
+    var selectedImage by remember { mutableStateOf<Uri?>(null) }
 
 
 
@@ -396,7 +420,7 @@ fun EventForm(){
                         textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                         modifier = Modifier
-                            .padding(2.dp,0.dp)
+                            .padding(2.dp, 0.dp)
                             .width(65.dp),
                         placeholder = { Text("HH") },
                         onValueChange = { str ->
@@ -420,7 +444,7 @@ fun EventForm(){
                         textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                         modifier = Modifier
-                            .padding(2.dp,0.dp)
+                            .padding(2.dp, 0.dp)
                             .width(65.dp),
                         placeholder = { Text("MM") },
                         onValueChange = { str ->
@@ -445,7 +469,7 @@ fun EventForm(){
                         textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                         modifier = Modifier
-                            .padding(2.dp,0.dp)
+                            .padding(2.dp, 0.dp)
                             .width(65.dp),
                         placeholder = { Text("SS") },
                         onValueChange = { str ->
@@ -469,6 +493,161 @@ fun EventForm(){
                 }
 
             }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp, 10.dp)
+            ) {
+                Row(
+                    modifier=Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+                    Text(
+                        text = "Duration : ",
+                        fontSize = 23.sp,
+                        fontFamily = FontFamily(Font(R.font.font1)),
+
+                        )
+                    OutlinedTextField(
+                        value = duration,
+                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
+                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                        modifier = Modifier
+                            .padding(2.dp, 0.dp),
+                        placeholder = { Text("Enter Event Duration In Hours  ") },
+                        onValueChange = { str ->
+                            if(str.isNotEmpty()){
+                                if(Integer.parseInt(str) in 0..12){
+                                    duration = str
+                                }
+                                else{
+                                    Toast.makeText(context,"Enter Valid Duration 1-12",Toast.LENGTH_SHORT).show()
+
+                                }
+                            }
+                            else{
+                                duration=""
+                            }
+
+
+                        })
+                }
+
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp, 10.dp)
+            ){
+                Row(
+                    modifier=Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+                    Text(
+                        text = "Event Tag : ",
+                        fontSize = 23.sp,
+                        fontFamily = FontFamily(Font(R.font.font1)),
+                        )
+                    var mExpanded by remember { mutableStateOf(false) }
+
+                    // Create a list of cities
+                    val tags = listOf("Educational", "Defence", "Exploratory", "Discussion","Empowerment", "Others")
+
+
+                    var mTextFieldSize by remember { mutableStateOf(Size.Zero)}
+
+                    // Up Icon when expanded and down icon when collapsed
+                    val icon = if (mExpanded)
+                        Icons.Filled.KeyboardArrowUp
+                    else
+                        Icons.Filled.KeyboardArrowDown
+
+                    Column(Modifier.padding(20.dp)) {
+
+                        // Create an Outlined Text Field
+                        // with icon and not expanded
+                        OutlinedTextField(
+                            value = tag,
+                            onValueChange = { tag = it },
+                            enabled= false,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .onGloballyPositioned { coordinates ->
+                                    // This value is used to assign to
+                                    // the DropDown the same width
+                                    mTextFieldSize = coordinates.size.toSize()
+                                },
+                            label = {Text("Click On Arrow")},
+                            trailingIcon = {
+                                Icon(icon,"contentDescription",
+                                    Modifier.clickable { mExpanded = !mExpanded })
+                            }
+                        )
+
+                        // Create a drop-down menu with list of cities,
+                        // when clicked, set the Text Field text as the city selected
+                        DropdownMenu(
+                            expanded = mExpanded,
+                            onDismissRequest = { mExpanded = false },
+                            modifier = Modifier
+                                .width(with(LocalDensity.current){mTextFieldSize.width.toDp()})
+                        ) {
+                            tags.forEach { label ->
+                                DropdownMenuItem(
+                                    text = {Text(label)},
+                                    onClick = {
+                                        tag = label
+                                        mExpanded = false
+                                    },
+                                )
+                            }
+                        }
+                    }
+
+                }
+
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp, 10.dp)
+            ) {
+                val launcher =
+                    rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri ->
+                        selectedImage = uri
+                    }
+                val painter = rememberAsyncImagePainter(selectedImage)
+                Column {
+                    Button(onClick = {
+                        launcher.launch("image/*")
+                    }) {
+                        Text(text = "CLICK")
+                    }
+                    Image(painter = painter, contentDescription = "cd")
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         }
 
