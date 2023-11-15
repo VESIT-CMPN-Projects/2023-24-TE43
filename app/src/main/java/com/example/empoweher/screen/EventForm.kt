@@ -829,12 +829,16 @@ fun EventForm(){
                         val id = dbref.push().key!!
                         val current = LocalDateTime.now()
                         val currentFirebaseUser = FirebaseAuth.getInstance().currentUser
-                        val e = Event(id,name,description,address,city,startDate.toString(),endDate.toString(),hour+":"+minute+":"+second,duration,tag,selectedImage.toString(),cost,capacity,contactNumber,""+currentFirebaseUser!!.uid)
+                        val e = Event(id,name,description,address,city,startDate.toString(),endDate.toString(),hour+":"+minute+":"+second,duration,tag,currentFirebaseUser!!.uid+"/"+current.toString(),cost,capacity,contactNumber,""+currentFirebaseUser!!.uid)
                         dbref.child(id).setValue(e);
                         val storage=FirebaseStorage.getInstance()
                         val ref= storage.getReference()
                             .child(currentFirebaseUser!!.uid+"/"+current.toString())
-                        ref.putFile(selectedImage!!)
+                        ref.putFile(selectedImage!!).addOnSuccessListener {
+                            ref.getDownloadUrl().addOnSuccessListener {it
+                                dbref.child(id).child("eventImage").setValue(it.toString())
+                            }
+                        }
                         Toast.makeText(context,"Form Submitted",Toast.LENGTH_SHORT).show()
                         name=""
                         description=""
