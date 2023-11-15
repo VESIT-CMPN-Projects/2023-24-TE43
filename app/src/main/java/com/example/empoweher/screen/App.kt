@@ -198,6 +198,13 @@ fun App(
                         })
                 }
 
+                composable(route = Screen.UpdateContactList.route) {
+                    UpdateContactList(
+                        navigateToNextScreen = { route ->
+                            navController.navigate(route)
+                        })
+                }
+
             }
         }
     }

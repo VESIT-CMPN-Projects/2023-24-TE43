@@ -14,9 +14,6 @@ sealed class Screen(val route:String)
     object Temp1: Screen(route = "temp1")
     object Temp2: Screen(route = "temp2")
     object EventForm: Screen(route = "eventForm")
-
-
-
-
     object ContactsList: Screen(route = "contactsList")
+    object UpdateContactList: Screen(route = "updateContactsList")
 }

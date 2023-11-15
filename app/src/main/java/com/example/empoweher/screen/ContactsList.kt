@@ -108,6 +108,11 @@ fun ContactsList(navigateToNextScreen: (route: String)->Unit) {
                 )
         }
     }else {
+        Button(onClick = {
+            navigateToNextScreen(Screen.UpdateContactList.route)
+        }) {
+
+        }
         lazy(list = List.toMutableList(), { key++ })
     }
 
