@@ -179,7 +179,15 @@ fun App(
                 }
                 composable(route = Screen.EventForm.route) {
 
+                    LaunchedEffect(key1 = Unit){
+                        shouldShowScaffold = false
+                    }
                     EventForm()
+                    DisposableEffect(Unit) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
 
                 }
 
