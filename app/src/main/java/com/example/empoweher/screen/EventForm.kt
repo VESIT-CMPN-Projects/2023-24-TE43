@@ -69,8 +69,6 @@ fun EventForm(){
     var endDate by remember {
         mutableLongStateOf(calendar2.timeInMillis) // or use mutableStateOf(calendar.timeInMillis)
     }
-
-
     val scrollForDescription= rememberScrollState(0)
     val scrollForAddress= rememberScrollState(0)
 
@@ -83,14 +81,6 @@ fun EventForm(){
     var minute by remember {
         mutableStateOf("")
     }
-
-
-
-
-
-
-
-
     Box (modifier = Modifier
         .fillMaxSize()
 
@@ -145,9 +135,6 @@ fun EventForm(){
                         }
 
                     })
-
-
-
             }
             Column(
                 modifier = Modifier
@@ -215,9 +202,6 @@ fun EventForm(){
                         }
 
                     })
-
-
-
             }
             Column(
                 modifier = Modifier
@@ -291,29 +275,20 @@ fun EventForm(){
                     val formatter = SimpleDateFormat("dd MM yyyy", Locale.ROOT)
 
                     btnText = formatter.format(Date(startDate)).toString()
-
-
-
                 }
-
             }
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(5.dp, 10.dp)
             ){
-                // set the initial date
                 val datePickerState = rememberDatePickerState(initialSelectedDateMillis = calendar2.timeInMillis)
-
                 var showDatePicker by remember {
                     mutableStateOf(false)
                 }
-
-
                 var btnText by remember {
                     mutableStateOf("Select Date")
                 }
-
                 if (showDatePicker) {
                     DatePickerDialog(
                         onDismissRequest = {
@@ -345,7 +320,6 @@ fun EventForm(){
                         )
                     }
                 }
-
                 Row (
                     modifier=Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
@@ -365,16 +339,9 @@ fun EventForm(){
                     ) {
                         Text(text = btnText)
                     }
-
                     val formatter = SimpleDateFormat("dd MM yyyy", Locale.ROOT)
-
                     btnText = formatter.format(Date(endDate)).toString()
-
-
-
-
                 }
-
             }
             Column(
                 modifier = Modifier
