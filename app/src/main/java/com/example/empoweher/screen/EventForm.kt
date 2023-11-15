@@ -2,10 +2,12 @@ package com.example.empoweher.screen
 
 import android.annotation.SuppressLint
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,18 +36,18 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -54,19 +56,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.toSize
+import androidx.core.net.toUri
+import coil.compose.rememberAsyncImagePainter
 import com.example.empoweher.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import androidx.compose.ui.unit.toSize
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
-import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
+import com.example.empoweher.model.Event
+import com.google.firebase.storage.FirebaseStorage
 
+
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("SuspiciousIndentation")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -718,8 +723,8 @@ fun EventForm(){
                         placeholder = { Text("Cost: ") },
                         onValueChange = { str ->
                             if(str.isNotEmpty()){
-                                if(str.toDouble() in 1.0..100000.0){
-                                    cost = str.toInt().toString()
+                                if(str.toInt() in 1..100000){
+                                    cost = str
                                 }
                                 else{
                                     Toast.makeText(context,"Enter Valid Cost 1-100000",Toast.LENGTH_SHORT).show()
@@ -814,31 +819,46 @@ fun EventForm(){
                 }
 
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            Column(modifier = Modifier
+                .fillMaxWidth()
+                .padding(5.dp, 10.dp)) {
+                Button(onClick = {
+                    if (name.isNotEmpty()  && description.isNotEmpty() && address.isNotEmpty() && city.isNotEmpty() && hour.isNotEmpty() && minute.isNotEmpty() && second.isNotEmpty() && duration.isNotEmpty() && tag.isNotEmpty() && selectedImage.toString().isNotEmpty() && cost.isNotEmpty() && capacity.isNotEmpty() && contactNumber.isNotEmpty()) {
+                        val dbref = FirebaseDatabase.getInstance()
+                            .getReference("Event");
+                        val id = dbref.push().key!!
+                        val current = LocalDateTime.now()
+                        val currentFirebaseUser = FirebaseAuth.getInstance().currentUser
+                        val e = Event(id,name,description,address,city,startDate.toString(),endDate.toString(),hour+":"+minute+":"+second,duration,tag,selectedImage.toString(),cost,capacity,contactNumber,""+currentFirebaseUser!!.uid)
+                        dbref.child(id).setValue(e);
+                        val storage=FirebaseStorage.getInstance()
+                        val ref= storage.getReference()
+                            .child(currentFirebaseUser!!.uid+"/"+current.toString())
+                        ref.putFile(selectedImage!!)
+                        Toast.makeText(context,"Form Submitted",Toast.LENGTH_SHORT).show()
+                        name=""
+                        description=""
+                        address=""
+                        city=""
+                        hour=""
+                        minute=""
+                        second=""
+                        duration=""
+                        tag=""
+                        selectedImage=null
+                        cost=""
+                        capacity=""
+                        contactNumber=""
+                        startDate=calendar1.timeInMillis
+                        endDate=calendar2.timeInMillis
+                    }
+                    else{
+                        Toast.makeText(context,"Please Fill All Fields",Toast.LENGTH_SHORT).show()
+                    }
+                },modifier=Modifier.fillMaxWidth()) {
+                    Text("Submit Form")
+                }
+            }
         }
-
     }
 }
