@@ -2,6 +2,7 @@ package com.example.empoweher.screen
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -47,6 +48,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -83,29 +85,31 @@ fun ContactsList(navigateToNextScreen: (route: String)->Unit) {
             List = database.itemDao().getAllItems().toMutableList()
         }
     }
-    if (List.isEmpty()){
-        Box(modifier = Modifier
+    if (List.isEmpty()) {
+        Column(modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.cream)))
-        {
-            Spacer(modifier = Modifier.height(70.dp))
-            Text(text = "No Contacts Saved!!",modifier=Modifier.fillMaxWidth(),
-                fontSize = 25.sp,
-                textAlign = TextAlign.Center,
-                fontFamily = FontFamily(Font(R.font.font1)))
-            Text(
-                    text = "Please Click Below",
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .wrapContentHeight()
-                        .clickable
-                        {
-                            navigateToNextScreen(Screen.Temp2.route)
-                        },
+            .background(colorResource(id = R.color.cream))) {
+                Text(
+                    text = "No Contacts Saved!!", modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 70.dp),
                     fontSize = 25.sp,
                     textAlign = TextAlign.Center,
                     fontFamily = FontFamily(Font(R.font.font1))
                 )
+            Spacer(modifier = Modifier.height(170.dp))
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center)
+            {
+                Image(
+                    painter = painterResource(id = R.drawable.add_contact),
+                    contentDescription = "cd",
+                    modifier = Modifier
+                        .fillMaxWidth(.2f)
+                        .clickable {
+                            navigateToNextScreen(Screen.Temp2.route)
+                        },
+                )
+            }
         }
     }else {
         Button(onClick = {

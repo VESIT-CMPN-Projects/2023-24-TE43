@@ -18,17 +18,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.example.empoweher.R
 
-/*Isko box mai dalna 300dp height aur 250dp width*/
 @Composable
 fun EventCard(
-    painter : Painter,
-    contentDescription: String,
     eventTitle: String,
-    eventLocation:String,
-    eventHost:String,
-    eventCost:String
+    eventAddress:String,
+    eventCity:String,
+    eventCapacity:String,
+    eventStartDate:String,
+    eventEndDate:String,
+    eventTiming:String,
+    eventCost:String,
+    eventImage:String
 ){
     Card(
         modifier= Modifier
@@ -42,10 +46,11 @@ fun EventCard(
             modifier=Modifier
                 .fillMaxWidth()
         ) {
+            val painter= rememberAsyncImagePainter(model = eventImage)
             Image(
                 painter = painter,
-                contentDescription=contentDescription,
-                contentScale = ContentScale.Crop,
+                contentDescription="cd",
+                contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .weight(0.6f)
             )
@@ -63,14 +68,14 @@ fun EventCard(
                 Column(
                 ) {
                     Text(
-                        text = "Title: " + eventTitle,
+                        text = "Title: $eventTitle",
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp,
                         modifier = Modifier
                             .padding(2.dp)
                     )
                     Text(
-                        text = "Host: " + eventHost,
+                        text = "Address : $eventAddress",
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 12.sp,
                         modifier = Modifier
@@ -78,7 +83,7 @@ fun EventCard(
 
                     )
                     Text(
-                        text = "Location: " + eventLocation,
+                        text = "City : " + eventCity,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 12.sp,
                         modifier = Modifier
@@ -86,7 +91,27 @@ fun EventCard(
 
                     )
                     Text(
-                        text = "Cost: " + eventCost+" Rs", fontWeight = FontWeight.Bold, fontSize = 16.sp,
+                        text = "Event Calendar : " + eventStartDate+" to "+eventEndDate, fontWeight = FontWeight.Bold, fontSize = 16.sp,
+                        modifier = Modifier
+                            .padding(2.dp)
+
+                    )
+                    Text(
+                        text = "Event Timings : " + eventTiming, fontWeight = FontWeight.Bold, fontSize = 16.sp,
+                        modifier = Modifier
+                            .padding(2.dp)
+
+                    )
+                    Text(
+                        text = "Event Capacity : " + eventCapacity, fontWeight = FontWeight.Bold, fontSize = 16.sp,
+                        modifier = Modifier
+                            .padding(2.dp)
+
+                    )
+                    Text(
+                        text = "Cost : " + eventCost,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 12.sp,
                         modifier = Modifier
                             .padding(2.dp)
 

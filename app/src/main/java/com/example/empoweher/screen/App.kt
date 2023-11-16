@@ -1,9 +1,11 @@
 package com.example.empoweher.screen
 
+import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -29,6 +31,7 @@ import com.example.empoweher.auth.signin.SignInViewModel
 import com.example.empoweher.model.Screen
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App(
@@ -168,9 +171,15 @@ fun App(
                 }
 
                 composable(route = Screen.Temp1.route) {
-
+                    LaunchedEffect(key1 = Unit){
+                        shouldShowScaffold = false
+                    }
                     temp1()
-
+                    DisposableEffect(Unit) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
                 }
                 composable(route = Screen.Temp2.route) {
 
