@@ -186,8 +186,18 @@ fun App(
                     temp2()
 
                 }
+                composable(route = Screen.Temp3.route) {
+                    LaunchedEffect(key1 = Unit){
+                        shouldShowScaffold = false
+                    }
+                    temp3()
+                    DisposableEffect(Unit) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
+                }
                 composable(route = Screen.EventForm.route) {
-
                     LaunchedEffect(key1 = Unit){
                         shouldShowScaffold = false
                     }

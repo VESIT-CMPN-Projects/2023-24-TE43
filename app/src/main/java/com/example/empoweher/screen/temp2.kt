@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -28,8 +29,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.room.Room
@@ -44,8 +48,6 @@ fun temp2(){
     val context= LocalContext.current
     val db= Room.databaseBuilder(context,ContactDatabase::class.java,"contacts").build()
     val scope = rememberCoroutineScope()
-
-
         val painter = painterResource(id = R.drawable.background_for_form)
         var fName by remember{
             mutableStateOf("")
@@ -70,7 +72,15 @@ fun temp2(){
                 horizontalAlignment = Alignment.CenterHorizontally
 
             ) {
-                Spacer(Modifier.height(50.dp))
+                Spacer(Modifier.height(20.dp))
+                Text(text = "Add Contact",modifier = Modifier
+                    .fillMaxWidth(),
+                    fontSize = 35.sp,
+                    textAlign = TextAlign.Center,
+                    fontWeight= FontWeight.Bold,
+                    fontFamily = FontFamily(Font(R.font.font1))
+                )
+                Spacer(Modifier.height(40.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
@@ -86,7 +96,7 @@ fun temp2(){
                         onValueChange = { str ->
                             fName = str
 
-                        })
+                        },modifier=Modifier.padding(end = 10.dp))
 
 
                 }
@@ -106,7 +116,7 @@ fun temp2(){
                         onValueChange = { str ->
                             lName = str
 
-                        })
+                        },modifier=Modifier.padding(end = 10.dp))
 
 
                 }
@@ -125,6 +135,7 @@ fun temp2(){
                     OutlinedTextField(
                         value = pNum,
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                        modifier=Modifier.padding(end = 10.dp),
                         onValueChange = { str ->
                             if(str.isNotEmpty())
                             {

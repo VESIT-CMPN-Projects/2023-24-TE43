@@ -100,24 +100,51 @@ fun ContactsList(navigateToNextScreen: (route: String)->Unit) {
             Spacer(modifier = Modifier.height(170.dp))
             Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center)
             {
-                Image(
-                    painter = painterResource(id = R.drawable.add_contact),
-                    contentDescription = "cd",
-                    modifier = Modifier
-                        .fillMaxWidth(.2f)
-                        .clickable {
-                            navigateToNextScreen(Screen.Temp2.route)
-                        },
-                )
+                Column(modifier=Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally){
+                    Image(
+                        painter = painterResource(id = R.drawable.add_contact),
+                        contentDescription = "cd",
+                        modifier = Modifier
+                            .fillMaxWidth(.4f)
+                            .clickable {
+                                navigateToNextScreen(Screen.Temp2.route)
+                            },
+                    )
+                    Text(
+                        text = "Click To Add Contact", modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 20.dp)
+                            .clickable {
+                                navigateToNextScreen(Screen.Temp2.route)
+                            },
+                        fontSize = 25.sp,
+                        textAlign = TextAlign.Center,
+                        fontFamily = FontFamily(Font(R.font.font1))
+                    )
+                }
             }
         }
     }else {
-        Button(onClick = {
-            navigateToNextScreen(Screen.UpdateContactList.route)
-        }) {
-
+//        Button(onClick = {
+//            navigateToNextScreen(Screen.UpdateContactList.route)
+//        }) {
+//
+//        }
+        Column(modifier= Modifier
+            .fillMaxSize()
+            .background(colorResource(id = R.color.cream))) {
+            Text(
+                text = "Saved Contacts", modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp),
+                fontSize = 25.sp,
+                textAlign = TextAlign.Center,
+                fontWeight=FontWeight.Bold,
+                fontFamily = FontFamily(Font(R.font.font1))
+            )
+            lazy(list = List.toMutableList(), { key++ })
         }
-        lazy(list = List.toMutableList(), { key++ })
+
     }
 
 }
@@ -128,6 +155,7 @@ fun lazy(list: MutableList<Contact>,increment:()->Unit){
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val database = Room.databaseBuilder(context, ContactDatabase::class.java,"contacts").build()
+
     LazyColumn(modifier= Modifier
         .fillMaxSize()
         .background(colorResource(id = R.color.cream))
