@@ -239,22 +239,26 @@ fun App(
                     }
                 }
 
-                composable(route = Screen.DetailedEventCard.route) {
-
-                    LaunchedEffect(key1 = Unit){
+                composable(route = Screen.DetailedEventCard.route+"/{eventId}", arguments = listOf(
+                    navArgument("eventId"){
+                        type = NavType.StringType
+                    }
+                )) {
+                    LaunchedEffect(key1 = Unit) {
                         shouldShowScaffold = false
                     }
-                    DetailedEventCard()
+                    val eventId = it.arguments!!.getString("eventId")
+                    eventId?.let { eventid ->
+                        DetailedEventCard(eventid)
+                    }
                     DisposableEffect(Unit) {
                         onDispose {
                             shouldShowScaffold = true
                         }
                     }
-
                 }
 
                 composable(route = Screen.EventCard.route) {
-
                     LaunchedEffect(key1 = Unit){
                         shouldShowScaffold = false
                     }

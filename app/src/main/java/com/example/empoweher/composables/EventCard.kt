@@ -64,7 +64,7 @@ fun EventCard(navigateToNextScreen: (route: String) -> Unit,
             .height(150.dp)
             .padding(5.dp)
             .clickable {
-                navigateToNextScreen(Screen.DetailedEventCard.route)
+                navigateToNextScreen(Screen.DetailedEventCard.route+"/"+eventId!!)
             },
         colors = CardDefaults.cardColors(containerColor = color,
     )
