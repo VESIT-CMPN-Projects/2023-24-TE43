@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -43,7 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
-import com.example.empoweher.EventCard
+import com.example.empoweher.composables.EventCard
 import com.example.empoweher.R
 import com.example.empoweher.model.DataState
 import com.example.empoweher.model.Event
@@ -55,7 +56,7 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.delay
 
 @Composable
-fun temp1(){
+fun temp1(navigateToNextScreen: (route: String)->Unit){
     val viewModel = viewModel { mainviewmodel() }
     when( val result= viewModel.response.value){
         is DataState.Loading -> {
@@ -87,7 +88,7 @@ fun temp1(){
             }
         }
         is DataState.Success -> {
-            ShowLazyList(result.data)
+            ShowLazyList(result.data,navigateToNextScreen)
         }
         is DataState.Failure -> {
             Box(
@@ -115,27 +116,30 @@ fun temp1(){
 }
 
 @Composable
-fun ShowLazyList(event: MutableList<Event>) {
-    LazyColumn{
+fun ShowLazyList(event: MutableList<Event>,navigateToNextScreen: (route: String)->Unit) {
+    LazyColumn(modifier=Modifier.fillMaxSize().background(colorResource(id = R.color.cream))){
        items(event){each->
             Box(
                 modifier = Modifier
-                    .height(250.dp)
-                    .width(300.dp)
+                    .fillMaxWidth()
+                    .height(170.dp)
+                    .padding(5.dp)
                     .clickable {
 
                     },
             ) {
                 EventCard(
+                    eventId=each.eventId!!,
                     eventTitle = each.eventName!!,
-                    eventAddress = each.address!!,
                     eventCity=each.city!!,
                     eventCapacity = each.capacity!!,
                     eventStartDate = each.startDate!!,
                     eventEndDate = each.endDate!!,
                     eventTiming = each.timing!!,
                     eventCost = each.eventCost!!,
-                    eventImage = each.eventImage!!
+                    eventImage = each.eventImage!!,
+                    navigateToNextScreen = navigateToNextScreen,
+                    eventTag=each.tag!!
                 )
             }
         }

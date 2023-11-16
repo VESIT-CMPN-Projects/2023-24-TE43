@@ -18,30 +18,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 
 @Composable
-fun DetailedEventCard() {
-    val openAlertDialog = remember { mutableStateOf(false) }
-    Dialog(onDismissRequest = { openAlertDialog.value = false }) {
+fun DetailedEventCard(eventId:String?="-NjM13gW8Y6Jha_7oTnP") {
 
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .padding(16.dp),
-            shape = RoundedCornerShape(16.dp),
-        ) {
-
-            Text(
-                text = "This is a minimal dialog",
-                modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize(Alignment.Center),
-                textAlign = TextAlign.Center
-            )
-        }
-    }
-}
-
-@Composable
-fun onDismissRequest(dismiss:()->Unit){
-    dismiss
 }

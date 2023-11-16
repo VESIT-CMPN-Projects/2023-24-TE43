@@ -179,7 +179,11 @@ fun App(
                     LaunchedEffect(key1 = Unit){
                         shouldShowScaffold = false
                     }
-                    temp1()
+                    temp1(
+                        navigateToNextScreen = { route ->
+                            navController.navigate(route)
+                        }
+                    )
                     DisposableEffect(Unit) {
                         onDispose {
                             shouldShowScaffold = true
@@ -235,7 +239,7 @@ fun App(
                     }
                 }
 
-                composable(route = Screen.EventForm.route) {
+                composable(route = Screen.DetailedEventCard.route) {
 
                     LaunchedEffect(key1 = Unit){
                         shouldShowScaffold = false

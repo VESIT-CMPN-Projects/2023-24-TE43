@@ -112,7 +112,7 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                 Box(
                     modifier = Modifier.size(180.dp)
                         .clickable {
-                            navigateToNextScreen(Screen.Temp3.route)
+                            navigateToNextScreen(Screen.EventForm.route)
                         }
                 ) {
                     Image(
