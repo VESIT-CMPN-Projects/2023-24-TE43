@@ -2,9 +2,11 @@ package com.example.empoweher.screen
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,6 +37,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -69,46 +74,68 @@ fun ContactsList(navigateToNextScreen: (route: String) -> Unit, onClick: (email:
             List = database.itemDao().getAllItems().toMutableList()
         }
     }
-    if (List.isEmpty()){
-        Box(modifier = Modifier
+    if (List.isEmpty()) {
+        Column(modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.cream)))
-        {
-            Spacer(modifier = Modifier.height(70.dp))
-            Text(text = "No Contacts Saved!!",modifier=Modifier.fillMaxWidth(),
-                fontSize = 25.sp,
-                textAlign = TextAlign.Center,
-                fontFamily = FontFamily(Font(R.font.font1)))
-            Text(
-                    text = "Please Click Below",
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .wrapContentHeight()
-                        .clickable
-                        {
-                            navigateToNextScreen(Screen.Temp2.route+"/eg@gmail.com")
-                        },
+            .background(colorResource(id = R.color.cream))) {
+                Text(
+                    text = "No Contacts Saved!!", modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 70.dp),
                     fontSize = 25.sp,
                     textAlign = TextAlign.Center,
                     fontFamily = FontFamily(Font(R.font.font1))
                 )
+            Spacer(modifier = Modifier.height(170.dp))
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center)
+            {
+                Column(modifier=Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally){
+                    Image(
+                        painter = painterResource(id = R.drawable.add_contact),
+                        contentDescription = "cd",
+                        modifier = Modifier
+                            .fillMaxWidth(.4f)
+                            .clickable {
+                                navigateToNextScreen(Screen.Temp2.route)
+                            },
+                    )
+                    Text(
+                        text = "Click To Add Contact", modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 20.dp)
+                            .clickable {
+                                navigateToNextScreen(Screen.Temp2.route)
+                            },
+                        fontSize = 25.sp,
+                        textAlign = TextAlign.Center,
+                        fontFamily = FontFamily(Font(R.font.font1))
+                    )
+                }
+            }
         }
     }else {
-        Text(text = "UpdateContact",
-            modifier = Modifier.clickable {
-               navigateToNextScreen( Screen.UpdateContactList.route)
-            })
-        lazy(list = List.toMutableList(), { key++ })
+//        Button(onClick = {
+//            navigateToNextScreen(Screen.UpdateContactList.route)
+//        }) {
+//
+//        }
+        Column(modifier= Modifier
+            .fillMaxSize()
+            .background(colorResource(id = R.color.cream))) {
+            Text(
+                text = "Saved Contacts", modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp),
+                fontSize = 25.sp,
+                textAlign = TextAlign.Center,
+                fontWeight=FontWeight.Bold,
+                fontFamily = FontFamily(Font(R.font.font1))
+            )
+            lazy(list = List.toMutableList(), { key++ })
+        }
+
     }
 
-}
-
-//fun updateBtn(navigateToNextScreen: (route: String)->Unit){
-//    navigateToNextScreen(Screen.UpdateContactList.route)
-//}
-
-fun onClick(email: String, navigateToNextScreen: (route: String)->Unit){
-    navigateToNextScreen(Screen.UpdateContactList.route+"/${email}")
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -117,6 +144,7 @@ fun lazy(list: MutableList<Contact>,increment:()->Unit){
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val database = Room.databaseBuilder(context, ContactDatabase::class.java,"contacts").build()
+
     LazyColumn(modifier= Modifier
         .fillMaxSize()
         .background(colorResource(id = R.color.cream))
