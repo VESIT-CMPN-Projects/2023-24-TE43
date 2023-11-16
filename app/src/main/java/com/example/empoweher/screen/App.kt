@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -20,12 +21,16 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.empoweher.auth.signin.GoogleAuthUiClient
 import com.example.empoweher.auth.signin.SignInScreen
 import com.example.empoweher.auth.signin.SignInViewModel
+import com.example.empoweher.composables.DetailedEventCard
+import com.example.empoweher.composables.EventCard
 import com.example.empoweher.model.Screen
 import kotlinx.coroutines.launch
 
@@ -192,17 +197,53 @@ fun App(
                 }
 
                 composable(route = Screen.ContactsList.route) {
-                    ContactsList(
-                        navigateToNextScreen = { route ->
-                            navController.navigate(route)
-                        })
+//                    ContactsList{ route ->
+//                        navController.navigate(route + "/${it}"), (email: String)->Unit
+//                    }
                 }
 
-                composable(route = Screen.UpdateContactList.route) {
-                    UpdateContactList(
-                        navigateToNextScreen = { route ->
-                            navController.navigate(route)
-                        })
+                composable(route = Screen.UpdateContactList.route+"/{email}",arguments = listOf(
+                    navArgument("email"){
+                        type = NavType.StringType
+                    }
+                )) {
+                    val email = it.arguments!!.getString("email")
+                    if (email != null) {
+                        UpdateContactList(email,
+                            navigateToNextScreen = { route ->
+                                navController.navigate(route)
+                            })
+                    }
+                }
+
+                composable(route = Screen.EventForm.route) {
+
+                    LaunchedEffect(key1 = Unit){
+                        shouldShowScaffold = false
+                    }
+                    DetailedEventCard()
+                    DisposableEffect(Unit) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
+
+                }
+
+                composable(route = Screen.EventCard.route) {
+
+                    LaunchedEffect(key1 = Unit){
+                        shouldShowScaffold = false
+                    }
+                    EventCard(navigateToNextScreen = { route ->
+                        navController.navigate(route)
+                    })
+                    DisposableEffect(Unit) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
+
                 }
 
             }

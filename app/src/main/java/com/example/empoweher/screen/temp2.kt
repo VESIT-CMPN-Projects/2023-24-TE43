@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -81,11 +83,11 @@ fun temp2(){
                     )
                     OutlinedTextField(
                         value = fName,
+                        label = { Text(text = "First Name") },
                         onValueChange = { str ->
                             fName = str
 
                         })
-
 
                 }
                 Spacer(Modifier.height(50.dp))
@@ -101,6 +103,7 @@ fun temp2(){
                     )
                     OutlinedTextField(
                         value = lName,
+                        label = { Text(text = "Last Name") },
                         onValueChange = { str ->
                             lName = str
 
@@ -122,6 +125,7 @@ fun temp2(){
                     Spacer(modifier = Modifier.width(48.dp))
                     OutlinedTextField(
                         value = pNum,
+                        label = { Text(text = "Phone Number") },
                         onValueChange = { str ->
                             pNum = str
 
