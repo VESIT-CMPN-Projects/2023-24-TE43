@@ -4,14 +4,21 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
@@ -25,8 +32,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
@@ -41,7 +52,7 @@ import java.time.LocalDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun DetailedEventCard(eventId:String?="",navigateToNextScreen: (route: String) -> Unit) {
+fun DetailedEventCard(eventId:String?="") {
     var eventTitle by remember {
         mutableStateOf("")
     }
@@ -95,30 +106,57 @@ fun DetailedEventCard(eventId:String?="",navigateToNextScreen: (route: String) -
     capacity= getInfo("capacity",eventId)
     contact=getInfo("contact",eventId)
     var painter= rememberAsyncImagePainter(model = eventImage)
-    Card(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(5.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = colorResource(id = R.color.mauve),
-        )
-    ){
-        Column(modifier=Modifier.fillMaxSize()){
-            Text(text = eventTitle,modifier=Modifier.fillMaxWidth(), fontWeight = FontWeight.Bold,fontSize=40.sp, textAlign = TextAlign.Center)
-            Image(painter = painter, contentDescription = "cd")
-            Text(text = eventDescription)
-            Text(text = eventAddress)
-            Text(text = eventTag)
-            Text(text = duration)
-            Text(text = eventStartDate)
-            Text(text = eventEndDate)
-            Text(text = capacity)
-            Text(text = eventCost)
-            Text(text = timing)
-            Text(text = city)
+    var scroll =rememberScrollState()
+    Box(modifier=Modifier.fillMaxSize()){
+        Card(
+            modifier=Modifier
+                .fillMaxWidth()
+                .padding(30.dp,15.dp),
+            shape= RoundedCornerShape(15.dp),
+
+
+        ){
+            Box(modifier=Modifier.height(200.dp)) {
+
+                Image(
+                    painter = painter,
+                    contentDescription = "cd",
+                    contentScale = ContentScale.Crop   // Center crop image
+                )
+
+                //Gradient
+                Box(
+                    modifier = Modifier.background(
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                Color.Black
+
+                            ),
+                            startY = 300f
+                        )
+                    )
+                )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(12.dp), contentAlignment = Alignment.BottomStart
+                ) {
+                    Text(
+                        text = "hello",
+                        color = Color.White,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        textDecoration = TextDecoration.Underline
+                    )
+
+                }
+
+            }
         }
     }
-    rememberNavController().popBackStack()
 }
 
 @Composable

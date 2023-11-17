@@ -221,9 +221,18 @@ fun App(
                 }
 
                 composable(route = Screen.ContactsList.route) {
-//                    ContactsList{ route ->
-//                        navController.navigate(route + "/${it}"), (email: String)->Unit
-//                    }
+                    LaunchedEffect(key1 = Unit){
+                        shouldShowScaffold = false
+                    }
+                    ContactsList( navigateToNextScreen = { route ->
+                        navController.navigate(route)
+                    })
+                    DisposableEffect(Unit) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
+
                 }
 
                 composable(route = Screen.UpdateContactList.route+"/{email}",arguments = listOf(
