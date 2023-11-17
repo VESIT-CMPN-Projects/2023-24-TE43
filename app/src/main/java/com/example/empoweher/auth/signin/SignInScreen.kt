@@ -1,5 +1,7 @@
 package com.example.empoweher.auth.signin
 
+import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -41,6 +43,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -56,7 +60,7 @@ fun SignInScreen(
     onSignInClick: () -> Unit,
     navigateToHome: () -> Unit,
 ) {
-    //navigateToHome()
+    navigateToHome()
     val context = LocalContext.current
     LaunchedEffect(key1 = state.signInError) {
         state.signInError?.let { error ->
@@ -77,95 +81,92 @@ fun SignInScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xfff7e7d7))
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
+            .background(Color(0xfff7e7d7)),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        Spacer(Modifier.height(40.dp))
         Image(
             imageVector = ImageVector.vectorResource(id = R.drawable.logo_svg),
             contentDescription = "Logo",
             modifier = Modifier
-                .size(90.dp),
+                .size(120.dp),
             contentScale = ContentScale.Crop
         )
         Image(
             painter = painterResource(id = R.drawable.women_login),
             contentDescription = "Login Pic",
             modifier = Modifier
-                .size(390.dp),
+                .size(390.dp, 300.dp),
             contentScale = ContentScale.Fit
         )
-        Spacer(modifier = Modifier.height(12.dp))
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    color = Color(0xfff7e7d7),
-                ),
-        ) {
-            TypewriterText(
-                texts = listOf(
-                    "Login With Google"
-                ),
-            )
+
+        TypewriterText(
+            texts = listOf(
+                "Login With Google"
+            ),
+        )
+
         Image(
             painter = painterResource(id = R.drawable.google_signin),
             contentDescription = "Google",
             modifier = Modifier
-                .size(175.dp)
+                .height(70.dp)
+                .width(250.dp)
                 .clickable {
                     onSignInClick()
                 },
             contentScale = ContentScale.Fit
         )
-
-        }
         Spacer(modifier = Modifier.height(5.dp))
 
-            Column {
-                Text(text = "About Us",
-                    fontSize= 20.sp,
-                    modifier=Modifier.fillMaxWidth(),textAlign=TextAlign.Center,
-                    fontWeight=FontWeight.Bold,
-                    color = Color(R.color.black),
-                    fontStyle = FontStyle(R.font.font1),
+        Column {
+            Text(text = "About Us",
+                fontSize= 20.sp,
+                modifier=Modifier.fillMaxWidth(),textAlign=TextAlign.Center,
+                fontWeight=FontWeight.Bold,
+                color = Color(R.color.black),
+                fontStyle = FontStyle(R.font.font1),
+            )
+            Spacer(modifier = Modifier.height(25.dp))
+            Row(horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth())
+            {
+                Image(
+                    painter = painterResource(id = R.drawable.insta),
+                    contentDescription = "insta",
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clip(RoundedCornerShape(15.dp))
+                        .clickable {
+                            val intent = Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://www.instagram.com/rajveer_tolani/")
+                            ).setPackage("com.instagram.android")
+                            context.startActivity(intent)
+                        },
+                    contentScale = ContentScale.Fit
+
+
                 )
-                Spacer(modifier = Modifier.height(25.dp))
-                Row(horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth())
-                {
-                   Image(
-                        painter = painterResource(id = R.drawable.insta),
-                        contentDescription = "insta",
-                        modifier = Modifier
-                            .size(60.dp)
-                            .clip(RoundedCornerShape(15.dp)),
-                        contentScale = ContentScale.Fit
-
-
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Image(
-                        painter = painterResource(id = R.drawable.facebook),
-                        contentDescription = "facebook",
-                        modifier = Modifier
-                            .size(60.dp)
-                            .clip(RoundedCornerShape(15.dp)),
-                        contentScale = ContentScale.Fit
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Image(
-                        painter = painterResource(id = R.drawable.twitter),
-                        contentDescription = "twitter",
-                        modifier = Modifier
-                            .size(60.dp)
-                            .clip(RoundedCornerShape(15.dp)),
-                        contentScale = ContentScale.Fit
-                    )
+                Spacer(modifier = Modifier.width(10.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.facebook),
+                    contentDescription = "facebook",
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clip(RoundedCornerShape(15.dp)),
+                    contentScale = ContentScale.Fit
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.twitter),
+                    contentDescription = "twitter",
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clip(RoundedCornerShape(15.dp)),
+                    contentScale = ContentScale.Fit
+                )
             }
 
         }
@@ -173,6 +174,8 @@ fun SignInScreen(
     }
 
 }
+
+
 @Composable
 fun TypewriterText(
     texts: List<String>,
@@ -194,7 +197,7 @@ fun TypewriterText(
                         startIndex = 0,
                         endIndex = charIndex + 1,
                     )
-                delay(160)
+                delay(90)
             }
             textIndex = (textIndex + 1) % texts.size
             delay(1000)
@@ -205,6 +208,7 @@ fun TypewriterText(
         text = textToDisplay,
         fontSize = 24.sp,
         fontWeight = FontWeight.Bold,
-        color = colorResource(id = R.color.orchid)
+        modifier=Modifier.padding(20.dp),
+        fontFamily = FontFamily(Font(R.font.font1))
     )
 }
