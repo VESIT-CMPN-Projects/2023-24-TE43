@@ -193,7 +193,7 @@ fun DetailedEventCard(eventId:String?="",navigateToNextScreen: (route: String)->
                         fontFamily = FontFamily(
                             Font(R.font.font1)
                         ),
-                        fontSize = 12.sp
+                        fontSize = 16.sp
                     )
                 }
             }
@@ -217,7 +217,7 @@ fun DetailedEventCard(eventId:String?="",navigateToNextScreen: (route: String)->
                         ),
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
-                        fontSize = 16.sp
+                        fontSize = 20.sp
                     )
                     PrintText(text = "Address : $eventAddress")
                     PrintText(text = "City : $city")
@@ -231,14 +231,14 @@ fun DetailedEventCard(eventId:String?="",navigateToNextScreen: (route: String)->
             }
         }
         Text(text = "Seats Left : "+vacancy, modifier = Modifier
-            .padding(5.dp, 5.dp)
+            .background(colorResource(id = R.color.teal_200))
             .fillMaxWidth(),
             fontFamily = FontFamily(
                 Font(R.font.font1)
             ),
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
-            fontSize = 14.sp)
+            fontSize = 18.sp)
         Button(modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(),
@@ -254,7 +254,7 @@ fun DetailedEventCard(eventId:String?="",navigateToNextScreen: (route: String)->
                     Toast.makeText(context,"No Seats Left",Toast.LENGTH_SHORT).show()
                 }
         }) {
-            Text(text = "Enroll Now", fontSize = 15.sp)
+            Text(text = "Enroll Now", fontSize = 18.sp)
         }
     }
 }
@@ -283,5 +283,5 @@ fun PrintText(text:String){
         fontFamily = FontFamily(
             Font(R.font.font1)
         ),
-        fontSize = 12.sp)
+        fontSize = 16.sp)
 }

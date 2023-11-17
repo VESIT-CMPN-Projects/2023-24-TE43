@@ -87,7 +87,7 @@ import com.example.empoweher.model.Screen
                         .padding(top = 70.dp),
                     fontSize = 25.sp,
                     textAlign = TextAlign.Center,
-                    fontFamily = FontFamily(Font(R.font.font1))
+                    fontFamily = FontFamily(Font(R.font.font1)),
                 )
             Spacer(modifier = Modifier.height(170.dp))
             Box(modifier = Modifier
@@ -195,10 +195,4 @@ fun lazy(list: MutableList<Contact>,increment:()->Unit){
             )
         }
     })
-}
-fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier = composed {
-    clickable(indication = null,
-        interactionSource = remember { MutableInteractionSource() }) {
-        onClick()
-    }
 }
