@@ -28,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.empoweher.R
 import com.example.empoweher.model.Screen
@@ -40,7 +41,7 @@ import java.time.LocalDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun DetailedEventCard(eventId:String?="") {
+fun DetailedEventCard(eventId:String?="",navigateToNextScreen: (route: String) -> Unit) {
     var eventTitle by remember {
         mutableStateOf("")
     }
@@ -117,6 +118,7 @@ fun DetailedEventCard(eventId:String?="") {
             Text(text = city)
         }
     }
+    rememberNavController().popBackStack()
 }
 
 @Composable
