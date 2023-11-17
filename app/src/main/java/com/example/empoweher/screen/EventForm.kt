@@ -817,7 +817,8 @@ fun EventForm(){
                         val id = dbref.push().key!!
                         val current = LocalDateTime.now()
                         val currentFirebaseUser = FirebaseAuth.getInstance().currentUser
-                        val e = Event(id,name,description,address,city,btnTextStart,btnTextEnd,hour+":"+minute+":"+second,duration,tag,currentFirebaseUser!!.uid+"/"+current.toString(),cost,capacity,contactNumber,""+currentFirebaseUser!!.uid)
+                        var vacancy=capacity
+                        val e = Event(id,name,description,address,city,btnTextStart,btnTextEnd,hour+":"+minute+":"+second,duration,tag,currentFirebaseUser!!.uid+"/"+current.toString(),cost,capacity,vacancy,contactNumber,""+currentFirebaseUser!!.uid)
                         dbref.child(id).setValue(e);
                         val storage=FirebaseStorage.getInstance()
                         val ref= storage.getReference()
