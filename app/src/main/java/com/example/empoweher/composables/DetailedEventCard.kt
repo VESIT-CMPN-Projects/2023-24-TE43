@@ -52,7 +52,7 @@ import java.time.LocalDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun DetailedEventCard(eventId:String?="") {
+fun DetailedEventCard(eventId:String?="",navigateToNextScreen: (route: String)->Unit) {
     var eventTitle by remember {
         mutableStateOf("")
     }
