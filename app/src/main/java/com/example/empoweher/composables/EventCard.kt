@@ -60,7 +60,7 @@ fun EventCard(navigateToNextScreen: (route: String) -> Unit){
                     .fillMaxHeight()
             ) {
                 Card(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 ) {
                     Image(painter = painterResource(id = R.drawable.police),
                         contentDescription = "EventImage",
