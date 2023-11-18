@@ -4,8 +4,10 @@ package com.example.empoweher.screen
 
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -13,11 +15,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.paddingFrom
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -33,12 +37,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -170,9 +176,9 @@ import com.example.empoweher.model.Screen
 //        }
 //    }
 //}
-@Preview(showSystemUi = true, showBackground = true)
+@Preview()
 @Composable
-fun Safety(navigateToNextScreen: (route: String)->Unit) {
+fun Safety() {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -190,6 +196,16 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
             shape = RoundedCornerShape(25.dp)
         ){
 
+                Text(
+                    text = "Safety Features",
+                    fontStyle = FontStyle(R.font.font1),
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 30.sp,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                        .absoluteOffset(0.dp, 30.dp)
+                )
+
         }
             Card(modifier = Modifier
                 .align(Alignment.BottomStart)
@@ -199,9 +215,53 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                 shape = RoundedCornerShape(25.dp),
                 colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.teal_200)),
                 elevation = CardDefaults.cardElevation(20.dp)) {
+
+                Column(modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    Row(Modifier.padding(8.dp), Arrangement.SpaceBetween){
+                        Card(modifier = Modifier
+                            .size(140.dp),
+                            elevation = CardDefaults.cardElevation(20.dp)){
+                            Image(painter = painterResource(id = R.drawable.fakecall) ,
+                                contentDescription = "fakecall",
+                                contentScale = ContentScale.Fit)
+
+                        }
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Card(modifier = Modifier
+                            .size(140.dp),
+                            elevation = CardDefaults.cardElevation(20.dp)){
+                            Image(painter = painterResource(id = R.drawable.police) ,
+                                contentDescription = "police",
+                                contentScale = ContentScale.Fit)
+
+                        }
+                    }
+
+                    Row(Modifier.padding(8.dp), Arrangement.SpaceBetween){
+                        Card(modifier = Modifier
+                            .size(140.dp),
+                            elevation = CardDefaults.cardElevation(20.dp)){
+                            Image(painter = painterResource(id = R.drawable.alert) ,
+                                contentDescription = "alert",
+                                contentScale = ContentScale.Fit)
+
+                        }
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Card(modifier = Modifier
+                            .size(140.dp),
+                            elevation = CardDefaults.cardElevation(20.dp)){
+                            Image(painter = painterResource(id = R.drawable.emergency) ,
+                                contentDescription = "emergency",
+                                contentScale = ContentScale.Fit)
+
+                        }
+                    }
+                }
+
             }
-
-
     }
 }
 

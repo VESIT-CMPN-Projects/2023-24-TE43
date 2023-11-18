@@ -76,7 +76,7 @@ fun EventCard(navigateToNextScreen: (route: String) -> Unit,
                     .fillMaxHeight()
             ) {
                 Card(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 ) {
                     val painter= rememberAsyncImagePainter(model = eventImage)
                     Image(painter = painter,

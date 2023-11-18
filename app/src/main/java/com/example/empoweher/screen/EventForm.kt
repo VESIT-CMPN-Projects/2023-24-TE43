@@ -70,7 +70,6 @@ import java.util.Locale
 import com.example.empoweher.model.Event
 import com.google.firebase.storage.FirebaseStorage
 
-
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("SuspiciousIndentation")
 @OptIn(ExperimentalMaterial3Api::class)

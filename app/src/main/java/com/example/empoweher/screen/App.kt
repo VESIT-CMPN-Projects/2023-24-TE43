@@ -138,9 +138,9 @@ fun App(
                 }
                 composable(route = Screen.Safety.route) {
                     Safety(
-                        navigateToNextScreen = { route ->
-                            navController.navigate(route)
-                        }
+//                        navigateToNextScreen = { route ->
+//                            navController.navigate(route)
+//                        }
                     )
                 }
                 composable(route = Screen.FakeCall.route) {
