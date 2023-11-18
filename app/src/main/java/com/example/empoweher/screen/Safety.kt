@@ -172,7 +172,7 @@ import com.example.empoweher.model.Screen
 //}
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun CardInsideBoxExample() {
+fun Safety(navigateToNextScreen: (route: String)->Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()

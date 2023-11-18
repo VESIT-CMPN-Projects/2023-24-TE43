@@ -134,7 +134,7 @@ fun DetailedEventCard(eventId:String?="",navigateToNextScreen: (route: String)->
                     .padding(top = 15.dp, start = 15.dp, end = 15.dp),
                 shape = RoundedCornerShape(10.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color.White
+                    containerColor = colorResource(id = R.color.lightorange)
                 ),
                 elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
             ) {
@@ -184,7 +184,7 @@ fun DetailedEventCard(eventId:String?="",navigateToNextScreen: (route: String)->
                 shape = RoundedCornerShape(15.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color.White
+                    containerColor = colorResource(id = R.color.emeraldgreen)
                 ),
             ) {
                 Column(modifier = Modifier.fillMaxWidth()) {
@@ -204,7 +204,7 @@ fun DetailedEventCard(eventId:String?="",navigateToNextScreen: (route: String)->
                 shape = RoundedCornerShape(15.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color.White
+                    containerColor = colorResource(id = R.color.emeraldgreen)
                 ),
             ) {
                 Column(modifier = Modifier.fillMaxWidth()) {
@@ -230,7 +230,7 @@ fun DetailedEventCard(eventId:String?="",navigateToNextScreen: (route: String)->
                 }
             }
         }
-        Text(text = "Seats Left : "+vacancy, modifier = Modifier
+        Text(text = "Seats Left : $vacancy", modifier = Modifier
             .background(colorResource(id = R.color.teal_200))
             .fillMaxWidth(),
             fontFamily = FontFamily(
