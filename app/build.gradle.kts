@@ -99,5 +99,7 @@ dependencies {
 
     //Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("com.google.accompanist:accompanist-permissions:0.24.13-rc")
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
 
 }
