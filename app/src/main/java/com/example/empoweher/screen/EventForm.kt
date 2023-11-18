@@ -131,14 +131,12 @@ fun EventForm(){
     var contactNumber by remember{
         mutableStateOf("")
     }
-
-
-
-
-
-
-
-
+    var btnTextStart by remember {
+        mutableStateOf("Select Date")
+    }
+    var btnTextEnd by remember {
+        mutableStateOf("Select Date")
+    }
 
     Box (modifier = Modifier
         .fillMaxSize()
@@ -313,14 +311,8 @@ fun EventForm(){
             ){
                 // set the initial date
                 val datePickerState = rememberDatePickerState(initialSelectedDateMillis = calendar1.timeInMillis)
-
                 var showDatePicker by remember {
                     mutableStateOf(false)
-                }
-
-
-                var btnText by remember {
-                    mutableStateOf("Select Date")
                 }
 
                 if (showDatePicker) {
@@ -372,12 +364,11 @@ fun EventForm(){
                             showDatePicker = true
                         }
                     ) {
-                        Text(text = btnText)
+                        Text(text = btnTextStart)
                     }
 
-                    val formatter = SimpleDateFormat("dd MM yyyy", Locale.ROOT)
-
-                    btnText = formatter.format(Date(startDate)).toString()
+                    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.ROOT)
+                    btnTextStart = formatter.format(Date(startDate)).toString()
                 }
             }
             Column(
@@ -388,9 +379,6 @@ fun EventForm(){
                 val datePickerState = rememberDatePickerState(initialSelectedDateMillis = calendar2.timeInMillis)
                 var showDatePicker by remember {
                     mutableStateOf(false)
-                }
-                var btnText by remember {
-                    mutableStateOf("Select Date")
                 }
 
                 if (showDatePicker) {
@@ -441,10 +429,10 @@ fun EventForm(){
                             showDatePicker = true
                         }
                     ) {
-                        Text(text = btnText)
+                        Text(text = btnTextEnd)
                     }
-                    val formatter = SimpleDateFormat("dd MM yyyy", Locale.ROOT)
-                    btnText = formatter.format(Date(endDate)).toString()
+                    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.ROOT)
+                    btnTextEnd = formatter.format(Date(endDate)).toString()
                 }
             }
             Column(
@@ -828,7 +816,8 @@ fun EventForm(){
                         val id = dbref.push().key!!
                         val current = LocalDateTime.now()
                         val currentFirebaseUser = FirebaseAuth.getInstance().currentUser
-                        val e = Event(id,name,description,address,city,startDate.toString(),endDate.toString(),hour+":"+minute+":"+second,duration,tag,currentFirebaseUser!!.uid+"/"+current.toString(),cost,capacity,contactNumber,""+currentFirebaseUser!!.uid)
+                        var vacancy=capacity
+                        val e = Event(id,name,description,address,city,btnTextStart,btnTextEnd,hour+":"+minute+":"+second,duration,tag,currentFirebaseUser!!.uid+"/"+current.toString(),cost,capacity,vacancy,contactNumber,""+currentFirebaseUser!!.uid)
                         dbref.child(id).setValue(e);
                         val storage=FirebaseStorage.getInstance()
                         val ref= storage.getReference()

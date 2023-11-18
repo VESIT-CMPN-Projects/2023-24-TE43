@@ -12,19 +12,16 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
-import com.example.empoweher.R
 
 @Composable
-fun EventCard(
-    eventTitle: String,
+fun EventCardOld(
+    eventTitle: String?=null,
     eventAddress:String,
     eventCity:String,
     eventCapacity:String,

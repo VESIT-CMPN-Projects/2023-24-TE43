@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -32,6 +34,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -59,7 +62,7 @@ import com.example.empoweher.model.Screen
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun ContactsList(navigateToNextScreen: (route: String) -> Unit, onClick: (email: String)-> Unit) {
+        fun ContactsList(navigateToNextScreen: (route: String)->Unit) {
 
     val context = LocalContext.current
     val database = Room.databaseBuilder(context, ContactDatabase::class.java, "contacts").build()
@@ -84,10 +87,13 @@ fun ContactsList(navigateToNextScreen: (route: String) -> Unit, onClick: (email:
                         .padding(top = 70.dp),
                     fontSize = 25.sp,
                     textAlign = TextAlign.Center,
-                    fontFamily = FontFamily(Font(R.font.font1))
+                    fontFamily = FontFamily(Font(R.font.font1)),
                 )
             Spacer(modifier = Modifier.height(170.dp))
-            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center)
+            Box(modifier = Modifier
+                .fillMaxWidth(),
+                contentAlignment = Alignment.Center,
+            )
             {
                 Column(modifier=Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally){
                     Image(
@@ -97,15 +103,12 @@ fun ContactsList(navigateToNextScreen: (route: String) -> Unit, onClick: (email:
                             .fillMaxWidth(.4f)
                             .clickable {
                                 navigateToNextScreen(Screen.Temp2.route)
-                            },
+                            }
                     )
                     Text(
                         text = "Click To Add Contact", modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 20.dp)
-                            .clickable {
-                                navigateToNextScreen(Screen.Temp2.route)
-                            },
+                            .padding(top = 20.dp),
                         fontSize = 25.sp,
                         textAlign = TextAlign.Center,
                         fontFamily = FontFamily(Font(R.font.font1))

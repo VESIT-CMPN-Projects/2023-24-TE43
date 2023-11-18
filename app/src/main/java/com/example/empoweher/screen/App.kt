@@ -6,6 +6,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,8 +19,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -28,6 +31,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.empoweher.R
 import com.example.empoweher.auth.signin.GoogleAuthUiClient
 import com.example.empoweher.auth.signin.SignInScreen
 import com.example.empoweher.auth.signin.SignInViewModel
@@ -82,7 +86,7 @@ fun App(
             NavHost(navController = navController, startDestination = startDestination) {
 
                 composable(Screen.Login.route) {
-                    LaunchedEffect(key1 = Unit){
+                    LaunchedEffect(key1 = shouldShowScaffold){
                         shouldShowScaffold = false
                     }
                     val viewModel = viewModel<SignInViewModel>()
@@ -101,7 +105,7 @@ fun App(
                             }
                         }
                     )
-                    DisposableEffect(Unit) {
+                    DisposableEffect(shouldShowScaffold) {
                         onDispose {
                             shouldShowScaffold = true
                         }
@@ -140,11 +144,11 @@ fun App(
                     )
                 }
                 composable(route = Screen.FakeCall.route) {
-                    LaunchedEffect(key1 = Unit){
+                    LaunchedEffect(key1 = shouldShowScaffold){
                         shouldShowScaffold = false
                     }
                     FakeCall()
-                    DisposableEffect(Unit) {
+                    DisposableEffect(shouldShowScaffold) {
                         onDispose {
                             shouldShowScaffold = true
                         }
@@ -152,11 +156,11 @@ fun App(
                 }
 
                 composable(route = Screen.Map.route) {
-                    LaunchedEffect(key1 = Unit){
+                    LaunchedEffect(key1 = shouldShowScaffold){
                         shouldShowScaffold = false
                     }
                     map()
-                    DisposableEffect(Unit) {
+                    DisposableEffect(shouldShowScaffold) {
                         onDispose {
                             shouldShowScaffold = true
                         }
@@ -164,11 +168,11 @@ fun App(
                 }
 
                 composable(route = Screen.EmergencyList.route) {
-                    LaunchedEffect(key1 = Unit){
+                    LaunchedEffect(key1 = shouldShowScaffold){
                         shouldShowScaffold = false
                     }
                     EmergencyList()
-                    DisposableEffect(Unit) {
+                    DisposableEffect(shouldShowScaffold) {
                         onDispose {
                             shouldShowScaffold = true
                         }
@@ -176,11 +180,15 @@ fun App(
                 }
 
                 composable(route = Screen.Temp1.route) {
-                    LaunchedEffect(key1 = Unit){
+                    LaunchedEffect(key1 = shouldShowScaffold){
                         shouldShowScaffold = false
                     }
-                    temp1()
-                    DisposableEffect(Unit) {
+                    temp1(
+                        navigateToNextScreen = { route ->
+                            navController.navigate(route)
+                        }
+                    )
+                    DisposableEffect(shouldShowScaffold) {
                         onDispose {
                             shouldShowScaffold = true
                         }
@@ -192,22 +200,22 @@ fun App(
 
                 }
                 composable(route = Screen.Temp3.route) {
-                    LaunchedEffect(key1 = Unit){
+                    LaunchedEffect(key1 = shouldShowScaffold){
                         shouldShowScaffold = false
                     }
                     temp3()
-                    DisposableEffect(Unit) {
+                    DisposableEffect(shouldShowScaffold) {
                         onDispose {
                             shouldShowScaffold = true
                         }
                     }
                 }
                 composable(route = Screen.EventForm.route) {
-                    LaunchedEffect(key1 = Unit){
+                    LaunchedEffect(key1 = shouldShowScaffold){
                         shouldShowScaffold = false
                     }
                     EventForm()
-                    DisposableEffect(Unit) {
+                    DisposableEffect(shouldShowScaffold) {
                         onDispose {
                             shouldShowScaffold = true
                         }
@@ -216,9 +224,18 @@ fun App(
                 }
 
                 composable(route = Screen.ContactsList.route) {
-//                    ContactsList{ route ->
-//                        navController.navigate(route + "/${it}"), (email: String)->Unit
-//                    }
+                    LaunchedEffect(key1 = Unit){
+                        shouldShowScaffold = false
+                    }
+                    ContactsList( navigateToNextScreen = { route ->
+                        navController.navigate(route)
+                    })
+                    DisposableEffect(Unit) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
+
                 }
 
                 composable(route = Screen.UpdateContactList.route+"/{email}",arguments = listOf(
@@ -235,29 +252,35 @@ fun App(
                     }
                 }
 
-                composable(route = Screen.EventForm.route) {
-
-                    LaunchedEffect(key1 = Unit){
-                        shouldShowScaffold = false
+                composable(route = Screen.DetailedEventCard.route+"/{eventId}", arguments = listOf(
+                    navArgument("eventId"){
+                        type = NavType.StringType
+                        nullable=true
                     }
-                    DetailedEventCard()
-                    DisposableEffect(Unit) {
+                )) {
+                    LaunchedEffect(key1 = shouldShowScaffold) {
+                    shouldShowScaffold = false
+                }
+                    val eventId = it.arguments?.getString("eventId")
+                    DetailedEventCard(eventId, navigateToNextScreen = { route ->
+                            navController.navigate(route)
+                        })
+
+                    DisposableEffect(shouldShowScaffold) {
                         onDispose {
                             shouldShowScaffold = true
                         }
                     }
-
                 }
 
                 composable(route = Screen.EventCard.route) {
-
-                    LaunchedEffect(key1 = Unit){
+                    LaunchedEffect(shouldShowScaffold){
                         shouldShowScaffold = false
                     }
                     EventCard(navigateToNextScreen = { route ->
                         navController.navigate(route)
                     })
-                    DisposableEffect(Unit) {
+                    DisposableEffect(shouldShowScaffold) {
                         onDispose {
                             shouldShowScaffold = true
                         }

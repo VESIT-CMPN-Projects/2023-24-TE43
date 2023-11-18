@@ -16,6 +16,7 @@ data class Event (
     var eventImage:String?=null,
     var eventCost:String?=null,
     var capacity:String?=null,
+    var vacancy:String?=null,
     var contact:String?=null,
     var hostId:String?=null
 )

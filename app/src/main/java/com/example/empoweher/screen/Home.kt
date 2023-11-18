@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.empoweher.R
@@ -51,22 +52,12 @@ import com.example.empoweher.slider
     fun Home(
     navigateToNextScreen: (route: String)->Unit,
     ){
-//    Column(modifier=Modifier
-//        .fillMaxSize(),
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ){
-//        Spacer(modifier=Modifier.height(60.dp))
-//        Box(modifier = Modifier.width(350.dp).height(250.dp)) {
-//            slider()
-//        }
-//    }
+    Column(modifier=Modifier
+        .fillMaxSize()
+        .background(colorResource(R.color.cream)),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
 
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        EventCard(navigateToNextScreen = navigateToNextScreen)
-        EventCard(navigateToNextScreen = navigateToNextScreen)
-        EventCard(navigateToNextScreen = navigateToNextScreen)
     }
 
     }
