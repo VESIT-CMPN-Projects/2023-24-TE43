@@ -1,4 +1,4 @@
-package com.example.empoweher
+package com.example.empoweher.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
+import com.example.empoweher.R
 
 @Composable
 fun EventCardOld(

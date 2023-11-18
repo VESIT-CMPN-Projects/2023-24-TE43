@@ -60,7 +60,6 @@ fun SignInScreen(
     onSignInClick: () -> Unit,
     navigateToHome: () -> Unit,
 ) {
-    navigateToHome()
     val context = LocalContext.current
     LaunchedEffect(key1 = state.signInError) {
         state.signInError?.let { error ->

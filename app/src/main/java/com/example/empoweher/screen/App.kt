@@ -6,7 +6,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,10 +18,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -31,13 +28,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.empoweher.R
 import com.example.empoweher.auth.signin.GoogleAuthUiClient
 import com.example.empoweher.auth.signin.SignInScreen
 import com.example.empoweher.auth.signin.SignInViewModel
 import com.example.empoweher.composables.DetailedEventCard
 import com.example.empoweher.composables.EventCard
 import com.example.empoweher.model.Screen
+import com.example.empoweher.screen.events.EventForm
+import com.example.empoweher.screen.events.Events
+import com.example.empoweher.screen.home.Home
+import com.example.empoweher.screen.safety.*
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -60,7 +60,8 @@ fun App(
     val startDestination = if (googleAuthUiClient.getSignedInUser() != null) {
         Screen.Home.route
     } else {
-        Screen.Login.route
+//        Screen.Login.route
+        Screen.Home.route
     }
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -138,9 +139,9 @@ fun App(
                 }
                 composable(route = Screen.Safety.route) {
                     Safety(
-//                        navigateToNextScreen = { route ->
-//                            navController.navigate(route)
-//                        }
+                        navigateToNextScreen = { route ->
+                            navController.navigate(route)
+                        }
                     )
                 }
                 composable(route = Screen.FakeCall.route) {
@@ -167,23 +168,12 @@ fun App(
                     }
                 }
 
-                composable(route = Screen.EmergencyList.route) {
-                    LaunchedEffect(key1 = shouldShowScaffold){
-                        shouldShowScaffold = false
-                    }
-                    EmergencyList()
-                    DisposableEffect(shouldShowScaffold) {
-                        onDispose {
-                            shouldShowScaffold = true
-                        }
-                    }
-                }
 
-                composable(route = Screen.Temp1.route) {
+                composable(route = Screen.Events.route) {
                     LaunchedEffect(key1 = shouldShowScaffold){
                         shouldShowScaffold = false
                     }
-                    temp1(
+                    Events(
                         navigateToNextScreen = { route ->
                             navController.navigate(route)
                         }
@@ -194,21 +184,9 @@ fun App(
                         }
                     }
                 }
-                composable(route = Screen.Temp2.route) {
+                composable(route = Screen.AddContact.route) {
 
-                    temp2()
-
-                }
-                composable(route = Screen.Temp3.route) {
-                    LaunchedEffect(key1 = shouldShowScaffold){
-                        shouldShowScaffold = false
-                    }
-                    temp3()
-                    DisposableEffect(shouldShowScaffold) {
-                        onDispose {
-                            shouldShowScaffold = true
-                        }
-                    }
+                    AddContact()
                 }
                 composable(route = Screen.EventForm.route) {
                     LaunchedEffect(key1 = shouldShowScaffold){

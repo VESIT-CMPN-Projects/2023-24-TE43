@@ -1,12 +1,10 @@
-package com.example.empoweher.screen
+package com.example.empoweher.screen.safety
 
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.indication
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -34,14 +31,12 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -51,19 +46,14 @@ import com.example.empoweher.SQLIteDB.Contact
 import com.example.empoweher.SQLIteDB.ContactDatabase
 import com.example.empoweher.composables.ContactCard
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import com.example.empoweher.R
-import com.example.empoweher.model.BottomNavigationItem.Ask.route
 import com.example.empoweher.model.Screen
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-        fun ContactsList(navigateToNextScreen: (route: String)->Unit) {
 
+fun ContactsList(navigateToNextScreen: (route: String)->Unit) {
     val context = LocalContext.current
     val database = Room.databaseBuilder(context, ContactDatabase::class.java, "contacts").build()
     var List by remember { mutableStateOf(emptyList<Contact>()) }
@@ -102,7 +92,7 @@ import com.example.empoweher.model.Screen
                         modifier = Modifier
                             .fillMaxWidth(.4f)
                             .clickable {
-                                navigateToNextScreen(Screen.Temp2.route)
+                                navigateToNextScreen(Screen.AddContact.route)
                             }
                     )
                     Text(
@@ -147,6 +137,8 @@ fun lazy(list: MutableList<Contact>,increment:()->Unit){
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val database = Room.databaseBuilder(context, ContactDatabase::class.java,"contacts").build()
+    val openDialog = remember { mutableStateOf(false)  }
+
 
     LazyColumn(modifier= Modifier
         .fillMaxSize()
@@ -160,6 +152,7 @@ fun lazy(list: MutableList<Contact>,increment:()->Unit){
                 confirmValueChange = {
                     if(it==DismissValue.DismissedToEnd){
                         Log.d("deleteContact1",item.firstName)
+
                         scope.launch(Dispatchers.IO) {
                             database.itemDao().deleteContact(item)
                             increment()

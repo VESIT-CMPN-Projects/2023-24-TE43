@@ -1,4 +1,4 @@
-package com.example.empoweher.screen
+package com.example.empoweher.screen.safety
 
 import android.content.Intent
 import android.net.Uri

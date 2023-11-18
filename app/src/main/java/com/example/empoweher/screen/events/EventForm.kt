@@ -1,4 +1,4 @@
-package com.example.empoweher.screen
+package com.example.empoweher.screen.events
 
 import android.annotation.SuppressLint
 import android.net.Uri
@@ -57,7 +57,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
-import androidx.core.net.toUri
 import coil.compose.rememberAsyncImagePainter
 import com.example.empoweher.R
 import com.google.firebase.auth.FirebaseAuth
