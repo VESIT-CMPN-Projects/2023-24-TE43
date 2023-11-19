@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">EmpoweHer</string>
     <string name="web_client_id">287656898275-59vfnisc5avig5ah8se4gi8v96s4tbtc.apps.googleusercontent.com</string>
+    <string name="title_activity_location">LocationActivity</string>
 </resources>

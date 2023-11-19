@@ -287,6 +287,18 @@ fun App(
                     }
 
                 }
+                composable(route = Screen.Sms.route) {
+                    LaunchedEffect(shouldShowScaffold){
+                        shouldShowScaffold = false
+                    }
+                    Sms()
+                    DisposableEffect(shouldShowScaffold) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
+
+                }
 
             }
         }
