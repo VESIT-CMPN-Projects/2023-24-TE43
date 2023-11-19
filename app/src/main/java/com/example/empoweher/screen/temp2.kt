@@ -201,7 +201,6 @@ fun temp2(){
 //                        else{
 //                            Toast.makeText(context,"Enter Valid Contact Details",Toast.LENGTH_SHORT).show()
 //                        }
-
                         val navigate = Intent(context,LocationActivity::class.java)
                         context.startActivity(navigate)
                     }) {
