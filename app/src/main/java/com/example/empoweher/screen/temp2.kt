@@ -1,6 +1,7 @@
 package com.example.empoweher.screen
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -38,7 +39,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.room.Room
+import com.example.empoweher.LocationActivity
 import com.example.empoweher.R
 import com.example.empoweher.SQLIteDB.Contact
 import com.example.empoweher.SQLIteDB.ContactDatabase
@@ -184,20 +187,23 @@ fun temp2(){
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Button(onClick = {
-                        if(fName.isNotEmpty() && lName.isNotEmpty() && pNum.length==10) {
-                            Toast.makeText(context, "Contact Saved", Toast.LENGTH_LONG).show()
-                            val contact = Contact(0, fName, lName, pNum, checked)
-                            scope.launch {
-                                db.itemDao().insertContact(contact = contact)
-                            }
-                            fName = ""
-                            lName = ""
-                            pNum = ""
-                            checked = false
-                        }
-                        else{
-                            Toast.makeText(context,"Enter Valid Contact Details",Toast.LENGTH_SHORT).show()
-                        }
+//                        if(fName.isNotEmpty() && lName.isNotEmpty() && pNum.length==10) {
+//                            Toast.makeText(context, "Contact Saved", Toast.LENGTH_LONG).show()
+//                            val contact = Contact(0, fName, lName, pNum, checked)
+//                            scope.launch {
+//                                db.itemDao().insertContact(contact = contact)
+//                            }
+//                            fName = ""
+//                            lName = ""
+//                            pNum = ""
+//                            checked = false
+//                        }
+//                        else{
+//                            Toast.makeText(context,"Enter Valid Contact Details",Toast.LENGTH_SHORT).show()
+//                        }
+
+                        val navigate = Intent(context,LocationActivity::class.java)
+                        context.startActivity(navigate)
                     }) {
                         Text(text = "SAVE CONTACT")
                     }
