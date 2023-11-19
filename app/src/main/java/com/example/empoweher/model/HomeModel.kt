@@ -32,7 +32,7 @@ sealed class BottomNavigationItem(
         selectedIcon = Icons.Filled.AccountCircle,
         unselectedIcon = Icons.Outlined.AccountCircle,
         hasNews = false,
-        route = Screen.Sms.route,
+        route = Screen.Temp3.route,
     )
     object Events: BottomNavigationItem(
         title = "Events",

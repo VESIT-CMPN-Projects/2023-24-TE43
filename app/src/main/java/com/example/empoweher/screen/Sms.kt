@@ -45,12 +45,8 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun Sms(){
-
     smsUI()
-
 }
-
-
 
 @Composable
 fun smsUI() {
@@ -58,11 +54,9 @@ fun smsUI() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
-            // Permission Accepted: Do something
             Log.d("ExampleScreen","PERMISSION GRANTED")
 
         } else {
-            // Permission Denied: Do something
             Log.d("ExampleScreen","PERMISSION DENIED")
         }
     }
@@ -73,9 +67,10 @@ fun smsUI() {
     val message = remember {
         mutableStateOf("")
     }
-
+    val database = Room.databaseBuilder(context, ContactDatabase::class.java, "contacts").build()
+    var List by remember { mutableStateOf(emptyList<Contact>()) }
+    var scope = rememberCoroutineScope()
     Column(
-
         modifier = Modifier
             .fillMaxSize()
             .padding(all = 30.dp),
@@ -83,34 +78,23 @@ fun smsUI() {
         verticalArrangement = Arrangement.Center,
     ) {
         Button(onClick = {
-//            scope.launch(Dispatchers.IO) {
-//                List = database.itemDao().getAllItems().toMutableList()
-//                when (PackageManager.PERMISSION_GRANTED) {
-//                    ContextCompat.checkSelfPermission(
-//                        context,
-//                        android.Manifest.permission.SEND_SMS
-//                    ) -> {
-//                        // Some works that require permission
-//                        val smsManager: SmsManager = SmsManager.getDefault()
-//                        // on below line sending sms
-//                        for (item in List) {
-//                            smsManager.sendTextMessage(item.phoneNumber, null, "Hello", null, null)
-//                        }
-            // on below line displaying
-            // toast message as sms send.
-//                        Toast.makeText(
-//                            context,
-//                            "Message Sent",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                    }
-//                    else -> {
-//                        // Asking for permission
-//                        launcher.launch(android.Manifest.permission.SEND_SMS)
-//                    }
-//        }
-//            }
-
+            scope.launch(Dispatchers.IO) {
+                List = database.itemDao().getAllItems().toMutableList()
+                when (PackageManager.PERMISSION_GRANTED) {
+                    ContextCompat.checkSelfPermission(
+                        context,
+                        android.Manifest.permission.SEND_SMS
+                    ) -> {
+                        val smsManager: SmsManager = SmsManager.getDefault()
+                        for (item in List) {
+                            smsManager.sendTextMessage(item.phoneNumber, null, "Hello", null, null)
+                        }
+                    }
+                    else -> {
+                        launcher.launch(android.Manifest.permission.SEND_SMS)
+                    }
+                }
+            }
         }) {
             Text(
                 text = "Send SMS",

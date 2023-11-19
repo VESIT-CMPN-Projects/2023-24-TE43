@@ -187,22 +187,20 @@ fun temp2(){
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Button(onClick = {
-//                        if(fName.isNotEmpty() && lName.isNotEmpty() && pNum.length==10) {
-//                            Toast.makeText(context, "Contact Saved", Toast.LENGTH_LONG).show()
-//                            val contact = Contact(0, fName, lName, pNum, checked)
-//                            scope.launch {
-//                                db.itemDao().insertContact(contact = contact)
-//                            }
-//                            fName = ""
-//                            lName = ""
-//                            pNum = ""
-//                            checked = false
-//                        }
-//                        else{
-//                            Toast.makeText(context,"Enter Valid Contact Details",Toast.LENGTH_SHORT).show()
-//                        }
-                        val navigate = Intent(context,LocationActivity::class.java)
-                        context.startActivity(navigate)
+                        if(fName.isNotEmpty() && lName.isNotEmpty() && pNum.length==10) {
+                            Toast.makeText(context, "Contact Saved", Toast.LENGTH_LONG).show()
+                            val contact = Contact(0, fName, lName, pNum, checked)
+                            scope.launch {
+                                db.itemDao().insertContact(contact = contact)
+                            }
+                            fName = ""
+                            lName = ""
+                            pNum = ""
+                            checked = false
+                        }
+                        else{
+                            Toast.makeText(context,"Enter Valid Contact Details",Toast.LENGTH_SHORT).show()
+                        }
                     }) {
                         Text(text = "SAVE CONTACT")
                     }

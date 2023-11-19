@@ -2,11 +2,11 @@ package com.example.empoweher
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.telephony.SmsManager
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -20,7 +20,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -69,7 +68,7 @@ class LocationActivity : ComponentActivity() {
     }
     private fun startLocationUpdates() {
         locationCallback?.let{
-            val locationRequest=LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY,100).setWaitForAccurateLocation(false).setMinUpdateIntervalMillis(1000).setMaxUpdateDelayMillis(100).build()
+            val locationRequest=LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY,10000).setWaitForAccurateLocation(false).setMinUpdateIntervalMillis(10000).setMaxUpdateDelayMillis(100).build()
             if (ActivityCompat.checkSelfPermission(
                     this,
                     Manifest.permission.ACCESS_FINE_LOCATION
@@ -124,7 +123,7 @@ class LocationActivity : ComponentActivity() {
             ActivityResultContracts.RequestMultiplePermissions()
         ){
                 permissionMaps->
-            val areGranted=permissionMaps.values.reduce ({ acc, next -> acc && next })
+            val areGranted=permissionMaps.values.reduce { acc, next -> acc && next }
             if (areGranted){
                 locationRequired=true
                 startLocationUpdates()
@@ -137,28 +136,37 @@ class LocationActivity : ComponentActivity() {
         val database = Room.databaseBuilder(context, ContactDatabase::class.java, "contacts").build()
         var List by remember { mutableStateOf(emptyList<Contact>()) }
         var scope = rememberCoroutineScope()
+        var smsBody by remember {
+            mutableStateOf("")
+        }
+        var count by remember{
+            mutableStateOf(0)
+        }
         Column(modifier = Modifier.fillMaxSize()) {
             Text(text = "Your Location : Latitude is ${currentLocation.longitude}\nLongitude is ${currentLocation.latitude}",modifier=Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
             Button(onClick = {
                 if (permissions.all {
                         ContextCompat.checkSelfPermission(this@LocationActivity,it)==PackageManager.PERMISSION_GRANTED
                     }) {
-                    Log.d("Hello",List.toString())
-                    scope.launch(Dispatchers.IO) {
-                        List = database.itemDao().getAllItems().toMutableList()
-                        val smsManager: SmsManager = SmsManager.getDefault()
-                        Log.d("Hello",List.toString())
-                        for (item in List) {
-                            smsManager.sendTextMessage(
-                                item.phoneNumber,
-                                null,
-                                "Hello",
-                                null,
-                                null
-                            )
-                        }
-                    }
                     startLocationUpdates()
+                    scope.launch(Dispatchers.IO) {
+                        if(count==1) {
+                            List = database.itemDao().getAllItems().toMutableList()
+                            for (item in List) {
+                                val smsManager = SmsManager.getDefault()
+                                smsBody =
+                                    "Latitude is ${currentLocation.latitude},Longitude is ${currentLocation.longitude}"
+                                smsManager.sendTextMessage(
+                                    item.phoneNumber,
+                                    null,
+                                    smsBody,
+                                    null,
+                                    null
+                                )
+                            }
+                        }
+                        count=1
+                    }
                 }
                 else{
                     launcherMultiplePermissions.launch(permissions)
