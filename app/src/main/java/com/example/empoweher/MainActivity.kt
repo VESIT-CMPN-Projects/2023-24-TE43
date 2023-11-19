@@ -1,10 +1,14 @@
 package com.example.empoweher
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -34,6 +38,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -103,6 +108,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+    @SuppressLint("NewApi")
     @RequiresApi(Build.VERSION_CODES.Q)
     @Composable
     fun LocationScreen(currentLocation:LocationDetails){
@@ -111,7 +117,7 @@ class MainActivity : ComponentActivity() {
           ActivityResultContracts.RequestMultiplePermissions()
         ){
             permissionMaps->
-            val areGranted=permissionMaps.values.reduce ({ acc, next -> acc && next })
+            val areGranted=permissionMaps.values.reduce { acc, next -> acc && next }
             if (areGranted){
                 locationRequired=true
                 startLocationUpdates()
