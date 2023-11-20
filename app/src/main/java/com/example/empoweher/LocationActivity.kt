@@ -151,18 +151,20 @@ class LocationActivity : ComponentActivity() {
                     startLocationUpdates()
                     scope.launch(Dispatchers.IO) {
                         if(count==1) {
+                            val smsManager = SmsManager.getDefault()
                             List = database.itemDao().getAllItems().toMutableList()
                             for (item in List) {
-                                val smsManager = SmsManager.getDefault()
-                                smsBody =
-                                    "Latitude is ${currentLocation.latitude},Longitude is ${currentLocation.longitude}"
-                                smsManager.sendTextMessage(
-                                    item.phoneNumber,
-                                    null,
-                                    smsBody,
-                                    null,
-                                    null
-                                )
+                                if(item.emergency == true){
+                                    smsBody =
+                                        "https://www.google.com/maps/search/?api=1&query=${currentLocation.latitude},${currentLocation.longitude}"
+                                    smsManager.sendTextMessage(
+                                        item.phoneNumber,
+                                        null,
+                                        smsBody,
+                                        null,
+                                        null
+                                    )
+                                }
                             }
                         }
                         count=1
