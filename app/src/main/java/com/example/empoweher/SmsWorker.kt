@@ -9,12 +9,11 @@ import androidx.work.WorkerParameters
 import com.example.empoweher.LocationActivity
 import kotlinx.coroutines.delay
 
-class SmsWorker constructor(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
-    override suspend fun doWork(): Result {
-        delay(10000)
+class SmsWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
+    override fun doWork(): Result {
 //        val activity = LocationActivity()
 //        (activity as LocationActivity).startLocationUpdates()
-        Log.d("CustomWorker","Success")
+        Log.d("SmsWorker","Success do work called")
         return Result.success()
     }
 }

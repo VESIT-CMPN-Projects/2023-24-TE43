@@ -47,6 +47,7 @@ class LocationActivity : ComponentActivity() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private var locationRequired: Boolean = false
+    private lateinit var currentLocation:LocationDetails
     @RequiresApi(Build.VERSION_CODES.Q)
     private val permissions=arrayOf(
         android.Manifest.permission.ACCESS_COARSE_LOCATION,
