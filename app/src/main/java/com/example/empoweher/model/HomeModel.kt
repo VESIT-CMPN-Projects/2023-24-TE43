@@ -28,7 +28,7 @@ sealed class BottomNavigationItem(
         selectedIcon = Icons.Filled.Home,
         unselectedIcon = Icons.Outlined.Home,
         hasNews = false,
-        route = Screen.Home.route,
+        route = Screen.Temp1.route,
     )
 
     object Ask: BottomNavigationItem(

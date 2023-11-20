@@ -17,4 +17,5 @@ sealed class Screen(val route:String)
     object EventCard: Screen(route = "eventCard")
     object DetailedEventCard: Screen(route = "detailedEventCard")
     object AddContact: Screen(route = "addContact")
+    object Temp1: Screen(route = "temp1")
 }

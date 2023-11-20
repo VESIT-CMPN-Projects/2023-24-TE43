@@ -38,6 +38,7 @@ import com.example.empoweher.screen.events.EventForm
 import com.example.empoweher.screen.events.Events
 import com.example.empoweher.screen.home.Home
 import com.example.empoweher.screen.safety.*
+import com.example.empoweher.screen.temp.Temp1
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -185,8 +186,15 @@ fun App(
                     }
                 }
                 composable(route = Screen.AddContact.route) {
-
+                    LaunchedEffect(key1 = shouldShowScaffold){
+                        shouldShowScaffold = false
+                    }
                     AddContact()
+                    DisposableEffect(shouldShowScaffold) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
                 }
                 composable(route = Screen.EventForm.route) {
                     LaunchedEffect(key1 = shouldShowScaffold){
@@ -264,6 +272,10 @@ fun App(
                         }
                     }
 
+                }
+
+                composable(route = Screen.Temp1.route) {
+                    Temp1()
                 }
 
             }
