@@ -66,7 +66,7 @@ class LocationActivity : ComponentActivity() {
             fusedLocationProviderClient?.removeLocationUpdates(it)
         }
     }
-    private fun startLocationUpdates() {
+    fun startLocationUpdates() {
         locationCallback?.let{
             val locationRequest=LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY,10000).setWaitForAccurateLocation(false).setMinUpdateIntervalMillis(10000).setMaxUpdateDelayMillis(100).build()
             if (ActivityCompat.checkSelfPermission(

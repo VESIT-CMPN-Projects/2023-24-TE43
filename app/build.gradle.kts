@@ -68,6 +68,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -105,4 +106,7 @@ dependencies {
     //Location
     implementation("com.google.accompanist:accompanist-permissions:0.24.13-rc")
     implementation ("com.google.android.gms:play-services-location:21.0.1")
+
+    //Work Manager
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
 }
