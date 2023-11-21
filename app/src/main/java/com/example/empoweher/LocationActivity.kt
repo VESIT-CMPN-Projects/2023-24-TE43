@@ -1,12 +1,17 @@
 package com.example.empoweher
 
 import android.Manifest
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.telephony.SmsManager
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -23,16 +28,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import androidx.room.Room
-import com.example.empoweher.SQLIteDB.Contact
-import com.example.empoweher.SQLIteDB.ContactDatabase
+import androidx.work.BackoffPolicy
+import androidx.work.Data
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import com.example.empoweher.model.LocationDetails
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -40,19 +46,25 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
+
 
 class LocationActivity : ComponentActivity() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private var locationRequired: Boolean = false
-    private lateinit var currentLocation:LocationDetails
+    private lateinit var  periodicWorkRequest:PeriodicWorkRequest
+    val channelId = "My_channel"
+    val channelName= "My channel name"
+    lateinit var notificationChannel: NotificationChannel
+    lateinit var notificationBuilder: NotificationCompat.Builder
+    private lateinit var notification:Notification
     @RequiresApi(Build.VERSION_CODES.Q)
     private val permissions=arrayOf(
         android.Manifest.permission.ACCESS_COARSE_LOCATION,
         android.Manifest.permission.ACCESS_FINE_LOCATION,
-        android.Manifest.permission.SEND_SMS
+        android.Manifest.permission.SEND_SMS,
+        android.Manifest.permission.POST_NOTIFICATIONS
     )
     override fun onResume() {
         super.onResume()
@@ -93,7 +105,6 @@ class LocationActivity : ComponentActivity() {
             fusedLocationProviderClient?.requestLocationUpdates(locationRequest,it, Looper.getMainLooper())
         }
     }
-
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,6 +127,31 @@ class LocationActivity : ComponentActivity() {
             }
         }
     }
+
+    private fun showNotification(context: Context, title:String, msg:String){
+        val notificationManager = context.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            notificationChannel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH)
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
+        val intent = Intent(context, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        notificationBuilder = NotificationCompat.Builder(context, channelId)
+        notificationBuilder.setSmallIcon(R.drawable.alert1)
+            .addAction(R.drawable.alert1, "Turn Off",pendingIntent)
+            .setContentTitle(title)
+            .setContentText(msg)
+            .setOngoing(true)
+            .setAutoCancel(true)
+        notification=notificationBuilder.build()
+        notificationManager.notify(100,notification)
+    }
+
+    private fun dismissNotification(){
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notification.flags = notification.flags or Notification.FLAG_AUTO_CANCEL
+        notificationManager.cancel(100)
+    }
     @RequiresApi(Build.VERSION_CODES.Q)
     @Composable
     fun LocationScreen(currentLocation:LocationDetails){
@@ -134,49 +170,69 @@ class LocationActivity : ComponentActivity() {
                 Toast.makeText(context,"Permission Denied",Toast.LENGTH_SHORT).show()
             }
         }
-        val database = Room.databaseBuilder(context, ContactDatabase::class.java, "contacts").build()
-        var List by remember { mutableStateOf(emptyList<Contact>()) }
-        var scope = rememberCoroutineScope()
-        var smsBody by remember {
-            mutableStateOf("")
-        }
-        var count by remember{
-            mutableStateOf(0)
-        }
-        Column(modifier = Modifier.fillMaxSize()) {
-            Text(text = "Your Location : Latitude is ${currentLocation.longitude}\nLongitude is ${currentLocation.latitude}",modifier=Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
-            Button(onClick = {
-                if (permissions.all {
-                        ContextCompat.checkSelfPermission(this@LocationActivity,it)==PackageManager.PERMISSION_GRANTED
-                    }) {
-                    startLocationUpdates()
-                    scope.launch(Dispatchers.IO) {
-                        if(count==1) {
-                            val smsManager = SmsManager.getDefault()
-                            List = database.itemDao().getAllItems().toMutableList()
-                            for (item in List) {
-                                if(item.emergency == true){
-                                    smsBody =
-                                        "https://www.google.com/maps/search/?api=1&query=${currentLocation.latitude},${currentLocation.longitude}"
-                                    smsManager.sendTextMessage(
-                                        item.phoneNumber,
-                                        null,
-                                        smsBody,
-                                        null,
-                                        null
-                                    )
-                                }
-                            }
+            Column(modifier = Modifier.fillMaxSize()) {
+                Text(
+                    text = "Your Location :\nLatitude is ${currentLocation.latitude}\nLongitude is ${currentLocation.longitude}",
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+                Button(onClick = {
+                    if (permissions.all {
+                            ContextCompat.checkSelfPermission(
+                                this@LocationActivity,
+                                it
+                            ) == PackageManager.PERMISSION_GRANTED
+                        }) {
+                        Toast.makeText(
+                            this@LocationActivity,
+                            "Starting Periodic Work!!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        WorkManager.getInstance(this@LocationActivity).cancelAllWork()
+                        startLocationUpdates()
+                        if (currentLocation.latitude.toString() != "0.0" && currentLocation.longitude.toString() != "0.0" && currentLocation.latitude != null && currentLocation.longitude != null) {
+                            val location = arrayOf(
+                                currentLocation.latitude.toString(),
+                                currentLocation.longitude.toString()
+                            )
+                            val data: Data =
+                                Data.Builder().putStringArray("Location", location).build()
+                            periodicWorkRequest =
+                                PeriodicWorkRequest.Builder(
+                                    SmsWorker::class.java,
+                                    15,
+                                    TimeUnit.MINUTES
+                                )
+                                    .addTag("Location")
+                                    .setBackoffCriteria(
+                                        BackoffPolicy.LINEAR,
+                                        PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS,
+                                        TimeUnit.MILLISECONDS
+                                    ).setInputData(data).build()
+                            showNotification(this@LocationActivity,"Location","Work Manager is Running......")
+                            WorkManager.getInstance(this@LocationActivity)
+                                .enqueue(periodicWorkRequest)
                         }
-                        count=1
                     }
+                    else {
+                        launcherMultiplePermissions.launch(permissions)
+                    }
+                },modifier = Modifier.fillMaxWidth()) {
+                    Text(text = "Start Work Manager", textAlign = TextAlign.Center)
                 }
-                else{
-                    launcherMultiplePermissions.launch(permissions)
+                Button(onClick = {
+                    WorkManager.getInstance(this@LocationActivity).cancelAllWork()
+                    SmsWorker.isStopped = true
+                    Log.d("TAGAGAGAG", "Stopped Periodic Work!!")
+                    dismissNotification()
+                    Toast.makeText(
+                        this@LocationActivity,
+                        "Stopped Periodic Work!!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }, modifier = Modifier.fillMaxWidth()) {
+                    Text(text = "Stop Work Manager", textAlign = TextAlign.Center)
                 }
-            },modifier=Modifier.fillMaxWidth()) {
-                Text(text = "Get Your Location", textAlign = TextAlign.Center)
             }
         }
     }
-}

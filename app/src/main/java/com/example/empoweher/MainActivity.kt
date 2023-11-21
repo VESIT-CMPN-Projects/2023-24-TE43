@@ -17,57 +17,24 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.lifecycleScope
 import androidx.work.BackoffPolicy
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import com.example.empoweher.auth.signin.GoogleAuthUiClient
+import com.example.empoweher.screen.App
 import com.google.android.gms.auth.api.identity.Identity
 import java.time.Duration
 import java.util.concurrent.TimeUnit
 
 class MainActivity : ComponentActivity() {
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-//            val smsWorkRequest: WorkRequest = OneTimeWorkRequest.Builder(SmsWorker::class.java)
-//                .setInitialDelay(1, TimeUnit.MINUTES)
-//                .build()
-//            Toast.makeText(this, "WorkManagerInitialized", Toast.LENGTH_SHORT).show()
-//            // Schedule the WorkRequest with WorkManager
-//            WorkManager.getInstance(this).enqueue(smsWorkRequest)
-            Surface(modifier=Modifier.fillMaxSize()){
-                Column(modifier=Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                    Text("Hello World", textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
-                }
-            }
-            simpleWork()
-        }
-
-//        setContent {
-//            LaunchedEffect(key1 = Unit){
-//                val workRequest = PeriodicWorkRequestBuilder<SmsWorker>(
-//                    repeatInterval = 15,
-//                    repeatIntervalTimeUnit = TimeUnit.MINUTES
-//                ).setBackoffCriteria(
-//                    backoffPolicy = BackoffPolicy.LINEAR,
-//                    duration = Duration.ofSeconds(15)
-//                ).build()
-//                val workManager = WorkManager.getInstance(applicationContext)
-//                workManager.enqueue(workRequest)
-//            }
-//        }
-    }
-
-    private fun simpleWork() {
-        val mRequest:WorkRequest= OneTimeWorkRequestBuilder<SmsWorker>().build()
-        WorkManager.getInstance(this).enqueue(mRequest)
-    }
-
     private val googleAuthUiClient by lazy {
         GoogleAuthUiClient(
             context = applicationContext,
@@ -75,15 +42,14 @@ class MainActivity : ComponentActivity() {
         )
     }
 
-//    @RequiresApi(Build.VERSION_CODES.O)
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContent {
-//
-//            App(
-//                googleAuthUiClient = googleAuthUiClient,
-//                lifecycleScope = lifecycleScope,
-//            )
-//        }
-//    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            App(
+                googleAuthUiClient = googleAuthUiClient,
+                lifecycleScope = lifecycleScope,
+            )
+        }
+    }
 }

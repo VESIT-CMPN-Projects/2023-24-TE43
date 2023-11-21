@@ -46,6 +46,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.empoweher.LocationActivity
 import com.example.empoweher.R
 import com.example.empoweher.model.Screen
 @Composable
@@ -125,7 +126,8 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                 Box(
                     modifier = Modifier.size(180.dp)
                         .clickable {
-                            navigateToNextScreen(Screen.EventForm.route)
+                            val navigate = Intent(context, LocationActivity::class.java)
+                            context.startActivity(navigate)
                         }
                 ) {
                     Image(

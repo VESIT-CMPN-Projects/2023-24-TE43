@@ -9,11 +9,5 @@ import com.example.empoweher.LocationActivity
 
 @Composable
 fun Temp1(){
-    val context= LocalContext.current
-    Button(onClick = {
-        val navigate = Intent(context, LocationActivity::class.java)
-        context.startActivity(navigate)
-    }) {
-        Text(text = "Go to Location")
-    }
+
 }
