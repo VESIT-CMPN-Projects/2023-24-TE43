@@ -11,7 +11,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -24,11 +23,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -46,7 +43,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
@@ -59,7 +55,6 @@ import androidx.work.WorkManager
 import com.example.empoweher.R
 import com.example.empoweher.workers.SmsWorker
 import com.example.empoweher.model.LocationDetails
-import com.example.empoweher.model.Screen
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -75,14 +70,15 @@ class LocationActivity : ComponentActivity() {
     private lateinit var  periodicWorkRequest:PeriodicWorkRequest
     val channelId = "My_channel"
     val channelName= "My channel name"
-    lateinit var notificationChannel: NotificationChannel
-    lateinit var notificationBuilder: NotificationCompat.Builder
+    private lateinit var notificationChannel: NotificationChannel
+    private lateinit var notificationBuilder: NotificationCompat.Builder
     private lateinit var notification: Notification
     @RequiresApi(Build.VERSION_CODES.Q)
     private val permissions=arrayOf(
         android.Manifest.permission.ACCESS_COARSE_LOCATION,
         android.Manifest.permission.ACCESS_FINE_LOCATION,
-        android.Manifest.permission.SEND_SMS
+        android.Manifest.permission.SEND_SMS,
+        android.Manifest.permission.POST_NOTIFICATIONS
     )
     override fun onResume() {
         super.onResume()
@@ -97,7 +93,7 @@ class LocationActivity : ComponentActivity() {
             fusedLocationProviderClient?.removeLocationUpdates(it)
         }
     }
-    fun startLocationUpdates() {
+    private fun startLocationUpdates() {
         locationCallback?.let{
             val locationRequest=LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY,10000).setWaitForAccurateLocation(false).setMinUpdateIntervalMillis(10000).setMaxUpdateDelayMillis(100).build()
             if (ActivityCompat.checkSelfPermission(
@@ -269,14 +265,11 @@ class LocationActivity : ComponentActivity() {
                         .clickable {
                             WorkManager.getInstance(this@LocationActivity).cancelAllWork()
                             SmsWorker.isStopped = true
-                            Log.d("TAGAGAGAG", "Stopped Periodic Work!!")
                             dismissNotification()
                             Toast.makeText(
                                 this@LocationActivity,
                                 "Stopped Location Sharing!!",
                                 Toast.LENGTH_SHORT).show()
-
-
                         },
                     contentScale = ContentScale.FillBounds,
 
