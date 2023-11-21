@@ -140,7 +140,7 @@ fun SignInScreen(
                         .clickable {
                             val intent = Intent(
                                 Intent.ACTION_VIEW,
-                                Uri.parse("https://www.instagram.com/rajveer_tolani/")
+                                Uri.parse("https://www.instagram.com/aman_sande_2003/")
                             ).setPackage("com.instagram.android")
                             context.startActivity(intent)
                         },

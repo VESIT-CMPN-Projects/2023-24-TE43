@@ -107,6 +107,7 @@ dependencies {
     implementation("com.google.accompanist:accompanist-permissions:0.24.13-rc")
     implementation ("com.google.android.gms:play-services-location:21.0.1")
 
-    //Work Manager
+    //WorkManager
     implementation("androidx.work:work-runtime-ktx:2.8.1")
+
 }

@@ -1,4 +1,4 @@
-package com.example.empoweher.screen
+package com.example.empoweher.screen.app
 
 import android.os.Build
 import androidx.activity.ComponentActivity
@@ -34,6 +34,7 @@ import com.example.empoweher.auth.signin.SignInViewModel
 import com.example.empoweher.composables.DetailedEventCard
 import com.example.empoweher.composables.EventCard
 import com.example.empoweher.model.Screen
+import com.example.empoweher.screen.UpdateContactList
 import com.example.empoweher.screen.events.EventForm
 import com.example.empoweher.screen.events.Events
 import com.example.empoweher.screen.home.Home
@@ -276,6 +277,14 @@ fun App(
 
                 composable(route = Screen.Temp1.route) {
                     Temp1()
+                }
+
+                composable(route = Screen.ContactOption.route) {
+                    ContactOption(
+                        navigateToNextScreen = { route ->
+                            navController.navigate(route)
+                        }
+                    )
                 }
 
             }
