@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,6 +21,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Button
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -42,6 +48,7 @@ import com.example.empoweher.composables.EventCard
 import com.example.empoweher.R
 import com.example.empoweher.model.DataState
 import com.example.empoweher.model.Event
+import com.example.empoweher.model.Screen
 import com.example.empoweher.viewmodel.mainviewmodel
 import kotlinx.coroutines.delay
 
@@ -78,7 +85,29 @@ fun Events(navigateToNextScreen: (route: String)->Unit){
             }
         }
         is DataState.Success -> {
-            ShowLazyList(result.data,navigateToNextScreen)
+            Column(
+                modifier= Modifier
+                    .fillMaxSize()
+                    .background(colorResource(id = R.color.cream)),
+                horizontalAlignment = Alignment.CenterHorizontally
+
+            ) {
+                ShowLazyList(result.data,navigateToNextScreen)
+                Spacer(modifier = Modifier.height(20.dp))
+                FloatingActionButton(
+                    modifier=Modifier
+                        .align(Alignment.End)
+                        .padding(20.dp,10.dp)
+                        .size(80.dp),
+                    shape = CircleShape,
+                    onClick = {
+                              navigateToNextScreen(Screen.EventForm.route)
+                    },
+                ) {
+                    Icon(Icons.Filled.Add, "Floating action button.",modifier=Modifier.size(50.dp))
+                    }
+            }
+
         }
         is DataState.Failure -> {
             Box(
@@ -107,7 +136,10 @@ fun Events(navigateToNextScreen: (route: String)->Unit){
 
 @Composable
 fun ShowLazyList(event: MutableList<Event>,navigateToNextScreen: (route: String)->Unit) {
-    LazyColumn(modifier=Modifier.fillMaxSize().background(colorResource(id = R.color.cream))){
+    LazyColumn(modifier= Modifier
+        .fillMaxHeight(0.8f)
+        .fillMaxWidth()
+        .background(colorResource(id = R.color.cream))){
        items(event){each->
             Box(
                 modifier = Modifier

@@ -134,9 +134,6 @@ fun App(
                 }
                 composable(route = Screen.Home.route) {
                     Home(
-                        navigateToNextScreen = { route ->
-                            navController.navigate(route)
-                        }
                     )
                 }
                 composable(route = Screen.Safety.route) {
@@ -281,6 +278,14 @@ fun App(
 
                 composable(route = Screen.ContactOption.route) {
                     ContactOption(
+                        navigateToNextScreen = { route ->
+                            navController.navigate(route)
+                        }
+                    )
+                }
+
+                composable(route = Screen.Alerts.route) {
+                    Alerts(
                         navigateToNextScreen = { route ->
                             navController.navigate(route)
                         }

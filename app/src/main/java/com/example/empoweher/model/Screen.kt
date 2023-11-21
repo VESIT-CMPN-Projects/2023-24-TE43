@@ -19,4 +19,5 @@ sealed class Screen(val route:String)
     object AddContact: Screen(route = "addContact")
     object Temp1: Screen(route = "temp1")
     object ContactOption: Screen(route = "contactOptions")
+    object Alerts: Screen(route = "alerts")
 }
