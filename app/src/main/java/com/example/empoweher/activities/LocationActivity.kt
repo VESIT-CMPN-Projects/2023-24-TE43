@@ -1,6 +1,12 @@
 package com.example.empoweher.activities
 
 import android.Manifest
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -44,6 +50,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.work.BackoffPolicy
 import androidx.work.Data
@@ -66,6 +73,11 @@ class LocationActivity : ComponentActivity() {
     private lateinit var locationCallback: LocationCallback
     private var locationRequired: Boolean = false
     private lateinit var  periodicWorkRequest:PeriodicWorkRequest
+    val channelId = "My_channel"
+    val channelName= "My channel name"
+    lateinit var notificationChannel: NotificationChannel
+    lateinit var notificationBuilder: NotificationCompat.Builder
+    private lateinit var notification: Notification
     @RequiresApi(Build.VERSION_CODES.Q)
     private val permissions=arrayOf(
         android.Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -133,6 +145,30 @@ class LocationActivity : ComponentActivity() {
             }
         }
     }
+    private fun showNotification(context: Context, title:String, msg:String){
+        val notificationManager = context.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            notificationChannel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH)
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
+        val intent = Intent(context, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        notificationBuilder = NotificationCompat.Builder(context, channelId)
+        notificationBuilder.setSmallIcon(R.drawable.alert1)
+            .addAction(R.drawable.alert1, "Turn Off",pendingIntent)
+            .setContentTitle(title)
+            .setContentText(msg)
+            .setOngoing(true)
+            .setAutoCancel(true)
+        notification=notificationBuilder.build()
+        notificationManager.notify(100,notification)
+    }
+
+    private fun dismissNotification(){
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notification.flags = notification.flags or Notification.FLAG_AUTO_CANCEL
+        notificationManager.cancel(100)
+    }
     @RequiresApi(Build.VERSION_CODES.Q)
     @Composable
     fun LocationScreen(currentLocation:LocationDetails){
@@ -177,7 +213,7 @@ class LocationActivity : ComponentActivity() {
                                 }) {
                                 Toast.makeText(
                                     this@LocationActivity,
-                                    "Starting Periodic Work!!",
+                                    "Started Location Sharing!!",
                                     Toast.LENGTH_SHORT
                                 ).show()
 
@@ -201,6 +237,7 @@ class LocationActivity : ComponentActivity() {
                                                 PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS,
                                                 TimeUnit.MILLISECONDS
                                             ).setInputData(data).build()
+                                    showNotification(this@LocationActivity,"Location","Work Manager is Running......")
                                     WorkManager.getInstance(this@LocationActivity)
                                         .enqueue(periodicWorkRequest)
                                 }
@@ -233,10 +270,12 @@ class LocationActivity : ComponentActivity() {
                             WorkManager.getInstance(this@LocationActivity).cancelAllWork()
                             SmsWorker.isStopped = true
                             Log.d("TAGAGAGAG", "Stopped Periodic Work!!")
+                            dismissNotification()
                             Toast.makeText(
                                 this@LocationActivity,
-                                "Stopped Periodic Work!!",
+                                "Stopped Location Sharing!!",
                                 Toast.LENGTH_SHORT).show()
+
 
                         },
                     contentScale = ContentScale.FillBounds,
