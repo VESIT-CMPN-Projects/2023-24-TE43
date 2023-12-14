@@ -1,8 +1,5 @@
-package com.example.empoweher.screen.events
+package com.example.empoweher.screen.ask
 
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,44 +14,38 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Button
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.empoweher.composables.EventCard
 import com.example.empoweher.R
+import com.example.empoweher.composables.EventCard
 import com.example.empoweher.model.DataState
 import com.example.empoweher.model.Event
+import com.example.empoweher.model.Question
 import com.example.empoweher.model.Screen
-import com.example.empoweher.viewmodel.mainviewmodel
-import kotlinx.coroutines.delay
+import com.example.empoweher.screen.events.LoadingAnimation3
+import com.example.empoweher.viewmodel.QuestionViewModel
 
 @Composable
-fun Events(navigateToNextScreen: (route: String)->Unit){
-    val viewModel = viewModel { mainviewmodel() }
+fun Ask(navigateToNextScreen: (route: String)->Unit){
+    val viewModel = viewModel { QuestionViewModel() }
     when( val result= viewModel.response.value){
         is DataState.Loading -> {
             Box(
@@ -63,7 +54,7 @@ fun Events(navigateToNextScreen: (route: String)->Unit){
                     .background(colorResource(id = R.color.cream)),
                 contentAlignment = Alignment.Center
             ) {
-                Column(modifier=Modifier.align(Alignment.Center), horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(modifier= Modifier.align(Alignment.Center), horizontalAlignment = Alignment.CenterHorizontally) {
                     Image(
                         painter = painterResource(id = R.drawable.event_loading_page),
                         contentDescription = "cd"
@@ -84,7 +75,7 @@ fun Events(navigateToNextScreen: (route: String)->Unit){
                 }
             }
         }
-        is DataState.Success -> {
+        is DataState.SuccessQuestion -> {
             Column(
                 modifier= Modifier
                     .fillMaxSize()
@@ -92,20 +83,20 @@ fun Events(navigateToNextScreen: (route: String)->Unit){
                 horizontalAlignment = Alignment.CenterHorizontally
 
             ) {
-                ShowLazyList(result.data,navigateToNextScreen)
+                ShowLazyListQuestion(result.data,navigateToNextScreen)
                 Spacer(modifier = Modifier.height(20.dp))
                 FloatingActionButton(
-                    modifier=Modifier
+                    modifier= Modifier
                         .align(Alignment.End)
                         .padding(20.dp,10.dp)
                         .size(80.dp),
                     shape = CircleShape,
                     onClick = {
-                              navigateToNextScreen(Screen.EventForm.route)
+                        navigateToNextScreen(Screen.EventForm.route)
                     },
                 ) {
-                    Icon(Icons.Filled.Add, "Floating action button.",modifier=Modifier.size(50.dp))
-                    }
+                    Icon(Icons.Filled.Add, "Floating action button.",modifier= Modifier.size(50.dp))
+                }
             }
 
         }
@@ -135,12 +126,12 @@ fun Events(navigateToNextScreen: (route: String)->Unit){
 }
 
 @Composable
-fun ShowLazyList(event: MutableList<Event>,navigateToNextScreen: (route: String)->Unit) {
+fun ShowLazyListQuestion(event: MutableList<Question>, navigateToNextScreen: (route: String)->Unit) {
     LazyColumn(modifier= Modifier
         .fillMaxHeight(0.8f)
         .fillMaxWidth()
         .background(colorResource(id = R.color.cream))){
-       items(event){each->
+        items(event){each->
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -151,90 +142,12 @@ fun ShowLazyList(event: MutableList<Event>,navigateToNextScreen: (route: String)
                     },
             ) {
                 EventCard(
-                    eventId=each.eventId!!,
-                    eventTitle = each.eventName!!,
-                    eventCity=each.city!!,
-                    eventCapacity = each.capacity!!,
-                    eventStartDate = each.startDate!!,
-                    eventEndDate = each.endDate!!,
-                    eventTiming = each.timing!!,
-                    eventCost = each.eventCost!!,
-                    eventImage = each.eventImage!!,
+                    eventId=each.questionId!!,
+                    eventTitle = each.question!!,
                     navigateToNextScreen = navigateToNextScreen,
-                    eventTag=each.tag!!
                 )
             }
         }
     }
 }
 
-@Composable
-fun LoadingAnimation3(
-    circleColor: Color = Color(0xFF35898F),
-    circleSize: Dp = 15.dp,
-    animationDelay: Int = 400,
-    initialAlpha: Float = 0.3f
-) {
-
-    // 3 circles
-    val circles = listOf(
-        remember {
-            androidx.compose.animation.core.Animatable(initialValue = initialAlpha)
-        },
-        remember {
-            androidx.compose.animation.core.Animatable(initialValue = initialAlpha)
-        },
-        remember {
-            androidx.compose.animation.core.Animatable(initialValue = initialAlpha)
-        }
-    )
-
-    circles.forEachIndexed { index, animatable ->
-
-        LaunchedEffect(Unit) {
-
-            // Use coroutine delay to sync animations
-            delay(timeMillis = (animationDelay / circles.size).toLong() * index)
-
-            animatable.animateTo(
-                targetValue = 1f,
-                animationSpec = infiniteRepeatable(
-                    animation = tween(
-                        durationMillis = animationDelay
-                    ),
-                    repeatMode = RepeatMode.Reverse
-                )
-            )
-        }
-    }
-
-    // container for circles
-    Row(
-        modifier = Modifier
-        //.border(width = 2.dp, color = Color.Magenta)
-    ) {
-
-        // adding each circle
-        circles.forEachIndexed { index, animatable ->
-
-            // gap between the circles
-            if (index != 0) {
-                Spacer(modifier = Modifier.width(width = 6.dp))
-            }
-
-            Box(
-                modifier = Modifier
-                    .size(size = circleSize)
-                    .clip(shape = CircleShape)
-                    .background(
-                        color = circleColor
-                            .copy(alpha = animatable.value)
-                    )
-            ) {
-            }
-        }
-    }
-}
-
-//%2F ---->For /
-//%3A ----->For :

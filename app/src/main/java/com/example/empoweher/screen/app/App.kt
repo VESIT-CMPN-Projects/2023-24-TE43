@@ -35,6 +35,7 @@ import com.example.empoweher.composables.DetailedEventCard
 import com.example.empoweher.composables.EventCard
 import com.example.empoweher.model.Screen
 import com.example.empoweher.screen.UpdateContactList
+import com.example.empoweher.screen.ask.Ask
 import com.example.empoweher.screen.events.EventForm
 import com.example.empoweher.screen.events.Events
 import com.example.empoweher.screen.home.Home
@@ -286,6 +287,14 @@ fun App(
 
                 composable(route = Screen.Alerts.route) {
                     Alerts(
+                        navigateToNextScreen = { route ->
+                            navController.navigate(route)
+                        }
+                    )
+                }
+
+                composable(route = Screen.Ask.route) {
+                    Ask(
                         navigateToNextScreen = { route ->
                             navController.navigate(route)
                         }

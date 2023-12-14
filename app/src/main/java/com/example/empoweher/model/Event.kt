@@ -1,6 +1,5 @@
 package com.example.empoweher.model
 
-import android.net.Uri
 
 data class Event (
     var eventId : String?=null,
