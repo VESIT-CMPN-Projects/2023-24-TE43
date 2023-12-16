@@ -303,11 +303,19 @@ fun App(
                 }
 
                 composable(route = Screen.Details.route) {
+                    LaunchedEffect(shouldShowScaffold){
+                        shouldShowScaffold = false
+                    }
                     Details(
                         navigateToNextScreen = { route ->
                             navController.navigate(route)
                         }
                     )
+                    DisposableEffect(shouldShowScaffold) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
                 }
 
             }
