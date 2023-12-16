@@ -1,10 +1,13 @@
 package com.example.empoweher.screen.Details
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,9 +15,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -48,10 +55,62 @@ import com.google.firebase.database.FirebaseDatabase
 
 
 @Composable
-fun Details(navigateToNextScreen: (route: String)->Unit){
-    var name by remember{
-        mutableStateOf("")
+fun DetailsInterests(navigateToNextScreen: (route: String)->Unit){
+
+    var education by remember {
+        mutableStateOf(false)
     }
+
+    var safety by remember {
+        mutableStateOf(false)
+    }
+
+    var exploratory by remember {
+        mutableStateOf(false)
+    }
+
+    var dailyGuidance by remember {
+        mutableStateOf(false)
+    }
+
+    var technical by remember {
+        mutableStateOf(false)
+    }
+
+    var health by remember {
+        mutableStateOf(false)
+    }
+
+    var astrology by remember {
+        mutableStateOf(false)
+    }
+
+    var spiritual by remember {
+        mutableStateOf(false)
+    }
+
+    var childProblems by remember {
+        mutableStateOf(false)
+    }
+
+    var empowerment by remember {
+        mutableStateOf(false)
+    }
+
+    var history by remember {
+        mutableStateOf(false)
+    }
+
+    var socialAffairs by remember {
+        mutableStateOf(false)
+    }
+    var arts by remember {
+        mutableStateOf(false)
+    }
+    var careerGuidance by remember {
+        mutableStateOf(false)
+    }
+
 
     val currentFirebaseUser = FirebaseAuth.getInstance().currentUser.toString()
 
@@ -75,28 +134,40 @@ fun Details(navigateToNextScreen: (route: String)->Unit){
                 .size(80.dp),
             contentScale = ContentScale.Crop
         )
-        Spacer(modifier = Modifier.height(75.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         Text(
-            text = "Add Your Name",
+            text = "You're Interested In?",
             fontSize = 25.sp,
             fontFamily = FontFamily(Font(R.font.font1)),
             fontWeight = FontWeight.Bold,
             color = colorResource(R.color.black)
 
         )
-        OutlinedTextField(
-            value = name,
-            label = { Text(text = "Enter Name") },
-            textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
-            onValueChange = { str ->
-                name = str
-            },modifier= Modifier
-                .padding(end = 10.dp)
-                .padding(top = 10.dp)
-                .fillMaxWidth()
-        )
 
-        Spacer(modifier = Modifier.height(60.dp))
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Column(
+            modifier=Modifier
+                .fillMaxWidth()
+                .height(630.dp)
+                .border(BorderStroke(2.dp, Color.Black))
+        ) {
+            InterestCheckBox(title = "Education", value = education, onValueChange = {education=it})
+            InterestCheckBox(title = "Safety", value = safety, onValueChange = {safety=it})
+            InterestCheckBox(title = "Empowerment", value = empowerment, onValueChange = {empowerment=it})
+            InterestCheckBox(title = "Daily Guidance", value = dailyGuidance, onValueChange = {dailyGuidance=it})
+            InterestCheckBox(title = "Arts", value = arts, onValueChange = {arts=it})
+            InterestCheckBox(title = "Technical", value = technical, onValueChange = {technical=it})
+            InterestCheckBox(title = "Exploratory", value = exploratory, onValueChange = {exploratory=it})
+            InterestCheckBox(title = "Child Problems", value = childProblems, onValueChange = {childProblems=it})
+            InterestCheckBox(title = "Astrology", value = astrology, onValueChange = {astrology=it})
+            InterestCheckBox(title = "Health", value = health, onValueChange = {health=it})
+            InterestCheckBox(title = "Spiritual", value = spiritual, onValueChange = {spiritual=it})
+            InterestCheckBox(title = "History", value = history, onValueChange = {history=it})
+            InterestCheckBox(title = "Career Guidance", value = careerGuidance, onValueChange = {careerGuidance=it})
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
 
         Button(
             modifier = Modifier
@@ -108,8 +179,8 @@ fun Details(navigateToNextScreen: (route: String)->Unit){
             )
             ,
             onClick = {
-                dbref.child("Pokemon").child("name").setValue(name)
-                navigateToNextScreen(Screen.DetailsDesignation.route)
+
+                navigateToNextScreen(Screen.DetailsDp.route)
 
             }) {
 
@@ -127,46 +198,31 @@ fun Details(navigateToNextScreen: (route: String)->Unit){
 }
 
 @Composable
-private fun GradientButton(
-    gradientColors: List<Color>,
-    cornerRadius: Dp
-) {
-
-    var clickCount by remember {
-        mutableStateOf(0)
-    }
-
-    Button(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 32.dp, end = 32.dp),
-        onClick = {
-            clickCount++
-        },
-        contentPadding = PaddingValues(),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Transparent
-        ),
-        shape = RoundedCornerShape(cornerRadius)
+fun InterestCheckBox(
+    title:String,
+    value:Boolean,
+    onValueChange:(Boolean)->Unit
+){
+    Row(
+        Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
     ) {
+        Checkbox(
+            checked = value,
+            modifier = Modifier.padding(end=10.dp),
+            onCheckedChange = onValueChange,
+        )
+        Text(
+            text = title,
+            fontSize = 25.sp,
+            fontFamily = FontFamily(Font(R.font.font1)),
+            fontWeight = FontWeight.Bold,
+            color = colorResource(R.color.black)
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    brush = Brush.linearGradient(colors = gradientColors),
-                    shape = RoundedCornerShape(cornerRadius)
-                )
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "Click $clickCount",
-                fontSize = 20.sp,
-                color = Color.White
-            )
-        }
+        )
+
     }
-}
 
+
+}
 

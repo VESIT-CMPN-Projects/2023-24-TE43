@@ -649,7 +649,6 @@ fun EventForm(){
                 val launcher =
                     rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri ->
                         selectedImage = uri
-                        Log.d("JWSH",selectedImage.toString())
                     }
                     val painter = rememberAsyncImagePainter(selectedImage)
 

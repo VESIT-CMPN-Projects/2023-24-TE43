@@ -1,5 +1,6 @@
 package com.example.empoweher.screen.Details
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -30,6 +31,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
@@ -48,8 +50,15 @@ import com.google.firebase.database.FirebaseDatabase
 
 
 @Composable
-fun Details(navigateToNextScreen: (route: String)->Unit){
-    var name by remember{
+fun DetailsDesignation(navigateToNextScreen: (route: String)->Unit){
+
+    val context= LocalContext.current
+
+    var designation by remember{
+        mutableStateOf("")
+    }
+
+    var bio by remember{
         mutableStateOf("")
     }
 
@@ -59,7 +68,6 @@ fun Details(navigateToNextScreen: (route: String)->Unit){
         .getReference("Users");
 
 //    dbref.child(currentFirebaseUser).child("name").setValue("hello")
-//    dbref.child("Pokemon").child("name").setValue("hello")
 
     Column(
         modifier= Modifier
@@ -77,7 +85,7 @@ fun Details(navigateToNextScreen: (route: String)->Unit){
         )
         Spacer(modifier = Modifier.height(75.dp))
         Text(
-            text = "Add Your Name",
+            text = "Add Designation",
             fontSize = 25.sp,
             fontFamily = FontFamily(Font(R.font.font1)),
             fontWeight = FontWeight.Bold,
@@ -85,15 +93,52 @@ fun Details(navigateToNextScreen: (route: String)->Unit){
 
         )
         OutlinedTextField(
-            value = name,
-            label = { Text(text = "Enter Name") },
+            value = designation,
+            label = { Text(text = "Designation") },
             textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
             onValueChange = { str ->
-                name = str
+                if(str.length<=100){
+                    designation = str
+                }
+                else{
+                    Toast.makeText(context,"Only 100 characters Allowed", Toast.LENGTH_SHORT).show()
+
+                }
+
             },modifier= Modifier
                 .padding(end = 10.dp)
                 .padding(top = 10.dp)
                 .fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(50.dp))
+
+        Text(
+            text = "Add Bio",
+            fontSize = 25.sp,
+            fontFamily = FontFamily(Font(R.font.font1)),
+            fontWeight = FontWeight.Bold,
+            color = colorResource(R.color.black)
+
+        )
+        OutlinedTextField(
+            value = bio,
+            label = { Text(text = "Short Description About Yourself") },
+            textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
+            onValueChange = { str ->
+                if(str.length<=100){
+                    bio = str
+                }
+                else{
+                    Toast.makeText(context,"Only 1000 characters Allowed", Toast.LENGTH_SHORT).show()
+
+                }
+
+            },modifier= Modifier
+                .padding(end = 10.dp)
+                .padding(top = 10.dp)
+                .fillMaxWidth()
+                .height(300.dp)
         )
 
         Spacer(modifier = Modifier.height(60.dp))
@@ -108,8 +153,10 @@ fun Details(navigateToNextScreen: (route: String)->Unit){
             )
             ,
             onClick = {
-                dbref.child("Pokemon").child("name").setValue(name)
-                navigateToNextScreen(Screen.DetailsDesignation.route)
+                dbref.child("Pokemon").child("designation").setValue(designation)
+                dbref.child("Pokemon").child("bio").setValue(bio)
+                navigateToNextScreen(Screen.DetailsInterests.route)
+
 
             }) {
 

@@ -35,6 +35,9 @@ import com.example.empoweher.composables.DetailedEventCard
 import com.example.empoweher.composables.EventCard
 import com.example.empoweher.model.Screen
 import com.example.empoweher.screen.Details.Details
+import com.example.empoweher.screen.Details.DetailsDesignation
+import com.example.empoweher.screen.Details.DetailsDp
+import com.example.empoweher.screen.Details.DetailsInterests
 import com.example.empoweher.screen.UpdateContactList
 import com.example.empoweher.screen.ask.Ask
 import com.example.empoweher.screen.events.EventForm
@@ -311,11 +314,34 @@ fun App(
                             navController.navigate(route)
                         }
                     )
+
+                }
+                composable(route = Screen.DetailsDesignation.route) {
+
+                    DetailsDesignation(
+                        navigateToNextScreen = { route ->
+                            navController.navigate(route)
+                        }
+                    )
+
+                }
+                composable(route = Screen.DetailsInterests.route) {
+                    DetailsInterests(navigateToNextScreen = { route ->
+                        navController.navigate(route)
+                    })
+
+
+                }
+                composable(route = Screen.DetailsDp.route) {
+                    DetailsDp(navigateToNextScreen = { route ->
+                        navController.navigate(route)
+                    })
                     DisposableEffect(shouldShowScaffold) {
                         onDispose {
                             shouldShowScaffold = true
                         }
                     }
+
                 }
 
             }
