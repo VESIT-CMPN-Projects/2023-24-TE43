@@ -154,14 +154,7 @@ fun SignInScreen(
                     contentDescription = "facebook",
                     modifier = Modifier
                         .size(60.dp)
-                        .clip(RoundedCornerShape(15.dp))
-                        .clickable {
-                            val intent = Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse("https://www.facebook.com/")
-                            ).setPackage("com.instagram.android")
-                            context.startActivity(intent)
-                        },
+                        .clip(RoundedCornerShape(15.dp)),
                     contentScale = ContentScale.Fit
                 )
                 Spacer(modifier = Modifier.width(10.dp))
@@ -170,14 +163,7 @@ fun SignInScreen(
                     contentDescription = "twitter",
                     modifier = Modifier
                         .size(60.dp)
-                        .clip(RoundedCornerShape(15.dp))
-                        .clickable{
-                            val intent = Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse("https://www.twitter.com/")
-                            ).setPackage("com.instagram.android")
-                            context.startActivity(intent)
-                        },
+                        .clip(RoundedCornerShape(15.dp)),
                     contentScale = ContentScale.Fit
                 )
             }

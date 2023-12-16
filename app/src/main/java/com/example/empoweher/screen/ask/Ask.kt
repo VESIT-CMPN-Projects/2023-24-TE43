@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.empoweher.R
 import com.example.empoweher.composables.EventCard
+import com.example.empoweher.composables.QuestionCard
 import com.example.empoweher.model.DataState
 import com.example.empoweher.model.Event
 import com.example.empoweher.model.Question
@@ -84,21 +85,7 @@ fun Ask(navigateToNextScreen: (route: String)->Unit){
 
             ) {
                 ShowLazyListQuestion(result.data,navigateToNextScreen)
-                Spacer(modifier = Modifier.height(20.dp))
-                FloatingActionButton(
-                    modifier= Modifier
-                        .align(Alignment.End)
-                        .padding(20.dp,10.dp)
-                        .size(80.dp),
-                    shape = CircleShape,
-                    onClick = {
-                        navigateToNextScreen(Screen.EventForm.route)
-                    },
-                ) {
-                    Icon(Icons.Filled.Add, "Floating action button.",modifier= Modifier.size(50.dp))
-                }
             }
-
         }
         is DataState.Failure -> {
             Box(
@@ -129,8 +116,7 @@ fun Ask(navigateToNextScreen: (route: String)->Unit){
 fun ShowLazyListQuestion(event: MutableList<Question>, navigateToNextScreen: (route: String)->Unit) {
     LazyColumn(modifier= Modifier
         .fillMaxHeight(0.8f)
-        .fillMaxWidth()
-        .background(colorResource(id = R.color.cream))){
+        .fillMaxWidth()){
         items(event){each->
             Box(
                 modifier = Modifier
@@ -141,9 +127,11 @@ fun ShowLazyListQuestion(event: MutableList<Question>, navigateToNextScreen: (ro
 
                     },
             ) {
-                EventCard(
-                    eventId=each.questionId!!,
-                    eventTitle = each.question!!,
+                QuestionCard(
+                    questionId=each.questionId!!,
+                    question = each.question!!,
+                    userName="Mighty Raju",
+                    profession="Plumber",
                     navigateToNextScreen = navigateToNextScreen,
                 )
             }
