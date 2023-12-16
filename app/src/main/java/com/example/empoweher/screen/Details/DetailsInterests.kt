@@ -1,5 +1,6 @@
 package com.example.empoweher.screen.Details
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -65,7 +66,7 @@ fun DetailsInterests(navigateToNextScreen: (route: String)->Unit){
         mutableStateOf(false)
     }
 
-    var exploratory by remember {
+    var socialAffairs by remember {
         mutableStateOf(false)
     }
 
@@ -101,9 +102,6 @@ fun DetailsInterests(navigateToNextScreen: (route: String)->Unit){
         mutableStateOf(false)
     }
 
-    var socialAffairs by remember {
-        mutableStateOf(false)
-    }
     var arts by remember {
         mutableStateOf(false)
     }
@@ -158,7 +156,7 @@ fun DetailsInterests(navigateToNextScreen: (route: String)->Unit){
             InterestCheckBox(title = "Daily Guidance", value = dailyGuidance, onValueChange = {dailyGuidance=it})
             InterestCheckBox(title = "Arts", value = arts, onValueChange = {arts=it})
             InterestCheckBox(title = "Technical", value = technical, onValueChange = {technical=it})
-            InterestCheckBox(title = "Exploratory", value = exploratory, onValueChange = {exploratory=it})
+            InterestCheckBox(title = "Exploratory", value = socialAffairs, onValueChange = {socialAffairs=it})
             InterestCheckBox(title = "Child Problems", value = childProblems, onValueChange = {childProblems=it})
             InterestCheckBox(title = "Astrology", value = astrology, onValueChange = {astrology=it})
             InterestCheckBox(title = "Health", value = health, onValueChange = {health=it})
@@ -180,6 +178,49 @@ fun DetailsInterests(navigateToNextScreen: (route: String)->Unit){
             ,
             onClick = {
 
+                val list= mutableListOf<String>()
+                if (education){
+                    list+="Education"
+                }
+                if (socialAffairs){
+                    list.add("Social Affairs")
+                }
+                if (safety){
+                    list.add("Education")
+                }
+                if (dailyGuidance){
+                    list.add("Daily Guidance")
+                }
+                if (technical){
+                    list.add("Technical")
+                }
+                if (health){
+                    list.add("Health")
+                }
+                if (astrology){
+                    list.add("Astrology")
+                }
+                if (spiritual){
+                    list.add("Spiritual")
+                }
+                if (childProblems){
+                    list.add("Child Problems")
+                }
+                if (empowerment){
+                    list.add("Empowerment")
+                }
+                if (history){
+                    list.add("History")
+                }
+                if (arts){
+                    list.add("Arts")
+                }
+                if (careerGuidance){
+                    list.add("Career Guidance")
+                }
+
+                dbref.child("Pokemon").child("interests").setValue(list)
+                Log.d("JWSH",list.toString())
                 navigateToNextScreen(Screen.DetailsDp.route)
 
             }) {

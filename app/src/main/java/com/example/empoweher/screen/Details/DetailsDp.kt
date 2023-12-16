@@ -40,6 +40,7 @@ import com.example.empoweher.R
 import com.example.empoweher.model.Screen
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 
 
 @Composable
@@ -137,6 +138,14 @@ fun DetailsDp(navigateToNextScreen: (route: String)->Unit){
             )
             ,
             onClick = {
+                val storage= FirebaseStorage.getInstance()
+                val ref= storage.getReference()
+                    .child("Pokemon"+"/"+"Profile Picture")
+                ref.putFile(selectedImage!!).addOnSuccessListener {
+                    ref.getDownloadUrl().addOnSuccessListener { it
+                        dbref.child("Pokemon").child("Dp").setValue(it.toString())
+                    }
+                }
                 navigateToNextScreen(Screen.Home.route)
 
             }) {

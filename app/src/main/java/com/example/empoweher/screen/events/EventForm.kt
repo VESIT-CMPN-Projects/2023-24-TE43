@@ -810,7 +810,7 @@ fun EventForm(){
                 Button(onClick = {
                     if (name.isNotEmpty()  && description.isNotEmpty() && address.isNotEmpty() && city.isNotEmpty() && hour.isNotEmpty() && minute.isNotEmpty() && second.isNotEmpty() && duration.isNotEmpty() && tag.isNotEmpty() && selectedImage.toString().isNotEmpty() && cost.isNotEmpty() && capacity.isNotEmpty() && contactNumber.isNotEmpty()) {
                         val dbref = FirebaseDatabase.getInstance()
-                            .getReference("Event");
+                            .getReference("Event")
                         val id = dbref.push().key!!
                         val current = LocalDateTime.now()
                         val currentFirebaseUser = FirebaseAuth.getInstance().currentUser
