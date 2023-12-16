@@ -82,7 +82,5 @@ fun Alerts(navigateToNextScreen: (route: String)->Unit){
             color = colorResource(R.color.purple_200),
             modifier = Modifier.padding(bottom=20.dp)
         )
-
-
     }
 }

@@ -102,7 +102,7 @@ fun AddContact(){
                         },modifier=Modifier.padding(end = 10.dp))
 
 
-                }
+                    }
                 Spacer(Modifier.height(50.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
