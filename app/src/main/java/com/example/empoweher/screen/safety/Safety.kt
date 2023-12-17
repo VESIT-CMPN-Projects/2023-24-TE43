@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.empoweher.R
 import com.example.empoweher.activities.LocationActivity
+import com.example.empoweher.composables.Exoplayer
 import com.example.empoweher.model.Screen
 
 @Preview()
@@ -104,15 +105,22 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                             .size(140.dp),colors = CardDefaults.cardColors(
                             containerColor = Color.White),
                             elevation = CardDefaults.cardElevation(20.dp)){
-                            Image(modifier= Modifier
-                                .size(140.dp)
-                                .clip(RoundedCornerShape(40.dp))
-                                .clickable {
-                                           navigateToNextScreen(Screen.FakeCall.route)
-                                },
-                                painter = painterResource(id = R.drawable.fakecall) ,
-                                contentDescription = "fakecall",
-                                contentScale = ContentScale.Fit)
+//                            Image(modifier= Modifier
+//                                .size(140.dp)
+//                                .clip(RoundedCornerShape(40.dp))
+//                                .clickable {
+//                                           navigateToNextScreen(Screen.FakeCall.route)
+//                                },
+//                                painter = painterResource(id = R.drawable.fakecall) ,
+//                                contentDescription = "fakecall",
+//                                contentScale = ContentScale.Fit)
+                            Box(modifier = Modifier
+                                    .size(140.dp)
+                                    .clickable {
+                                               navigateToNextScreen(Screen.FakeCall.route)
+                                    } ) {
+                                Exoplayer(uri = Uri.parse("android.resource://com.example.empoweher/raw/fakecall"))
+                            }
                         }
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(
@@ -135,10 +143,10 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                                 .clip(RoundedCornerShape(40.dp))
                                 .clickable {
                                     val intent = Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse("https://www.google.com/maps/search/nearby+police+station/")
-                            ).setPackage("com.google.android.apps.maps")
-                            context.startActivity(intent)
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse("https://www.google.com/maps/search/nearby+police+station/")
+                                    ).setPackage("com.google.android.apps.maps")
+                                    context.startActivity(intent)
                                 },
                                 painter = painterResource(id = R.drawable.policestation1) ,
                                 contentDescription = "map",

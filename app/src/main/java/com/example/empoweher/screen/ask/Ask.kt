@@ -1,5 +1,6 @@
 package com.example.empoweher.screen.ask
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.empoweher.R
 import com.example.empoweher.composables.EventCard
+import com.example.empoweher.composables.Exoplayer
 import com.example.empoweher.model.DataState
 import com.example.empoweher.model.Event
 import com.example.empoweher.model.Question
@@ -55,10 +57,7 @@ fun Ask(navigateToNextScreen: (route: String)->Unit){
                 contentAlignment = Alignment.Center
             ) {
                 Column(modifier= Modifier.align(Alignment.Center), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Image(
-                        painter = painterResource(id = R.drawable.event_loading_page),
-                        contentDescription = "cd"
-                    )
+                    Exoplayer(uri = Uri.parse("android.resource://com.example.empoweher/raw/asknew"))
                     Spacer(modifier = Modifier.height(50.dp))
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                         Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
@@ -88,7 +87,7 @@ fun Ask(navigateToNextScreen: (route: String)->Unit){
                 FloatingActionButton(
                     modifier= Modifier
                         .align(Alignment.End)
-                        .padding(20.dp,10.dp)
+                        .padding(20.dp, 10.dp)
                         .size(80.dp),
                     shape = CircleShape,
                     onClick = {
