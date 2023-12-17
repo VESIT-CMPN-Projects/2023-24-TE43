@@ -15,7 +15,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -65,6 +67,7 @@ fun DetailsDp(navigateToNextScreen: (route: String)->Unit){
             .fillMaxSize()
             .background(colorResource(id = R.color.cream))
             .padding(20.dp)
+            .verticalScroll(rememberScrollState())
 
     ) {
         Image(
@@ -91,7 +94,8 @@ fun DetailsDp(navigateToNextScreen: (route: String)->Unit){
                 }
         val painter = rememberAsyncImagePainter(selectedImage)
         Column(
-                modifier=Modifier.fillMaxWidth(),
+                modifier=Modifier
+                    .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
 
@@ -142,10 +146,10 @@ fun DetailsDp(navigateToNextScreen: (route: String)->Unit){
             onClick = {
                 val storage= FirebaseStorage.getInstance()
                 val ref= storage.getReference()
-                    .child("Pokemon"+"/"+"Profile Picture")
+                    .child("Aman Hande"+"/"+"Profile Picture")
                 ref.putFile(selectedImage!!).addOnSuccessListener {
                     ref.getDownloadUrl().addOnSuccessListener { it
-                        dbref.child("Pokemon").child("Dp").setValue(it.toString())
+                        dbref.child("Aman Hande").child("Dp").setValue(it.toString())
                     }
                 }
                 navigateToNextScreen(Screen.Home.route)

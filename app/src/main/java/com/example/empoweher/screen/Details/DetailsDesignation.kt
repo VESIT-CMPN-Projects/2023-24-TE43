@@ -155,8 +155,8 @@ fun DetailsDesignation(navigateToNextScreen: (route: String)->Unit){
             )
             ,
             onClick = {
-                dbref.child("Pokemon").child("designation").setValue(designation)
-                dbref.child("Pokemon").child("bio").setValue(bio)
+                dbref.child("Aman Hande").child("designation").setValue(designation)
+                dbref.child("Aman Hande").child("bio").setValue(bio)
                 navigateToNextScreen(Screen.DetailsInterests.route)
 
 

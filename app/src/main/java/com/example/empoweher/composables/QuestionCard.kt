@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -69,6 +70,7 @@ fun QuestionCard (navigateToNextScreen:(route:String)->Unit,
                 Image(
                     painter = painter,
                     contentDescription = "cd",
+                    contentScale = ContentScale.FillBounds,
                     modifier = Modifier
                         .height(45.dp)
                         .clip(CircleShape)

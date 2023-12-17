@@ -123,6 +123,7 @@ fun DetailsInterests(navigateToNextScreen: (route: String)->Unit){
             .fillMaxSize()
             .background(colorResource(id = R.color.cream))
             .padding(20.dp)
+            .verticalScroll(rememberScrollState())
 
     ) {
         Image(
@@ -219,8 +220,7 @@ fun DetailsInterests(navigateToNextScreen: (route: String)->Unit){
                     list.add("Career Guidance")
                 }
 
-                dbref.child("Pokemon").child("interests").setValue(list)
-                Log.d("JWSH",list.toString())
+                dbref.child("Aman Hande").child("interests").setValue(list)
                 navigateToNextScreen(Screen.DetailsDp.route)
 
             }) {
