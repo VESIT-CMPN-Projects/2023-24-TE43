@@ -49,132 +49,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.empoweher.R
 import com.example.empoweher.activities.LocationActivity
+import com.example.empoweher.composables.Exoplayer
 import com.example.empoweher.model.Screen
-//@Composable
-//fun Safety(navigateToNextScreen: (route: String)->Unit) {
-//    val context=LocalContext.current
-//    Text(
-//        text = "Safety Features",
-//        textAlign = TextAlign.Center,
-//        fontSize = 40.sp,
-//        fontWeight = FontWeight.Bold,
-//        modifier = Modifier.padding(top = 40.dp, start = 40.dp),
-//        fontFamily = FontFamily(
-//            Font(R.font.font1)
-//        )
-//    )
-//    Column(
-//        modifier = Modifier.fillMaxSize(),
-//        verticalArrangement = Arrangement.Center,
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ) {
-//        Row(Modifier.padding(8.dp), Arrangement.SpaceBetween) {
-//            Column {
-//                Box(modifier = Modifier
-//                    .size(180.dp)
-//                    .clickable {
-//                        navigateToNextScreen(Screen.FakeCall.route)
-//                    }
-//                ) {
-//                    Image(
-//                        painter = painterResource(id = R.drawable.fakecall),
-//                        contentDescription = "FakeCall",
-//                        contentScale = ContentScale.Fit, modifier = Modifier.clip(CircleShape)
-//                    )
-//                }
-//                Text(
-//                    text = "Fake Call",
-//                    fontWeight = FontWeight.Bold,
-//                    modifier = Modifier.align(Alignment.CenterHorizontally),
-//                    fontSize = 20.sp, fontFamily = FontFamily(
-//                        Font(R.font.font1)
-//                    )
-//                )
-//            }
-//            Column {
-//                Box(modifier = Modifier
-//                    .size(180.dp)
-//                ) {
-//                    Image(
-//                        painter = painterResource(id = R.drawable.police),
-//                        contentDescription = "Police",
-//                        contentScale = ContentScale.Fit,
-//                        modifier = Modifier.clickable {
-//
-//                            val intent = Intent(
-//                                Intent.ACTION_VIEW,
-//                                Uri.parse("https://www.google.com/maps/search/nearby+police+station/")
-//                            ).setPackage("com.google.android.apps.maps")
-//                            context.startActivity(intent)
-//                        }
-//
-//                    )
-//                }
-//                Text(
-//                    text = "Police",
-//                    fontWeight = FontWeight.Bold,
-//                    modifier = Modifier.align(Alignment.CenterHorizontally),
-//                    fontSize = 20.sp,
-//                    fontFamily = FontFamily(
-//                        Font(R.font.font1)
-//                    )
-//                )
-//            }
-//        }
-//        Spacer(modifier = Modifier.width(20.dp))
-//        Row(Modifier.padding(8.dp), Arrangement.SpaceEvenly) {
-//            Column {
-//                Box(
-//                    modifier = Modifier.size(180.dp)
-//                        .clickable {
-//                            navigateToNextScreen(Screen.EventForm.route)
-//                        }
-//                ) {
-//                    Image(
-//                        painter = painterResource(id = R.drawable.alert),
-//                        contentDescription = "Alert",
-//                        contentScale = ContentScale.Fit, modifier = Modifier.clip(CircleShape)
-//                    )
-//                }
-//                Text(
-//                    text = "Alert",
-//                    fontWeight = FontWeight.Bold,
-//                    modifier = Modifier.align(Alignment.CenterHorizontally),
-//                    fontSize = 20.sp,
-//                    fontFamily = FontFamily(
-//                        Font(R.font.font1)
-//                    )
-//                )
-//            }
-//            Column {
-//                Box(
-//                    modifier = Modifier
-//                        .size(180.dp)
-//                        .clickable {
-//                            navigateToNextScreen(Screen.ContactOption.route)
-//
-//                        }
-//                ) {
-//                    Image(
-//                        painter = painterResource(id = R.drawable.emergency),
-//                        contentDescription = "Emergency",
-//                        contentScale = ContentScale.Fit, modifier = Modifier.clip(CircleShape)
-//                    )
-//                }
-//                Text(
-//                    text = "Emergency",
-//                    fontWeight = FontWeight.Bold,
-//                    modifier = Modifier
-//                        .align(Alignment.CenterHorizontally),
-//                    fontSize = 20.sp,
-//                    fontFamily = FontFamily(
-//                        Font(R.font.font1)
-//                    )
-//                )
-//            }
-//        }
-//    }
-//}
+
 @Preview()
 @Composable
 fun Safety(navigateToNextScreen: (route: String)->Unit) {
@@ -228,15 +105,22 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                             .size(140.dp),colors = CardDefaults.cardColors(
                             containerColor = Color.White),
                             elevation = CardDefaults.cardElevation(20.dp)){
-                            Image(modifier= Modifier
-                                .size(140.dp)
-                                .clip(RoundedCornerShape(40.dp))
-                                .clickable {
-                                           navigateToNextScreen(Screen.FakeCall.route)
-                                },
-                                painter = painterResource(id = R.drawable.fakecall) ,
-                                contentDescription = "fakecall",
-                                contentScale = ContentScale.Fit)
+//                            Image(modifier= Modifier
+//                                .size(140.dp)
+//                                .clip(RoundedCornerShape(40.dp))
+//                                .clickable {
+//                                           navigateToNextScreen(Screen.FakeCall.route)
+//                                },
+//                                painter = painterResource(id = R.drawable.fakecall) ,
+//                                contentDescription = "fakecall",
+//                                contentScale = ContentScale.Fit)
+                            Box(modifier = Modifier
+                                    .size(140.dp)
+                                    .clickable {
+                                               navigateToNextScreen(Screen.FakeCall.route)
+                                    } ) {
+                                Exoplayer(uri = Uri.parse("android.resource://com.example.empoweher/raw/fakecall"))
+                            }
                         }
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(
@@ -259,10 +143,10 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                                 .clip(RoundedCornerShape(40.dp))
                                 .clickable {
                                     val intent = Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse("https://www.google.com/maps/search/nearby+police+station/")
-                            ).setPackage("com.google.android.apps.maps")
-                            context.startActivity(intent)
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse("https://www.google.com/maps/search/nearby+police+station/")
+                                    ).setPackage("com.google.android.apps.maps")
+                                    context.startActivity(intent)
                                 },
                                 painter = painterResource(id = R.drawable.policestation1) ,
                                 contentDescription = "map",

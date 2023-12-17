@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import com.example.empoweher.R
+import com.example.empoweher.composables.Exoplayer
+import android.net.Uri
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -20,4 +22,5 @@ import com.example.empoweher.R
         LaunchedEffect(Unit){
             android.widget.Toast.makeText(context,"WILL BE IMPLEMENTED SOON...", android.widget.Toast.LENGTH_SHORT).show()
         }
+    Exoplayer(uri = Uri.parse("android.resource://com.example.empoweher/raw/magic"))
     }

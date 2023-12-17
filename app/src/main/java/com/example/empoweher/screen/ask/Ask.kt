@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.empoweher.R
 import com.example.empoweher.composables.EventCard
+import com.example.empoweher.composables.Exoplayer
 import com.example.empoweher.composables.QuestionCard
 import com.example.empoweher.model.DataState
 import com.example.empoweher.model.Event
@@ -86,6 +87,7 @@ fun Ask(navigateToNextScreen: (route: String)->Unit){
             ) {
                 ShowLazyListQuestion(result.data,navigateToNextScreen)
             }
+
         }
         is DataState.Failure -> {
             Box(
