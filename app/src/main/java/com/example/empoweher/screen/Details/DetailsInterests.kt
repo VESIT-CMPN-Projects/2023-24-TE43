@@ -156,7 +156,7 @@ fun DetailsInterests(navigateToNextScreen: (route: String)->Unit){
             InterestCheckBox(title = "Daily Guidance", value = dailyGuidance, onValueChange = {dailyGuidance=it})
             InterestCheckBox(title = "Arts", value = arts, onValueChange = {arts=it})
             InterestCheckBox(title = "Technical", value = technical, onValueChange = {technical=it})
-            InterestCheckBox(title = "Exploratory", value = socialAffairs, onValueChange = {socialAffairs=it})
+            InterestCheckBox(title = "Social Affairs", value = socialAffairs, onValueChange = {socialAffairs=it})
             InterestCheckBox(title = "Child Problems", value = childProblems, onValueChange = {childProblems=it})
             InterestCheckBox(title = "Astrology", value = astrology, onValueChange = {astrology=it})
             InterestCheckBox(title = "Health", value = health, onValueChange = {health=it})

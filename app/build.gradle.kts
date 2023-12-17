@@ -113,4 +113,7 @@ dependencies {
 
     //Shared Pref
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    //Exo player
+    implementation ("com.google.android.exoplayer:exoplayer:2.19.1")
 }
