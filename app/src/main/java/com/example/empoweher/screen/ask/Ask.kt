@@ -130,8 +130,9 @@ fun ShowLazyListQuestion(event: MutableList<Question>, navigateToNextScreen: (ro
                 QuestionCard(
                     questionId=each.questionId!!,
                     question = each.question!!,
-                    userName="Mighty Raju",
-                    profession="Plumber",
+                    userId = each.userId!!,
+                    userName=each.userName!!,
+                    profession=each.designation!!,
                     navigateToNextScreen = navigateToNextScreen,
                 )
             }

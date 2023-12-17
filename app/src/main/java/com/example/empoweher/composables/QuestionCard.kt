@@ -17,6 +17,10 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -28,16 +32,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.example.empoweher.R
 import com.example.empoweher.model.Screen
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 @Composable
 fun QuestionCard (navigateToNextScreen:(route:String)->Unit,
                   questionId:String?="",
+                  userId:String?="",
                   userName:String?="",
                   question:String?="",
                   profession:String?="")
 {
+    var dp by remember {
+        mutableStateOf("")
+    }
+    dp= getValue(thing = "Dp", userId = userId)
+    var painter= rememberAsyncImagePainter(model = dp)
     var color = colorResource(id = R.color.mauve)
     Card(
         modifier = Modifier
@@ -52,9 +67,10 @@ fun QuestionCard (navigateToNextScreen:(route:String)->Unit,
         Row {
             Box(modifier=Modifier.padding(10.dp)) {
                 Image(
-                    painter = painterResource(id = R.drawable.alert),
+                    painter = painter,
                     contentDescription = "cd",
-                    modifier = Modifier.height(40.dp)
+                    modifier = Modifier
+                        .height(45.dp)
                         .clip(CircleShape)
                 )
             }
@@ -77,5 +93,23 @@ fun QuestionCard (navigateToNextScreen:(route:String)->Unit,
             fontWeight = FontWeight.Bold,
             modifier=Modifier.padding(10.dp,0.dp)
             )
+    }
 }
+
+@Composable
+fun getValue(thing:String?,userId: String?): String {
+    val dbref = FirebaseDatabase.getInstance().getReference();
+    val event=dbref.child("Users").child(userId!!)
+    var eventValue by remember {
+        mutableStateOf("")
+    }
+    event.addValueEventListener(object : ValueEventListener {
+        override fun onDataChange(snapshot: DataSnapshot) {
+            eventValue=snapshot.child(thing!!).getValue(String::class.java).toString();
+        }
+        override fun onCancelled(error: DatabaseError) {
+
+        }
+    })
+    return eventValue
 }
