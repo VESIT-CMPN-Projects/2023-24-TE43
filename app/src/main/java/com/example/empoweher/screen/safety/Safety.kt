@@ -135,7 +135,8 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
 
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Card(modifier = Modifier
-                            .size(140.dp),colors = CardDefaults.cardColors(
+                            .size(140.dp),
+                            colors = CardDefaults.cardColors(
                             containerColor = Color.White),
                             elevation = CardDefaults.cardElevation(20.dp)){
                             Image(modifier= Modifier

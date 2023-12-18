@@ -1,11 +1,14 @@
 package com.example.empoweher.screen.Details
 
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,6 +33,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
@@ -49,6 +53,7 @@ import com.google.firebase.database.FirebaseDatabase
 
 @Composable
 fun Details(navigateToNextScreen: (route: String)->Unit){
+    var context= LocalContext.current
     var name by remember{
         mutableStateOf("")
     }
@@ -65,17 +70,19 @@ fun Details(navigateToNextScreen: (route: String)->Unit){
         modifier= Modifier
             .fillMaxSize()
             .background(colorResource(id = R.color.cream))
-            .padding(20.dp)
+            .padding(converterHeight(20, context = context).dp)
 
     ) {
         Image(
             imageVector = ImageVector.vectorResource(id = R.drawable.logo_svg),
             contentDescription = "Logo",
             modifier = Modifier
-                .size(80.dp),
+                .fillMaxHeight(0.09F)
+                .fillMaxWidth(0.19F),
             contentScale = ContentScale.Crop
         )
-        Spacer(modifier = Modifier.height(75.dp))
+        Spacer(modifier = Modifier.height(converterHeight(75,context).dp))
+        Log.d("Cute Prasad",converterHeight(75,context).toString())
         Text(
             text = "Add Your Name",
             fontSize = 25.sp,
@@ -97,6 +104,7 @@ fun Details(navigateToNextScreen: (route: String)->Unit){
         )
 
         Spacer(modifier = Modifier.height(60.dp))
+
 
         Button(
             modifier = Modifier
@@ -167,6 +175,12 @@ private fun GradientButton(
             )
         }
     }
+}
+
+fun converterHeight(old :Int,context:Context):Int{
+    val displayMetrics =context.resources.displayMetrics
+    val dpHeight = (displayMetrics.heightPixels / displayMetrics.density).toInt()
+    return old*(dpHeight/914)
 }
 
 
