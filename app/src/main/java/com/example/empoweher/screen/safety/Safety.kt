@@ -4,6 +4,7 @@ package com.example.empoweher.screen.safety
 
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -51,6 +52,8 @@ import com.example.empoweher.R
 import com.example.empoweher.activities.LocationActivity
 import com.example.empoweher.composables.Exoplayer
 import com.example.empoweher.model.Screen
+import com.example.empoweher.screen.Details.converterHeight
+import com.example.empoweher.screen.Details.converterWidth
 
 @Preview()
 @Composable
@@ -67,7 +70,7 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                 .align(Alignment.Center)
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .padding(10.dp),
+                .padding(converterHeight(10,context).dp),
             colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.teal_200)),
             elevation = CardDefaults.cardElevation(20.dp),
             shape = RoundedCornerShape(25.dp)
@@ -105,17 +108,8 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                             .size(140.dp),colors = CardDefaults.cardColors(
                             containerColor = Color.White),
                             elevation = CardDefaults.cardElevation(20.dp)){
-//                            Image(modifier= Modifier
-//                                .size(140.dp)
-//                                .clip(RoundedCornerShape(40.dp))
-//                                .clickable {
-//                                           navigateToNextScreen(Screen.FakeCall.route)
-//                                },
-//                                painter = painterResource(id = R.drawable.fakecall) ,
-//                                contentDescription = "fakecall",
-//                                contentScale = ContentScale.Fit)
                             Box(modifier = Modifier
-                                    .size(140.dp)
+                                    .size(converterHeight(140,context).dp)
                                     .clickable {
                                                navigateToNextScreen(Screen.FakeCall.route)
                                     } ) {

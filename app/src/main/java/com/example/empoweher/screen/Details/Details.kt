@@ -179,8 +179,13 @@ private fun GradientButton(
 
 fun converterHeight(old :Int,context:Context):Int{
     val displayMetrics =context.resources.displayMetrics
-    val dpHeight = (displayMetrics.heightPixels / displayMetrics.density).toInt()
-    return old*(dpHeight/914)
+    val dpHeight = (displayMetrics.heightPixels / displayMetrics.density)
+    return (old*(dpHeight/914)).toInt()
+}
+fun converterWidth(old :Int,context:Context):Int{
+    val displayMetrics =context.resources.displayMetrics
+    val dpWidth = (displayMetrics.widthPixels / displayMetrics.density)
+    return (old*(dpWidth/914)).toInt()
 }
 
 
