@@ -175,6 +175,7 @@ private fun GradientButton(
             )
         }
     }
+//    Log.d()
 }
 
 fun converterHeight(old :Int,context:Context):Int{
