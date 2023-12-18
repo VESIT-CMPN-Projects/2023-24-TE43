@@ -24,6 +24,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
 
+
             App(
                 googleAuthUiClient = googleAuthUiClient,
                 lifecycleScope = lifecycleScope,

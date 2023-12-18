@@ -61,7 +61,7 @@ fun QuestionCard (navigateToNextScreen:(route:String)->Unit,
             .height(150.dp)
             .padding(5.dp)
             .clickable {
-
+                navigateToNextScreen(Screen.Answer.route+"/"+questionId!!)
             },
         colors =CardDefaults.cardColors(containerColor = colorResource(id = R.color.pale_brown), contentColor = Color.White)
     ){

@@ -39,6 +39,7 @@ import com.example.empoweher.screen.Details.DetailsDesignation
 import com.example.empoweher.screen.Details.DetailsDp
 import com.example.empoweher.screen.Details.DetailsInterests
 import com.example.empoweher.screen.UpdateContactList
+import com.example.empoweher.screen.ask.Answer
 import com.example.empoweher.screen.ask.Ask
 import com.example.empoweher.screen.events.EventForm
 import com.example.empoweher.screen.events.Events
@@ -350,6 +351,26 @@ fun App(
                         }
                     }
 
+                }
+                composable(route = Screen.Answer.route+"/{questionId}", arguments = listOf(
+                    navArgument("questionId"){
+                        type = NavType.StringType
+                        nullable=true
+                    }
+                )) {
+                    LaunchedEffect(key1 = shouldShowScaffold) {
+                        shouldShowScaffold = false
+                    }
+                    val questionId = it.arguments?.getString("questionId")
+                    Answer(questionId, navigateToNextScreen = { route ->
+                        navController.navigate(route)
+                    })
+
+                    DisposableEffect(shouldShowScaffold) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
                 }
 
             }
