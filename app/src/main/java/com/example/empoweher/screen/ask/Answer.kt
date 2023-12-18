@@ -29,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -39,11 +40,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.empoweher.R
+import com.example.empoweher.composables.AnswerCard
 import com.example.empoweher.composables.EventCard
 import com.example.empoweher.model.Answer
 import com.example.empoweher.model.DataState
 import com.example.empoweher.model.Event
 import com.example.empoweher.model.Screen
+import com.example.empoweher.screen.Details.converterHeight
 import com.example.empoweher.screen.events.LoadingAnimation3
 import com.example.empoweher.screen.events.ShowLazyList
 import com.example.empoweher.viewmodel.AnswerViewModel
@@ -138,6 +141,7 @@ fun Answer(questionId:String?="",navigateToNextScreen: (route: String)->Unit) {
 
 @Composable
 fun ShowLazyListAnswer(answer: MutableList<Answer>, navigateToNextScreen: (route: String)->Unit) {
+    val context=LocalContext.current
     LazyColumn(modifier= Modifier
         .fillMaxHeight(0.8f)
         .fillMaxWidth()
@@ -146,17 +150,18 @@ fun ShowLazyListAnswer(answer: MutableList<Answer>, navigateToNextScreen: (route
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(170.dp)
-                    .padding(5.dp)
+                    .height(converterHeight(170,context).dp)
+                    .padding(converterHeight(5,context).dp)
                     .clickable {
 
                     },
             ) {
-                EventCard(
-                    eventId=each.userId!!,
-                    eventTitle = each.answer!!,
+                AnswerCard(
+                    answerId=each.answerId!!,
+                    userId = each.userId!!,
                     navigateToNextScreen = navigateToNextScreen,
-                    eventTag=each.like!!
+                    answer = each.answer!!,
+
                 )
             }
         }

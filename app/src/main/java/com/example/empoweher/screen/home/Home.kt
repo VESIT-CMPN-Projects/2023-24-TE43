@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.example.empoweher.R
+import com.example.empoweher.composables.HeartAnimation
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,14 +35,5 @@ import com.example.empoweher.R
     val dpWidth = displayMetrics.widthPixels / displayMetrics.density
     Log.d("dp",dpHeight.toString())
     Log.d("dp",dpWidth.toString())
-
-    Box(
-        Modifier
-            .height(1200.dp)
-            .width(750.dp)
-            .border(BorderStroke(5.dp, colorResource(id = R.color.pale_brown)))
-    ) {
-
-
-    }
+    HeartAnimation()
 }
