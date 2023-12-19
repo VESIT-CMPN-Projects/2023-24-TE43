@@ -150,7 +150,6 @@ fun ShowLazyListAnswer(questionId:String?,answer: MutableList<Answer>, navigateT
                     userId = each.userId!!,
                     navigateToNextScreen = navigateToNextScreen,
                     answer = each.answer!!,
-                    like = each.like!!,
                     questionId=questionId
 
                 )

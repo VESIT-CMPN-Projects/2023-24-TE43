@@ -62,6 +62,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
 
+
 @Composable
 fun AnswerCard(navigateToNextScreen: (route: String) -> Unit,
                answerId : String?=null,
@@ -77,12 +78,17 @@ fun AnswerCard(navigateToNextScreen: (route: String) -> Unit,
     var profession= getInfoUser(thing = "designation", userId = userId)
     val context=LocalContext.current
     var dp = rememberAsyncImagePainter(model = userImage)
+    var currentUser="Pokemon"
+    var path="Questions/$questionId/answers/$answerId/likes"
+    var likes= getChildCount(path = path).toString()
 
-    var likes by remember{
-        mutableStateOf("")
+    var initial by remember {
+        mutableStateOf(false)
     }
-    likes= getAnswerData(questionId = questionId, answerId = answerId, thing = "like")
-    Log.d("Like",likes)
+    initial= keyPresent(path = path, key = currentUser)
+
+    Log.d("Pokemon",initial.toString())
+
     Card(
         modifier = Modifier
             .fillMaxWidth(),
@@ -127,12 +133,13 @@ fun AnswerCard(navigateToNextScreen: (route: String) -> Unit,
                 color = colorResource(id = R.color.teal_700),
                 modifier = Modifier
                     .clickable {
-                        navigateToNextScreen(Screen.Profile.route+"/"+userId)
+                        navigateToNextScreen(Screen.Profile.route + "/" + userId)
                     }
                     .padding(
-                    start = converterHeight(10,context).dp, 
-                    top = converterHeight(30,context).dp,
-                    end = converterHeight(20,context).dp),
+                        start = converterHeight(10, context).dp,
+                        top = converterHeight(30, context).dp,
+                        end = converterHeight(20, context).dp
+                    ),
                 )
 
 
@@ -159,17 +166,14 @@ fun AnswerCard(navigateToNextScreen: (route: String) -> Unit,
         ) {
             HeartAnimation(
                 increase={
-                    val data=FirebaseDatabase.getInstance().getReference("Questions/$questionId/answers/$answerId")
-                    var temp=Integer.parseInt(likes)
-                    temp++
-                    data.child("like").setValue(temp.toString())
+                    val node=FirebaseDatabase.getInstance().getReference("Questions/$questionId/answers/$answerId/likes")
+                    node.child(currentUser).setValue(currentUser)
                          },
                 decrease={
-                    val data=FirebaseDatabase.getInstance().getReference("Questions/$questionId/answers/$answerId")
-                    var temp=Integer.parseInt(likes)
-                    temp--
-                    data.child("like").setValue(temp.toString())
-                }
+                    val node=FirebaseDatabase.getInstance().getReference("Questions/$questionId/answers/$answerId/likes")
+                    node.child(currentUser).removeValue()
+                },
+                initial, path,currentUser
             )
             Text(text = likes,
                 fontFamily = FontFamily(Font(R.font.font1)),
@@ -181,7 +185,7 @@ fun AnswerCard(navigateToNextScreen: (route: String) -> Unit,
     }
 }
 @Composable
-fun HeartAnimation(increase:()->Unit,decrease:()->Unit) {
+fun HeartAnimation(increase:()->Unit,decrease:()->Unit,initial:Boolean,path: String,key: String) {
     val context= LocalContext.current
     val interactionSource = MutableInteractionSource()
 
@@ -190,15 +194,11 @@ fun HeartAnimation(increase:()->Unit,decrease:()->Unit) {
     var enabled by remember {
         mutableStateOf(false)
     }
+    enabled= keyPresent(path =path, key = key)
 
     val scale = remember {
         Animatable(1f)
     }
-
-    var toggleBtn by remember{
-        mutableStateOf(false)
-    }
-
 
     Icon(
         imageVector = Icons.Outlined.Favorite,
@@ -266,3 +266,42 @@ fun getAnswerData(questionId: String?,answerId:String?,thing: String?): String {
     })
     return value
 }
+
+@Composable
+fun getChildCount(path:String):Int{
+    val dbref = FirebaseDatabase.getInstance().getReference();
+    val data=dbref.child(path)
+    var count by remember {
+        mutableStateOf(0)
+    }
+    data.addValueEventListener(object : ValueEventListener {
+        override fun onDataChange(snapshot: DataSnapshot) {
+            count=snapshot.childrenCount.toInt();
+        }
+        override fun onCancelled(error: DatabaseError) {
+
+        }
+    })
+    return count
+
+}
+
+@Composable
+fun keyPresent(path:String,key:String):Boolean{
+    val dbref = FirebaseDatabase.getInstance().getReference();
+    val data=dbref.child(path)
+    var count by remember {
+        mutableStateOf(false)
+    }
+    data.addValueEventListener(object : ValueEventListener {
+        override fun onDataChange(snapshot: DataSnapshot) {
+            count=snapshot.hasChild(key)
+        }
+        override fun onCancelled(error: DatabaseError) {
+
+        }
+    })
+    return count
+
+}
+
