@@ -30,8 +30,6 @@ class AnswerViewModel(questionId:String) :ViewModel(){
                         answers.add(e)
                     }
                 }
-                Log.d("answers",questionId)
-                Log.d("answers",answers.toString())
                 response.value=DataState.SuccessAnswer(answers)
             }
 
