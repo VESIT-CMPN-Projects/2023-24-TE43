@@ -134,7 +134,7 @@ fun ShowLazyListAnswer(questionId:String?,answer: MutableList<Answer>, navigateT
     LazyColumn(modifier= Modifier
         .fillMaxHeight()
         .fillMaxWidth()
-        .background(colorResource(id = R.color.cream))){
+        .background(colorResource(id = R.color.black))){
         items(answer){each->
             Box(
                 modifier = Modifier

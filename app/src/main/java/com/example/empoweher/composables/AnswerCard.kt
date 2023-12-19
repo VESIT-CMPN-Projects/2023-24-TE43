@@ -10,6 +10,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -40,10 +42,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,6 +55,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.empoweher.R
 import com.example.empoweher.model.Screen
 import com.example.empoweher.screen.Details.converterHeight
+import com.example.empoweher.screen.Details.converterWidth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -81,8 +86,9 @@ fun AnswerCard(navigateToNextScreen: (route: String) -> Unit,
     Card(
         modifier = Modifier
             .fillMaxWidth(),
-        shape = RoundedCornerShape(converterHeight(15,context).dp),
+        shape = RoundedCornerShape(converterHeight(20,context).dp),
     ) {
+
 
         Row() {
             Image(painter = dp,
@@ -95,25 +101,45 @@ fun AnswerCard(navigateToNextScreen: (route: String) -> Unit,
                     .clip(CircleShape)
                     .size(converterHeight(60, context).dp),
                 contentScale = ContentScale.FillBounds)
-            Text(text = userName,
+            Column {
+                Text(text = userName,
+                    fontSize = 18.sp,
+                    fontFamily = FontFamily(Font(R.font.font1)),
+                    modifier = Modifier.padding(start = converterHeight(10,context).dp, top = converterHeight(15,context).dp, end = converterHeight(20,context).dp),
+                    fontWeight = FontWeight.Bold
+                )
+                Text(text = profession,
+                    fontSize = 18.sp,
+                    fontFamily = FontFamily(Font(R.font.font1)),
+                    modifier = Modifier
+                        .padding(
+                            start = converterHeight(10,context).dp,
+                            end = converterHeight(20,context).dp),
+                )
+
+            }
+            Spacer(modifier = Modifier.width(converterWidth(150,context).dp))
+            Text(
+                text = "View Profile",
                 fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
                 fontFamily = FontFamily(Font(R.font.font1)),
-                modifier = Modifier.padding(start = converterHeight(10,context).dp, top = converterHeight(15,context).dp, end = converterHeight(20,context).dp),
-                fontWeight = FontWeight.Bold
-            )
+                color = colorResource(id = R.color.teal_700),
+                modifier = Modifier
+                    .clickable {
+                        navigateToNextScreen(Screen.Profile.route+"/"+userId)
+                    }
+                    .padding(
+                    start = converterHeight(10,context).dp, 
+                    top = converterHeight(30,context).dp,
+                    end = converterHeight(20,context).dp),
+                )
+
+
         }
 
-        Text(text = profession,
-            fontSize = 18.sp,
-            fontFamily = FontFamily(Font(R.font.font1)),
-            modifier = Modifier
-                .padding(
-                    start = converterHeight(90, context).dp,
-                    end = converterHeight(20, context).dp
-                )
-                .offset(0.dp, converterHeight(-30, context).dp)
-        )
 
+        Spacer(modifier = Modifier.height(converterHeight(10, context = context).dp))
         Divider(modifier = Modifier
             .fillMaxWidth(0.9f)
             .align(Alignment.CenterHorizontally)
@@ -126,7 +152,11 @@ fun AnswerCard(navigateToNextScreen: (route: String) -> Unit,
             modifier = Modifier.padding(start = converterHeight(20,context).dp, top = converterHeight(10,context).dp, end = converterHeight(20,context).dp),
             fontSize = 20.sp)
 
-        Row {
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(start = converterHeight(20,context).dp)
+        ) {
             HeartAnimation(
                 increase={
                     val data=FirebaseDatabase.getInstance().getReference("Questions/$questionId/answers/$answerId")
@@ -144,7 +174,7 @@ fun AnswerCard(navigateToNextScreen: (route: String) -> Unit,
             Text(text = likes,
                 fontFamily = FontFamily(Font(R.font.font1)),
                 modifier = Modifier.padding(start = converterHeight(10,context).dp, top = converterHeight(10,context).dp),
-                fontSize = 16.sp,
+                fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
         }
@@ -176,15 +206,14 @@ fun HeartAnimation(increase:()->Unit,decrease:()->Unit) {
         tint = if (enabled) Color.Red else Color.LightGray,
         modifier = Modifier
             .scale(scale = scale.value)
-            .size(size = converterHeight(56, context).dp)
+            .size(size = converterHeight(45, context).dp)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null
             ) {
-                if (!enabled){
+                if (!enabled) {
                     increase()
-                }
-                else{
+                } else {
                     decrease()
                 }
                 enabled = !enabled

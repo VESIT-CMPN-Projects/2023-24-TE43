@@ -44,6 +44,7 @@ import com.example.empoweher.screen.ask.Ask
 import com.example.empoweher.screen.events.EventForm
 import com.example.empoweher.screen.events.Events
 import com.example.empoweher.screen.home.Home
+import com.example.empoweher.screen.profile.Profile
 import com.example.empoweher.screen.safety.*
 import com.example.empoweher.screen.temp.Temp1
 import kotlinx.coroutines.launch
@@ -373,6 +374,28 @@ fun App(
                         }
                     }
                 }
+                composable(route = Screen.Profile.route+"/{userId}", arguments = listOf(
+                    navArgument("userId"){
+                        type = NavType.StringType
+                        nullable=true
+                    }
+                )) {
+                    LaunchedEffect(key1 = shouldShowScaffold) {
+                        shouldShowScaffold = false
+                    }
+                    val userId = it.arguments?.getString("userId")
+                    Profile(userId, navigateToNextScreen = { route ->
+                        navController.navigate(route)
+                    })
+
+                    DisposableEffect(shouldShowScaffold) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
+                }
+
+
 
             }
         }
