@@ -182,5 +182,3 @@ fun converterHeight(old :Int,context:Context):Int{
     val dpHeight = (displayMetrics.heightPixels / displayMetrics.density)
     return (old*(dpHeight/914)).toInt()
 }
-
-
