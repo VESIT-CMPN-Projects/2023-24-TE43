@@ -98,18 +98,7 @@ fun Answer(questionId:String?="",navigateToNextScreen: (route: String)->Unit) {
             ) {
                 ShowLazyListAnswer(result.data,navigateToNextScreen)
                 Spacer(modifier = Modifier.height(20.dp))
-                FloatingActionButton(
-                    modifier= Modifier
-                        .align(Alignment.End)
-                        .padding(20.dp,10.dp)
-                        .size(80.dp),
-                    shape = CircleShape,
-                    onClick = {
-                        navigateToNextScreen(Screen.EventForm.route)
-                    },
-                ) {
-                    Icon(Icons.Filled.Add, "Floating action button.",modifier= Modifier.size(50.dp))
-                }
+
             }
 
         }
@@ -143,14 +132,14 @@ fun Answer(questionId:String?="",navigateToNextScreen: (route: String)->Unit) {
 fun ShowLazyListAnswer(answer: MutableList<Answer>, navigateToNextScreen: (route: String)->Unit) {
     val context=LocalContext.current
     LazyColumn(modifier= Modifier
-        .fillMaxHeight(0.8f)
+        .fillMaxHeight()
         .fillMaxWidth()
         .background(colorResource(id = R.color.cream))){
         items(answer){each->
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(converterHeight(170,context).dp)
+//                    .height(converterHeight(170,context).dp)
                     .padding(converterHeight(5,context).dp)
                     .clickable {
 
