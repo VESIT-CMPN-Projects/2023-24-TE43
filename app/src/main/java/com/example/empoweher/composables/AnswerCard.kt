@@ -1,5 +1,6 @@
 package com.example.empoweher.composables
 
+import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -59,6 +60,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun AnswerCard(navigateToNextScreen: (route: String) -> Unit,
                answerId : String?=null,
+               questionId:String?=null,
                userId : String?=null,
                answer:String?=null,
                like:String?=null,
@@ -66,59 +68,20 @@ fun AnswerCard(navigateToNextScreen: (route: String) -> Unit,
                )
 {
     var userImage= getInfoUser(thing = "Dp", userId = userId!!)
-    var userName= getInfoUser(thing = "name", userId = userId!!)
-    var profession= getInfoUser(thing = "designation", userId = userId!!)
+    var userName= getInfoUser(thing = "name", userId = userId)
+    var profession= getInfoUser(thing = "designation", userId = userId)
     val context=LocalContext.current
     var dp = rememberAsyncImagePainter(model = userImage)
 
     var likes by remember{
         mutableStateOf("")
     }
-
-    likes = getInfoUser(thing = "like", userId = userId!!)
-//    Card(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(converterHeight(5, context).dp)
-//            .clickable {
-//
-//            },
-//        shape = RoundedCornerShape(converterHeight(15,context).dp),
-//    ) {
-//        Row {
-//            Box(modifier=Modifier.padding(converterHeight(10,context).dp)) {
-//                Image(
-//                    painter = dp,
-//                    contentDescription = "cd",
-//                    contentScale = ContentScale.FillBounds,
-//                    modifier = Modifier
-//                        .height(converterHeight(50, context).dp)
-//                        .clip(CircleShape)
-//                )
-//            }
-//            Column(modifier=Modifier.padding(converterHeight(5,context).dp,converterHeight(10,context).dp)) {
-//                Text(
-//                    text = userName!!,
-//                    fontFamily = FontFamily(Font(R.font.font1)),
-//                    fontWeight = FontWeight.Bold
-//                )
-//                Text(
-//                    text = profession!!,
-//                    fontFamily = FontFamily(Font(R.font.font1)),
-//                    fontSize = 10.sp
-//                )
-//            }
-//        }
-//        Text(text = answer!!,
-//            fontFamily = FontFamily(Font(R.font.font1)),
-//            fontSize = 18.sp,
-//            modifier=Modifier.padding(start = converterHeight(10,context).dp)
-//            )
-//    }
+    likes= getAnswerData(questionId = questionId, answerId = answerId, thing = "like")
+    Log.d("Like",likes)
     Card(
         modifier = Modifier
-//            .padding(converterHeight(10, context).dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(converterHeight(15,context).dp),
     ) {
 
         Row() {
@@ -130,10 +93,11 @@ fun AnswerCard(navigateToNextScreen: (route: String) -> Unit,
                         top = converterHeight(10, context).dp
                     )
                     .clip(CircleShape)
-                    .size(converterHeight(70, context).dp),
+                    .size(converterHeight(60, context).dp),
                 contentScale = ContentScale.FillBounds)
             Text(text = userName,
                 fontSize = 18.sp,
+                fontFamily = FontFamily(Font(R.font.font1)),
                 modifier = Modifier.padding(start = converterHeight(10,context).dp, top = converterHeight(15,context).dp, end = converterHeight(20,context).dp),
                 fontWeight = FontWeight.Bold
             )
@@ -141,6 +105,7 @@ fun AnswerCard(navigateToNextScreen: (route: String) -> Unit,
 
         Text(text = profession,
             fontSize = 18.sp,
+            fontFamily = FontFamily(Font(R.font.font1)),
             modifier = Modifier
                 .padding(
                     start = converterHeight(90, context).dp,
@@ -157,21 +122,36 @@ fun AnswerCard(navigateToNextScreen: (route: String) -> Unit,
         )
 
         Text(text = answer!!,
+            fontFamily = FontFamily(Font(R.font.font1)),
             modifier = Modifier.padding(start = converterHeight(20,context).dp, top = converterHeight(10,context).dp, end = converterHeight(20,context).dp),
             fontSize = 20.sp)
 
         Row {
-            HeartAnimation()
+            HeartAnimation(
+                increase={
+                    val data=FirebaseDatabase.getInstance().getReference("Questions/$questionId/answers/$answerId")
+                    var temp=Integer.parseInt(likes)
+                    temp++
+                    data.child("like").setValue(temp.toString())
+                         },
+                decrease={
+                    val data=FirebaseDatabase.getInstance().getReference("Questions/$questionId/answers/$answerId")
+                    var temp=Integer.parseInt(likes)
+                    temp--
+                    data.child("like").setValue(temp.toString())
+                }
+            )
             Text(text = likes,
+                fontFamily = FontFamily(Font(R.font.font1)),
                 modifier = Modifier.padding(start = converterHeight(10,context).dp, top = converterHeight(10,context).dp),
-                fontSize = 20.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )
         }
     }
 }
 @Composable
-fun HeartAnimation() {
+fun HeartAnimation(increase:()->Unit,decrease:()->Unit) {
     val context= LocalContext.current
     val interactionSource = MutableInteractionSource()
 
@@ -201,6 +181,12 @@ fun HeartAnimation() {
                 interactionSource = interactionSource,
                 indication = null
             ) {
+                if (!enabled){
+                    increase()
+                }
+                else{
+                    decrease()
+                }
                 enabled = !enabled
                 coroutineScope.launch {
                     scale.animateTo(
@@ -232,4 +218,22 @@ fun getInfoUser(thing:String?,userId: String?): String {
         }
     })
     return userValue
+}
+
+@Composable
+fun getAnswerData(questionId: String?,answerId:String?,thing: String?): String {
+    val dbref = FirebaseDatabase.getInstance().getReference();
+    val data=dbref.child("Questions/$questionId/answers/$answerId")
+    var value by remember {
+        mutableStateOf("")
+    }
+    data.addValueEventListener(object : ValueEventListener {
+        override fun onDataChange(snapshot: DataSnapshot) {
+            value=snapshot.child(thing!!).getValue(String::class.java).toString();
+        }
+        override fun onCancelled(error: DatabaseError) {
+
+        }
+    })
+    return value
 }

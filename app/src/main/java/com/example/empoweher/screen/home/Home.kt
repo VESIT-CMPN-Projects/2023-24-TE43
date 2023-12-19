@@ -35,5 +35,4 @@ import com.example.empoweher.composables.HeartAnimation
     val dpWidth = displayMetrics.widthPixels / displayMetrics.density
     Log.d("dp",dpHeight.toString())
     Log.d("dp",dpWidth.toString())
-    HeartAnimation()
 }

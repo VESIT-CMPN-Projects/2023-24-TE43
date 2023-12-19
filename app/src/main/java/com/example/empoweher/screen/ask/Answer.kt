@@ -96,7 +96,7 @@ fun Answer(questionId:String?="",navigateToNextScreen: (route: String)->Unit) {
                 horizontalAlignment = Alignment.CenterHorizontally
 
             ) {
-                ShowLazyListAnswer(result.data,navigateToNextScreen)
+                ShowLazyListAnswer(questionId,result.data,navigateToNextScreen)
                 Spacer(modifier = Modifier.height(20.dp))
 
             }
@@ -129,7 +129,7 @@ fun Answer(questionId:String?="",navigateToNextScreen: (route: String)->Unit) {
 }
 
 @Composable
-fun ShowLazyListAnswer(answer: MutableList<Answer>, navigateToNextScreen: (route: String)->Unit) {
+fun ShowLazyListAnswer(questionId:String?,answer: MutableList<Answer>, navigateToNextScreen: (route: String)->Unit) {
     val context=LocalContext.current
     LazyColumn(modifier= Modifier
         .fillMaxHeight()
@@ -150,27 +150,11 @@ fun ShowLazyListAnswer(answer: MutableList<Answer>, navigateToNextScreen: (route
                     userId = each.userId!!,
                     navigateToNextScreen = navigateToNextScreen,
                     answer = each.answer!!,
+                    like = each.like!!,
+                    questionId=questionId
 
                 )
             }
         }
     }
-}
-
-@Composable
-fun getAnswerData(thing:String?,userId: String?): String {
-    val dbref = FirebaseDatabase.getInstance().getReference();
-    val event=dbref.child("Users").child(userId!!)
-    var eventValue by remember {
-        mutableStateOf("")
-    }
-    event.addValueEventListener(object : ValueEventListener {
-        override fun onDataChange(snapshot: DataSnapshot) {
-            eventValue=snapshot.child(thing!!).getValue(String::class.java).toString();
-        }
-        override fun onCancelled(error: DatabaseError) {
-
-        }
-    })
-    return eventValue
 }
