@@ -67,6 +67,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import com.example.empoweher.model.Event
+import com.example.empoweher.screen.Details.converterHeight
 import com.google.firebase.storage.FirebaseStorage
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -152,11 +153,11 @@ fun EventForm(){
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp, 10.dp)
+                    .padding(converterHeight(5, context).dp, converterHeight(10, context).dp)
             ) {
                 Text(
                     text = "Create Event",
-                    fontSize = 35.sp,
+                    fontSize = converterHeight(35, context).sp,
                     fontFamily = FontFamily(Font(R.font.font1)),
                     fontWeight = FontWeight.Bold,
                     color = colorResource(R.color.purple_200)
@@ -168,22 +169,22 @@ fun EventForm(){
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp, 10.dp)
+                    .padding(converterHeight(5, context).dp, converterHeight(10, context).dp)
 
             ) {
                 Text(
                     text = "Event Name: ",
-                    fontSize = 23.sp,
+                    fontSize = converterHeight(23, context).sp,
                     fontFamily = FontFamily(Font(R.font.font1)),
 
-                )
+                    )
 
                 OutlinedTextField(
                     value = name,
-                    textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
+                    textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = converterHeight(20, context).sp)),
                     onValueChange = { str ->
                         if(str.length<=20){
-                        name = str
+                            name = str
                         }
                         else{
                             Toast.makeText(context,"Only 20 characters Allowed",Toast.LENGTH_SHORT).show()
@@ -195,23 +196,23 @@ fun EventForm(){
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp, 10.dp)
+                    .padding(converterHeight(5, context).dp, converterHeight(10, context).dp)
 
             ) {
                 Text(
                     text = "Event Description:",
-                    fontSize = 23.sp,
+                    fontSize = converterHeight(23, context).sp,
                     fontFamily = FontFamily(Font(R.font.font1)),
 
                     )
 
                 OutlinedTextField(
                     value = description,
-                    textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
+                    textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = converterHeight(20, context).sp)),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding()
-                        .height(350.dp)
+                        .height(converterHeight(350, context).dp)
                         .verticalScroll(scrollForDescription),
                     onValueChange = { str ->
                         if(str.length<=5000){
@@ -230,23 +231,23 @@ fun EventForm(){
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp, 10.dp)
+                    .padding(converterHeight(5, context).dp, converterHeight(10, context).dp)
 
             ) {
                 Text(
                     text = "Event Address:",
-                    fontSize = 23.sp,
+                    fontSize = converterHeight(23, context).sp,
                     fontFamily = FontFamily(Font(R.font.font1)),
 
                     )
 
                 OutlinedTextField(
                     value = address,
-                    textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
+                    textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = converterHeight(20, context).sp)),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding()
-                        .height(175.dp)
+                        .height(converterHeight(175, context).dp)
                         .verticalScroll(scrollForAddress),
                     onValueChange = { str ->
                         if(str.length<=300){
@@ -263,7 +264,7 @@ fun EventForm(){
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp, 10.dp)
+                    .padding(converterHeight(5, context).dp, converterHeight(10, context).dp)
 
             ) {
                 Row (
@@ -273,14 +274,14 @@ fun EventForm(){
                 {
                     Text(
                         text = "Event City: ",
-                        fontSize = 23.sp,
+                        fontSize = converterHeight(23, context).sp,
                         fontFamily = FontFamily(Font(R.font.font1)),
 
                         )
 
                     OutlinedTextField(
                         value = city,
-                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
+                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = converterHeight(20, context).sp)),
                         placeholder = { Text("Example : Thane") },
                         modifier = Modifier
                             .padding(),
@@ -303,10 +304,11 @@ fun EventForm(){
 
             }
 
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp, 10.dp)
+                    .padding(converterHeight(5, context).dp, converterHeight(10, context).dp)
             ){
                 // set the initial date
                 val datePickerState = rememberDatePickerState(initialSelectedDateMillis = calendar1.timeInMillis)
@@ -322,8 +324,8 @@ fun EventForm(){
                         confirmButton = {
                             TextButton(onClick = {
                                 if(datePickerState.selectedDateMillis!!<=endDate){
-                                showDatePicker = false
-                                startDate = datePickerState.selectedDateMillis!!
+                                    showDatePicker = false
+                                    startDate = datePickerState.selectedDateMillis!!
                                 }
                                 else{
                                     Toast.makeText(context,"Start Date Should Be Earlier Than End Date",Toast.LENGTH_SHORT).show()
@@ -353,11 +355,11 @@ fun EventForm(){
 
                     Text(
                         text = "Start Date: ",
-                        fontSize = 23.sp,
+                        fontSize = converterHeight(23, context).sp,
                         fontFamily = FontFamily(Font(R.font.font1)),
 
                         )
-                    Spacer(modifier = Modifier.width(65.dp))
+                    Spacer(modifier = Modifier.width(converterHeight(65, context).dp))
                     Button(
                         onClick = {
                             showDatePicker = true
@@ -373,7 +375,7 @@ fun EventForm(){
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp, 10.dp)
+                    .padding(converterHeight(5, context).dp, converterHeight(10, context).dp)
             ){
                 val datePickerState = rememberDatePickerState(initialSelectedDateMillis = calendar2.timeInMillis)
                 var showDatePicker by remember {
@@ -388,8 +390,8 @@ fun EventForm(){
                         confirmButton = {
                             TextButton(onClick = {
                                 if (datePickerState.selectedDateMillis!!>=startDate){
-                                showDatePicker = false
-                                endDate = datePickerState.selectedDateMillis!!
+                                    showDatePicker = false
+                                    endDate = datePickerState.selectedDateMillis!!
                                 }
                                 else{
                                     Toast.makeText(context,"End Date Should End After Start Date",Toast.LENGTH_SHORT).show()
@@ -418,11 +420,11 @@ fun EventForm(){
 
                     Text(
                         text = "End Date:   ",
-                        fontSize = 23.sp,
+                        fontSize = converterHeight(23, context).sp,
                         fontFamily = FontFamily(Font(R.font.font1)),
 
                         )
-                    Spacer(modifier = Modifier.width(65.dp))
+                    Spacer(modifier = Modifier.width(converterHeight(65, context).dp))
                     Button(
                         onClick = {
                             showDatePicker = true
@@ -437,7 +439,7 @@ fun EventForm(){
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp, 10.dp)
+                    .padding(converterHeight(5, context).dp, converterHeight(10, context).dp)
             ) {
                 Row(
                     modifier=Modifier.fillMaxWidth(),
@@ -445,27 +447,27 @@ fun EventForm(){
                 ){
                     Text(
                         text = "Event Timing: ",
-                        fontSize = 23.sp,
+                        fontSize = converterHeight(23, context).sp,
                         fontFamily = FontFamily(Font(R.font.font1)),
 
                         )
                     OutlinedTextField(
                         value = hour,
-                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
+                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = converterHeight(20, context).sp)),
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                         modifier = Modifier
-                            .padding(2.dp, 0.dp)
-                            .width(65.dp),
+                            .padding(converterHeight(2, context).dp, converterHeight(0, context).dp)
+                            .width(converterHeight(65, context).dp),
                         placeholder = { Text("HH") },
                         onValueChange = { str ->
                             if(str.isNotEmpty()){
-                            if(Integer.parseInt(str) in 0..23){
-                                hour = str
-                            }
-                            else{
-                                Toast.makeText(context,"Enter Valid Hours",Toast.LENGTH_SHORT).show()
+                                if(Integer.parseInt(str) in 0..23){
+                                    hour = str
+                                }
+                                else{
+                                    Toast.makeText(context,"Enter Valid Hours",Toast.LENGTH_SHORT).show()
 
-                            }
+                                }
                             }
                             else{
                                 hour=""
@@ -475,11 +477,11 @@ fun EventForm(){
                         })
                     OutlinedTextField(
                         value = minute,
-                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
+                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = converterHeight(20, context).sp)),
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                         modifier = Modifier
-                            .padding(2.dp, 0.dp)
-                            .width(65.dp),
+                            .padding(converterHeight(2, context).dp, converterHeight(0, context).dp)
+                            .width(converterHeight(65, context).dp),
                         placeholder = { Text("MM") },
                         onValueChange = { str ->
                             if (str.isNotEmpty()) {
@@ -500,11 +502,11 @@ fun EventForm(){
                     )
                     OutlinedTextField(
                         value = second,
-                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
+                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = converterHeight(20, context).sp)),
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                         modifier = Modifier
-                            .padding(2.dp, 0.dp)
-                            .width(65.dp),
+                            .padding(converterHeight(2, context).dp, converterHeight(0, context).dp)
+                            .width(converterHeight(65, context).dp),
                         placeholder = { Text("SS") },
                         onValueChange = { str ->
                             if (str.isNotEmpty()) {
@@ -530,7 +532,7 @@ fun EventForm(){
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp, 10.dp)
+                    .padding(converterHeight(5, context).dp, converterHeight(10, context).dp)
             ) {
                 Row(
                     modifier=Modifier.fillMaxWidth(),
@@ -538,16 +540,16 @@ fun EventForm(){
                 ){
                     Text(
                         text = "Duration : ",
-                        fontSize = 23.sp,
+                        fontSize = converterHeight(23, context).sp,
                         fontFamily = FontFamily(Font(R.font.font1)),
 
                         )
                     OutlinedTextField(
                         value = duration,
-                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
+                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = converterHeight(20, context).sp)),
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                         modifier = Modifier
-                            .padding(2.dp, 0.dp),
+                            .padding(converterHeight(2, context).dp, converterHeight(0, context).dp),
                         placeholder = { Text("Enter Event Duration In Hours  ") },
                         onValueChange = { str ->
                             if(str.isNotEmpty()){
@@ -571,7 +573,7 @@ fun EventForm(){
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp, 10.dp)
+                    .padding(converterHeight(5, context).dp, converterHeight(10, context).dp)
             ){
                 Row(
                     modifier=Modifier.fillMaxWidth(),
@@ -579,9 +581,9 @@ fun EventForm(){
                 ){
                     Text(
                         text = "Event Tag : ",
-                        fontSize = 23.sp,
+                        fontSize = converterHeight(23, context).sp,
                         fontFamily = FontFamily(Font(R.font.font1)),
-                        )
+                    )
                     var mExpanded by remember { mutableStateOf(false) }
 
                     // Create a list of cities
@@ -596,7 +598,7 @@ fun EventForm(){
                     else
                         Icons.Filled.KeyboardArrowDown
 
-                    Column(Modifier.padding(20.dp)) {
+                    Column(Modifier.padding(converterHeight(20, context).dp)) {
 
                         // Create an Outlined Text Field
                         // with icon and not expanded
@@ -641,10 +643,11 @@ fun EventForm(){
                 }
 
             }
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp, 10.dp)
+                    .padding(converterHeight(5, context).dp, converterHeight(10, context).dp)
             ) {
                 val launcher =
                     rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri ->
@@ -654,7 +657,7 @@ fun EventForm(){
 
                     Text(
                         text = "Event Image : ",
-                        fontSize = 23.sp,
+                        fontSize = converterHeight(23, context).sp,
                         fontFamily = FontFamily(Font(R.font.font1)),
                     )
 
@@ -668,15 +671,15 @@ fun EventForm(){
                             Text(text = "Click To Add Image")
                         }
 
-                        Spacer(modifier= Modifier.width(100.dp))
+                        Spacer(modifier= Modifier.width(converterHeight(100, context).dp))
 
                         Image(
                             painter = painter,
                             contentDescription = "Hello",
                             modifier = Modifier
-                                .height(120.dp)
-                                .width(120.dp)
-                                .clip(RoundedCornerShape(10.dp)),
+                                .height(converterHeight(120, context).dp)
+                                .width(converterHeight(120, context).dp)
+                                .clip(RoundedCornerShape(converterHeight(10, context).dp)),
                             contentScale = ContentScale.Crop,
 
 
@@ -688,7 +691,7 @@ fun EventForm(){
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp, 10.dp)
+                    .padding(converterHeight(5, context).dp, converterHeight(10, context).dp)
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -696,15 +699,15 @@ fun EventForm(){
                 ) {
                     Text(
                         text = "Event Cost in Rs : ",
-                        fontSize = 23.sp,
+                        fontSize = converterHeight(23, context).sp,
                         fontFamily = FontFamily(Font(R.font.font1)),
                     )
                     OutlinedTextField(
                         value = cost,
-                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
+                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = converterHeight(20, context).sp)),
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                         modifier = Modifier
-                            .padding(2.dp, 0.dp),
+                            .padding(converterHeight(2, context).dp, converterHeight(0, context).dp),
                         placeholder = { Text("Cost: ") },
                         onValueChange = { str ->
                             if(str.isNotEmpty()){
@@ -728,7 +731,7 @@ fun EventForm(){
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp, 10.dp)
+                    .padding(converterHeight(5, context).dp, converterHeight(10, context).dp)
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -736,15 +739,15 @@ fun EventForm(){
                 ) {
                     Text(
                         text = "Event Capacity : ",
-                        fontSize = 23.sp,
+                        fontSize = converterHeight(23, context).sp,
                         fontFamily = FontFamily(Font(R.font.font1)),
                     )
                     OutlinedTextField(
                         value = capacity,
-                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
+                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = converterHeight(20, context).sp)),
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                         modifier = Modifier
-                            .padding(2.dp, 0.dp),
+                            .padding(converterHeight(2, context).dp,converterHeight(0, context).dp),
                         placeholder = { Text("Number Of People ") },
                         onValueChange = { str ->
                             if(str.isNotEmpty()){
@@ -768,7 +771,7 @@ fun EventForm(){
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp, 10.dp)
+                    .padding(converterHeight(5, context).dp, converterHeight(10, context).dp)
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -776,15 +779,15 @@ fun EventForm(){
                 ) {
                     Text(
                         text = "Contact Number : ",
-                        fontSize = 23.sp,
+                        fontSize = converterHeight(23, context).sp,
                         fontFamily = FontFamily(Font(R.font.font1)),
                     )
                     OutlinedTextField(
                         value = contactNumber,
-                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
+                        textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = converterHeight(20, context).sp)),
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                         modifier = Modifier
-                            .padding(2.dp, 0.dp),
+                            .padding(converterHeight(2, context).dp, converterHeight(0, context).dp),
                         placeholder = { Text("Contact Number ") },
                         onValueChange = { str ->
                             if(str.isNotEmpty()){
@@ -806,7 +809,7 @@ fun EventForm(){
             }
             Column(modifier = Modifier
                 .fillMaxWidth()
-                .padding(5.dp, 10.dp)) {
+                .padding(converterHeight(5, context).dp, converterHeight(10, context).dp)) {
                 Button(onClick = {
                     if (name.isNotEmpty()  && description.isNotEmpty() && address.isNotEmpty() && city.isNotEmpty() && hour.isNotEmpty() && minute.isNotEmpty() && second.isNotEmpty() && duration.isNotEmpty() && tag.isNotEmpty() && selectedImage.toString().isNotEmpty() && cost.isNotEmpty() && capacity.isNotEmpty() && contactNumber.isNotEmpty()) {
                         val dbref = FirebaseDatabase.getInstance()
