@@ -360,7 +360,7 @@ fun App(
                         nullable=true
                     }
                 )) {
-                    LaunchedEffect(key1 = shouldShowScaffold) {
+                    LaunchedEffect(shouldShowScaffold){
                         shouldShowScaffold = false
                     }
                     val questionId = it.arguments?.getString("questionId")
@@ -368,11 +368,6 @@ fun App(
                         navController.navigate(route)
                     })
 
-                    DisposableEffect(shouldShowScaffold) {
-                        onDispose {
-                            shouldShowScaffold = true
-                        }
-                    }
                 }
                 composable(route = Screen.Profile.route+"/{userId}", arguments = listOf(
                     navArgument("userId"){
@@ -380,19 +375,10 @@ fun App(
                         nullable=true
                     }
                 )) {
-                    LaunchedEffect(key1 = shouldShowScaffold) {
-                        shouldShowScaffold = false
-                    }
                     val userId = it.arguments?.getString("userId")
                     Profile(userId, navigateToNextScreen = { route ->
                         navController.navigate(route)
                     })
-
-                    DisposableEffect(shouldShowScaffold) {
-                        onDispose {
-                            shouldShowScaffold = true
-                        }
-                    }
                 }
 
 
