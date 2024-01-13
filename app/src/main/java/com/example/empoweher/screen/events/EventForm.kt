@@ -457,8 +457,8 @@ fun EventForm(){
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                         modifier = Modifier
                             .padding(converterHeight(2, context).dp, converterHeight(0, context).dp)
-                            .width(converterHeight(65, context).dp),
-                        placeholder = { Text("HH") },
+                            .width(converterHeight(80, context).dp),
+                        placeholder = { Text("HH", fontSize = converterHeight(20, context).sp) },
                         onValueChange = { str ->
                             if(str.isNotEmpty()){
                                 if(Integer.parseInt(str) in 0..23){
@@ -481,8 +481,8 @@ fun EventForm(){
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                         modifier = Modifier
                             .padding(converterHeight(2, context).dp, converterHeight(0, context).dp)
-                            .width(converterHeight(65, context).dp),
-                        placeholder = { Text("MM") },
+                            .width(converterHeight(90, context).dp),
+                        placeholder = { Text("MM", fontSize = converterHeight(18, context).sp) },
                         onValueChange = { str ->
                             if (str.isNotEmpty()) {
                                 if (Integer.parseInt(str) in 0..59) {
@@ -506,8 +506,8 @@ fun EventForm(){
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                         modifier = Modifier
                             .padding(converterHeight(2, context).dp, converterHeight(0, context).dp)
-                            .width(converterHeight(65, context).dp),
-                        placeholder = { Text("SS") },
+                            .width(converterHeight(80, context).dp),
+                        placeholder = { Text("SS",fontSize = converterHeight(20, context).sp) },
                         onValueChange = { str ->
                             if (str.isNotEmpty()) {
                                 if (Integer.parseInt(str) in 0..59) {
