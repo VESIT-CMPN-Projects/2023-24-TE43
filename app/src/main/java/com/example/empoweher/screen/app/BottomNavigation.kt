@@ -20,8 +20,6 @@ fun BottomNavigation(navigateToItem: (route:String)->Unit) {
     val items = listOf(
         BottomNavigationItem.Home,
         BottomNavigationItem.Ask,
-        BottomNavigationItem.Events,
-        BottomNavigationItem.Safety
     )
 
     var selectedItemIndex by rememberSaveable {

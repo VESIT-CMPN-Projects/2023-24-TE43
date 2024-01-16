@@ -98,12 +98,12 @@ fun SignInScreen(
                 .size(390.dp, 300.dp),
             contentScale = ContentScale.Fit
         )
-
-        TypewriterText(
-            texts = listOf(
-                "Login With Google"
-            ),
-        )
+//
+//        TypewriterText(
+//            texts = listOf(
+//                "Login With Google"
+//            ),
+//        )
 
         Image(
             painter = painterResource(id = R.drawable.google_signin),
