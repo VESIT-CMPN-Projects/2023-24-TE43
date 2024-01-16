@@ -58,13 +58,12 @@ fun Details(navigateToNextScreen: (route: String)->Unit){
         mutableStateOf("")
     }
 
-    val currentFirebaseUser = FirebaseAuth.getInstance().currentUser.toString()
+    val currentFirebaseUser = FirebaseAuth.getInstance().currentUser!!.uid
 
     val dbref = FirebaseDatabase.getInstance()
         .getReference("Users");
 
 //    dbref.child(currentFirebaseUser).child("name").setValue("hello")
-//    dbref.child("Pokemon").child("name").setValue("hello")
 
     Column(
         modifier= Modifier
@@ -116,7 +115,7 @@ fun Details(navigateToNextScreen: (route: String)->Unit){
             )
             ,
             onClick = {
-                dbref.child("Aman Hande").child("name").setValue(name)
+                dbref.child(currentFirebaseUser).child("name").setValue(name)
                 navigateToNextScreen(Screen.DetailsDesignation.route)
 
             }) {

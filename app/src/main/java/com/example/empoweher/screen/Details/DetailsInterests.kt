@@ -110,7 +110,7 @@ fun DetailsInterests(navigateToNextScreen: (route: String)->Unit){
     }
 
 
-    val currentFirebaseUser = FirebaseAuth.getInstance().currentUser.toString()
+    val currentFirebaseUser = FirebaseAuth.getInstance().currentUser!!.uid
 
     val dbref = FirebaseDatabase.getInstance()
         .getReference("Users");
@@ -220,7 +220,7 @@ fun DetailsInterests(navigateToNextScreen: (route: String)->Unit){
                     list.add("Career Guidance")
                 }
 
-                dbref.child("Aman Hande").child("interests").setValue(list)
+                dbref.child(currentFirebaseUser).child("interests").setValue(list)
                 navigateToNextScreen(Screen.DetailsDp.route)
 
             }) {

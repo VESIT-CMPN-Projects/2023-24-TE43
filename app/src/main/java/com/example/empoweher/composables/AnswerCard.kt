@@ -78,7 +78,7 @@ fun AnswerCard(navigateToNextScreen: (route: String) -> Unit,
     var profession= getInfoUser(thing = "designation", userId = userId)
     val context=LocalContext.current
     var dp = rememberAsyncImagePainter(model = userImage)
-    var currentUser="Pokemon"
+    var currentUser="Aman Hande"
     var path="Questions/$questionId/answers/$answerId/likes"
     var likes= getChildCount(path = path).toString()
 
