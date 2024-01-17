@@ -59,6 +59,7 @@ fun Details(navigateToNextScreen: (route: String)->Unit){
     }
 
     val currentFirebaseUser = FirebaseAuth.getInstance().currentUser!!.uid
+    Log.d("user",currentFirebaseUser)
 
     val dbref = FirebaseDatabase.getInstance()
         .getReference("Users");
