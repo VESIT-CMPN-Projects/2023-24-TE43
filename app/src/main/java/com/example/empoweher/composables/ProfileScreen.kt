@@ -105,7 +105,6 @@ fun ProfileScreen(){
             Text(text = "Hello This is sn  . . . . .: ",
                 modifier = Modifier.padding(start = 10.dp, top=10.dp, bottom = 20.dp)
             )
-
         }
     }
 }
