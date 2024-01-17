@@ -56,6 +56,7 @@ import com.example.empoweher.R
 import com.example.empoweher.model.Screen
 import com.example.empoweher.screen.Details.converterHeight
 import com.example.empoweher.screen.Details.converterWidth
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -79,6 +80,10 @@ fun AnswerCard(navigateToNextScreen: (route: String) -> Unit,
     val context=LocalContext.current
     var dp = rememberAsyncImagePainter(model = userImage)
     var currentUser="Aman Hande"
+    val currentFirebaseUser = FirebaseAuth.getInstance().currentUser!!.uid
+    if(currentFirebaseUser != null){
+        currentUser = currentFirebaseUser;
+    }
     var path="Questions/$questionId/answers/$answerId/likes"
     var likes= getChildCount(path = path).toString()
 
