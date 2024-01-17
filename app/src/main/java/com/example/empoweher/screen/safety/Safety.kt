@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.empoweher.R
 import com.example.empoweher.activities.LocationActivity
+import com.example.empoweher.activities.VideoConferencing
 import com.example.empoweher.composables.Exoplayer
 import com.example.empoweher.model.Screen
 import com.example.empoweher.screen.Details.converterHeight
@@ -170,7 +171,7 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                                 .size(140.dp)
                                 .clip(RoundedCornerShape(40.dp))
                                 .clickable {
-                                    val navigate = Intent(context, LocationActivity::class.java)
+                                    val navigate = Intent(context, VideoConferencing::class.java)
                                     context.startActivity(navigate)
                                 },
                                 painter = painterResource(id = R.drawable.alert1) ,

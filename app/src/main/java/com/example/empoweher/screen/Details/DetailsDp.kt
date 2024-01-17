@@ -54,7 +54,7 @@ fun DetailsDp(navigateToNextScreen: (route: String)->Unit){
 
     var selectedImage by remember { mutableStateOf<Uri?>(uri) }
 
-    val currentFirebaseUser = FirebaseAuth.getInstance().currentUser.toString()
+    val currentFirebaseUser = FirebaseAuth.getInstance().currentUser!!.uid
 
     val dbref = FirebaseDatabase.getInstance()
         .getReference("Users");
@@ -146,10 +146,10 @@ fun DetailsDp(navigateToNextScreen: (route: String)->Unit){
             onClick = {
                 val storage= FirebaseStorage.getInstance()
                 val ref= storage.getReference()
-                    .child("Aman Hande"+"/"+"Profile Picture")
+                    .child("${currentFirebaseUser}"+"/"+"Profile Picture")
                 ref.putFile(selectedImage!!).addOnSuccessListener {
                     ref.getDownloadUrl().addOnSuccessListener { it
-                        dbref.child("Aman Hande").child("Dp").setValue(it.toString())
+                        dbref.child(currentFirebaseUser).child("Dp").setValue(it.toString())
                     }
                 }
                 navigateToNextScreen(Screen.Home.route)

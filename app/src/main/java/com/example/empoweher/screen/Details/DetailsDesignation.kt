@@ -64,7 +64,7 @@ fun DetailsDesignation(navigateToNextScreen: (route: String)->Unit){
         mutableStateOf("")
     }
 
-    val currentFirebaseUser = FirebaseAuth.getInstance().currentUser.toString()
+    val currentFirebaseUser = FirebaseAuth.getInstance().currentUser!!.uid
 
     val dbref = FirebaseDatabase.getInstance()
         .getReference("Users");
@@ -155,8 +155,8 @@ fun DetailsDesignation(navigateToNextScreen: (route: String)->Unit){
             )
             ,
             onClick = {
-                dbref.child("Aman Hande").child("designation").setValue(designation)
-                dbref.child("Aman Hande").child("bio").setValue(bio)
+                dbref.child(currentFirebaseUser).child("designation").setValue(designation)
+                dbref.child(currentFirebaseUser).child("bio").setValue(bio)
                 navigateToNextScreen(Screen.DetailsInterests.route)
 
 

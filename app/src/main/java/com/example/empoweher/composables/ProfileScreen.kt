@@ -39,7 +39,7 @@ fun ProfileScreen(){
     ) {
 //        Icon(imageVector = Icons.Rounded.Person, contentDescription = "Account",
 //            modifier = Modifier.size(50.dp))
-        Text(text = "Aman Maane",
+        Text(text = "",
             fontSize = 30.sp,
             modifier = Modifier.padding(start = 10.dp, top = 10.dp)
         )
@@ -81,7 +81,7 @@ fun ProfileScreen(){
             }
         }
 
-        Text(text = "Working at 6th Floor",
+        Text(text = "Working at ",
             fontSize = 30.sp,
             modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 10.dp)
         )
@@ -94,7 +94,7 @@ fun ProfileScreen(){
                 .shadow(ambientColor = Color.Blue, elevation = 30.dp),
             elevation = CardDefaults.cardElevation(20.dp)
         ){
-            Text(text = "What is Rajveer doing in Ooty",
+            Text(text = "",
                 modifier = Modifier.padding(top = 10.dp, start = 10.dp))
             Divider(thickness = 1.dp,
                 color = Color.Black,
