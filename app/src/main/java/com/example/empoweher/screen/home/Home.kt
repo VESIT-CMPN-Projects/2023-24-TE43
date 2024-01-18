@@ -83,7 +83,7 @@ import java.util.Calendar
         var startDate by remember {
             mutableLongStateOf(0) // or use mutableStateOf(calendar.timeInMillis)
         }
-        val viewModel = viewModel { NoteViewModel(userId = id, mode = 0) }
+        val viewModel = viewModel { NoteViewModel(userId = id, mode = 0,startDate.toInt()) }
         when( val result= viewModel.response.value){
             is DataState.Loading -> {
                 Box(
