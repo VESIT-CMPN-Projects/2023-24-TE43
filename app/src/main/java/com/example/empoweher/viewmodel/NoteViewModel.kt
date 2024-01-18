@@ -10,13 +10,15 @@ import com.example.empoweher.model.Question
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 
-class NoteViewModel(userId:String,mode:Int) : ViewModel() {
+class NoteViewModel(userId:String,mode:Int,date:Int) : ViewModel() {
     val response: MutableState<DataState> = mutableStateOf(DataState.Empty)
     val mode=mode
     val userId=userId
     var path=""
+    val date=date
     init {
         fetch()
     }
@@ -36,7 +38,10 @@ class NoteViewModel(userId:String,mode:Int) : ViewModel() {
                 for (data in snapshot.children){
                     val e=data.getValue(Note::class.java)
                     if (e!=null) {
-                        notes.add(e)
+
+                        if (e.time!!.toInt()>=date &&e.time!!.toInt()<=date+86400000 ) {
+                            notes.add(e)
+                        }
                     }
                 }
                 Log.d("hello",notes.toString())

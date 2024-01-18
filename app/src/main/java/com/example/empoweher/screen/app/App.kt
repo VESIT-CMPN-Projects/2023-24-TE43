@@ -44,6 +44,7 @@ import com.example.empoweher.screen.ask.Ask
 import com.example.empoweher.screen.events.EventForm
 import com.example.empoweher.screen.events.Events
 import com.example.empoweher.screen.home.Home
+import com.example.empoweher.screen.notes.CreateNote
 import com.example.empoweher.screen.profile.Profile
 import com.example.empoweher.screen.safety.*
 import com.example.empoweher.screen.temp.Temp1
@@ -382,6 +383,13 @@ fun App(
                     Profile(userId, navigateToNextScreen = { route ->
                         navController.navigate(route)
                     })
+                }
+                composable(route = Screen.CreateNote.route) {
+                    CreateNote(navigateToNextScreen = { route ->
+                        navController.navigate(route)
+                    })
+
+
                 }
 
 
