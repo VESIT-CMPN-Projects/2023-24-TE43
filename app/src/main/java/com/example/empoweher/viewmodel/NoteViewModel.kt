@@ -13,7 +13,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 
-class NoteViewModel(userId:String,mode:Int,date:Int) : ViewModel() {
+class NoteViewModel(userId:String,mode:Int,date:Long) : ViewModel() {
     val response: MutableState<DataState> = mutableStateOf(DataState.Empty)
     val mode=mode
     val userId=userId
@@ -39,7 +39,8 @@ class NoteViewModel(userId:String,mode:Int,date:Int) : ViewModel() {
                     val e=data.getValue(Note::class.java)
                     if (e!=null) {
 
-                        if (e.time!!.toInt()>=date &&e.time!!.toInt()<=date+86400000 ) {
+                        if (e.noteId!!.toLong()>=date) {
+                            Log.d("kkk","hello")
                             notes.add(e)
                         }
                     }

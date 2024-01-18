@@ -83,7 +83,7 @@ import java.util.Calendar
         var startDate by remember {
             mutableLongStateOf(0) // or use mutableStateOf(calendar.timeInMillis)
         }
-        val viewModel = viewModel { NoteViewModel(userId = id, mode = 0,startDate.toInt()) }
+        val viewModel = viewModel { NoteViewModel(userId = id, mode = 0,startDate) }
         when( val result= viewModel.response.value){
             is DataState.Loading -> {
                 Box(
@@ -137,6 +137,8 @@ import java.util.Calendar
                             confirmButton = {
                                 TextButton(onClick = {
                                         showDatePicker = false
+                                        startDate = datePickerState.selectedDateMillis!!
+                                    Log.d("kkk",startDate.toString())
                                 }) {
                                     Text(text = "Confirm")
                                 }
@@ -154,20 +156,20 @@ import java.util.Calendar
                             )
                         }
                     }
-                    Button(
-                        onClick = {
-                            showDatePicker = true
-                            startDate = datePickerState.selectedDateMillis!!
-                        }
-                    ) {
-                        Text(text = "Pick Date")
-                    }
+//                    Button(
+//                        onClick = {
+//                            showDatePicker = true
+//                            startDate = datePickerState.selectedDateMillis!!
+//                        }
+//                    ) {
+//                        Text(text = "Pick Date")
+//                    }
 
 
                     FloatingActionButton(
                         modifier=Modifier
                             .align(Alignment.End)
-                            .padding(converterHeight(20, context =context).dp,converterHeight(10, context =context).dp)
+                            .padding(converterHeight(10, context =context).dp,converterHeight(10, context =context).dp)
                             .size(converterHeight(50, context =context).dp),
                         shape = CircleShape,
                         onClick = {
