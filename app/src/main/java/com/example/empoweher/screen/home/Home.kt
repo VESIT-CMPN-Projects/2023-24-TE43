@@ -232,7 +232,7 @@ fun ShowLazyListNote(note: MutableList<Note>, navigateToNextScreen: (route: Stri
                     },
             ) {
                 NoteCard(
-                    each
+                    each,navigateToNextScreen
                 )
             }
         }

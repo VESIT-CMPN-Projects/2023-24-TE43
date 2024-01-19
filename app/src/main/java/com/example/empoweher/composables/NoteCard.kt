@@ -12,11 +12,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ScaleFactor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.Font
@@ -27,12 +29,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.empoweher.R
 import com.example.empoweher.model.Note
+import com.example.empoweher.model.Screen
 import com.example.empoweher.screen.Details.converterHeight
 import java.text.SimpleDateFormat
 import java.util.Date
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NoteCard(note: Note) {
+fun NoteCard(note: Note,navigateToNextScreen: (route: String) -> Unit) {
     val text=note.note!!
     val id=note.noteId!!
     val name=note.name!!
@@ -47,6 +51,9 @@ fun NoteCard(note: Note) {
             containerColor = colorResource(id = R.color.white),
         ),
         shape = RoundedCornerShape(converterHeight(20,context).dp),
+        onClick = {
+            navigateToNextScreen(Screen.DetailedNote.route+"/"+ id)
+        }
     ){
         Row {
             Text(text = name,

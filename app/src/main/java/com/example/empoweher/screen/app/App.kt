@@ -45,6 +45,7 @@ import com.example.empoweher.screen.events.EventForm
 import com.example.empoweher.screen.events.Events
 import com.example.empoweher.screen.home.Home
 import com.example.empoweher.screen.notes.CreateNote
+import com.example.empoweher.screen.notes.DetailedNote
 import com.example.empoweher.screen.profile.Profile
 import com.example.empoweher.screen.safety.*
 import com.example.empoweher.screen.temp.Temp1
@@ -70,8 +71,8 @@ fun App(
     val startDestination = if (googleAuthUiClient.getSignedInUser() != null) {
         Screen.Home.route
     } else {
-        Screen.Login.route
-//        Screen.Home.route
+//        Screen.Login.route
+        Screen.Home.route
     }
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -390,6 +391,31 @@ fun App(
                     })
 
 
+                }
+                composable(route = Screen.DetailedNote.route+"/{noteId}", arguments = listOf(
+                    navArgument("noteId"){
+                        type = NavType.StringType
+                        nullable=true
+                    },
+//                    navArgument("key"){
+//                        type = NavType.BoolType
+//                        nullable=true
+//                    }
+                )) {
+                    LaunchedEffect(key1 = shouldShowScaffold) {
+                        shouldShowScaffold = false
+                    }
+                    val noteId = it.arguments?.getString("noteId")
+//                    val key = it.arguments?.getBoolean("key")
+                    DetailedNote(noteId, navigateToNextScreen = { route ->
+                        navController.navigate(route)
+                    })
+
+                    DisposableEffect(shouldShowScaffold) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
                 }
 
 

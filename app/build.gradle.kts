@@ -116,4 +116,9 @@ dependencies {
 
     //Exo player
     implementation ("com.google.android.exoplayer:exoplayer:2.19.1")
+
+    //QR
+    implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
+
+    implementation ("com.google.zxing:core:3.4.1")
 }
