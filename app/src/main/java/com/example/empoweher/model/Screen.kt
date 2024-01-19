@@ -26,5 +26,6 @@ sealed class Screen(val route:String)
     object DetailsDp: Screen(route = "detailsDp")
     object Answer: Screen(route = "Answer")
     object Profile: Screen(route = "profile")
+    object Registration:Screen(route = "registration")
 
 }

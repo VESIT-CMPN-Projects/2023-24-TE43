@@ -47,6 +47,7 @@ import com.example.empoweher.screen.home.Home
 import com.example.empoweher.screen.profile.Profile
 import com.example.empoweher.screen.safety.*
 import com.example.empoweher.screen.temp.Temp1
+import com.example.empoweher.screen.Details.Registration
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -134,15 +135,13 @@ fun App(
                             }
                         },
                         navigateToHome = {
-                            navController.navigate(Screen.Home.route)
+                            navController.navigate(Screen.Details.route)
                             viewModel.resetState()
                         }
                     )
                 }
                 composable(route = Screen.Home.route) {
-
-                    Home(
-                    )
+                    Home()
                 }
                 composable(route = Screen.Safety.route) {
                     Safety(
@@ -353,6 +352,19 @@ fun App(
                         }
                     }
 
+                }
+                composable(route = Screen.Registration.route) {
+                    LaunchedEffect(shouldShowScaffold){
+                        shouldShowScaffold = false
+                    }
+                    Registration(navigateToNextScreen = { route ->
+                        navController.navigate(route)
+                    })
+                    DisposableEffect(shouldShowScaffold) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
                 }
                 composable(route = Screen.Answer.route+"/{questionId}", arguments = listOf(
                     navArgument("questionId"){

@@ -152,7 +152,7 @@ fun DetailsDp(navigateToNextScreen: (route: String)->Unit){
                         dbref.child(currentFirebaseUser).child("Dp").setValue(it.toString())
                     }
                 }
-                navigateToNextScreen(Screen.Home.route)
+                navigateToNextScreen(Screen.Registration.route)
 
             }) {
 

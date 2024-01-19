@@ -27,13 +27,11 @@ fun BottomNavigation(navigateToItem: (route:String)->Unit) {
     var selectedItemIndex by rememberSaveable {
         mutableStateOf(0)
     }
-    NavigationBar(
-
-    )
+    NavigationBar()
     {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
-                selected = selectedItemIndex == index,
+                selected = (selectedItemIndex==index),
                 onClick = {
                     selectedItemIndex = index
                     navigateToItem(item.route)
