@@ -1,17 +1,23 @@
 package com.example.empoweher.composables
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.pager.HorizontalPager
@@ -20,15 +26,22 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,117 +55,87 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.empoweher.R
+import com.example.empoweher.screen.Details.converterHeight
+import com.example.empoweher.screen.Details.converterWidth
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
-@Composable
-fun IndicatorDot(
-    modifier: Modifier = Modifier,
-    size: Dp,
-    color: Color
-) {
-    Box(
-        modifier = modifier
-            .size(size)
-            .clip(CircleShape)
-            .background(color)
-    )
-}
-
-@Composable
-fun DotsIndicator(
-    modifier: Modifier = Modifier,
-    totalDots: Int,
-    selectedIndex: Int,
-    selectedColor: Color = Color.Yellow /* Color.Yellow */,
-    unSelectedColor: Color = Color.Gray /* Color.Gray */,
-    dotSize: Dp
-) {
-    LazyRow(
-        modifier = modifier
-            .wrapContentWidth()
-            .wrapContentHeight()
-    ) {
-        items(totalDots) { index ->
-            IndicatorDot(
-                color = if (index == selectedIndex) selectedColor else unSelectedColor,
-                size = dotSize
-            )
-
-            if (index != totalDots - 1) {
-                Spacer(modifier = Modifier.padding(horizontal = 2.dp))
-            }
-        }
-    }
-}
-
-
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun AutoSlidingCarousel(
-    modifier: Modifier = Modifier,
-    autoSlideDuration: Long = 5000,
-    itemsCount: Int,
-    pagerState: PagerState = rememberPagerState(pageCount = { itemsCount }) ,
-    itemContent: @Composable (index: Int) -> Unit,
-) {
-    val isDragged by pagerState.interactionSource.collectIsDraggedAsState()
-
-    LaunchedEffect(pagerState.currentPage) {
-        delay(autoSlideDuration)
-        pagerState.animateScrollToPage((pagerState.currentPage + 1) % itemsCount)
-    }
-
-    Box(
-        modifier = modifier.fillMaxWidth(),
-    ) {
-        HorizontalPager(state = pagerState) { page ->
-            itemContent(page)
-        }
-
-        // you can remove the surface in case you don't want
-        // the transparant bacground
-        Surface(
-            modifier = Modifier
-                .padding(bottom = 8.dp)
-                .align(Alignment.BottomCenter),
-            shape = CircleShape,
-            color = Color.Black.copy(alpha = 0.5f)
-        ) {
-            DotsIndicator(
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp),
-                totalDots = itemsCount,
-                selectedIndex = if (isDragged) pagerState.currentPage else pagerState.targetPage,
-                dotSize = 8.dp
-            )
-        }
-    }
-}
-
+import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalFoundationApi::class)
 @Preview(showBackground = true, heightDp = 790, widthDp = 400, showSystemUi = true)
 @Composable
 fun slider() {
-    val images = listOf(R.drawable.alert, R.drawable.emergency)
-
-    Card(
-        modifier = Modifier.padding(16.dp),
-        shape = RoundedCornerShape(16.dp),
-    ) {
-        AutoSlidingCarousel(
-            itemsCount = images.size,
-            itemContent = { index ->
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(images[index])
-                        .build(),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.height(200.dp)
-                )
-            }
-        )
+    val images = listOf(R.drawable.alert, R.drawable.emergency,R.drawable.add_contact,R.drawable.alert1)
+    val pagerState = rememberPagerState(
+        pageCount ={ images.size}
+    )
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(2000)
+            val nextPage = (pagerState.currentPage + 1) % pagerState.pageCount
+            pagerState.scrollToPage(nextPage)
+        }
     }
+    val scope = rememberCoroutineScope()
+
+    Column(
+        Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(modifier = Modifier.wrapContentSize()) {
+            HorizontalPager(
+                state = pagerState,
+                Modifier
+                    .wrapContentSize()
+
+            ) { currentPage ->
+
+                Card(
+                    Modifier
+                        .wrapContentSize()
+                        .padding(top=26.dp)
+                        .height(converterHeight(400, LocalContext.current).dp),
+                    elevation = CardDefaults.cardElevation(8.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = images[currentPage]),
+                        contentDescription = "",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+            }
+        }
+
+        PageIndicator(
+            pageCount = images.size,
+            currentPage = pagerState.currentPage,
+            modifier = Modifier
+        )
+
+    }
+}
+
+@Composable
+fun PageIndicator(pageCount: Int, currentPage: Int, modifier: Modifier) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .padding(top=20.dp)
+    ) {
+        repeat(pageCount){
+            IndicatorDots(isSelected = it == currentPage, modifier= modifier)
+        }
+    }
+}
+
+@Composable
+fun IndicatorDots(isSelected: Boolean, modifier: Modifier) {
+    val size = animateDpAsState(targetValue = if (isSelected) 12.dp else 10.dp, label = "")
+    Box(modifier = modifier.padding(2.dp)
+        .size(size.value)
+        .clip(CircleShape)
+        .background(if (isSelected) Color(0xff373737) else Color(0xA8373737))
+    )
 }

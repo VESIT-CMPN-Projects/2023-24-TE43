@@ -36,7 +36,7 @@ fun Registration(navigateToNextScreen: (route: String)->Unit){
     var password by remember{
         mutableStateOf(" ")
     }
-    Column(modifier=Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
+    Column{
         Text(text = "Register Yourself",  modifier = Modifier
             .fillMaxWidth()
             .padding(top = converterHeight(70, context).dp),

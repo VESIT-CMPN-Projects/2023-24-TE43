@@ -171,7 +171,9 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                                 .size(140.dp)
                                 .clip(RoundedCornerShape(40.dp))
                                 .clickable {
-                                    val navigate = Intent(context, VideoConferencing::class.java)
+//                                    val navigate = Intent(context, VideoConferencing::class.java)
+//                                    context.startActivity(navigate)
+                                    val navigate = Intent(context, LocationActivity::class.java)
                                     context.startActivity(navigate)
                                 },
                                 painter = painterResource(id = R.drawable.alert1) ,
