@@ -8,9 +8,12 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import com.example.empoweher.auth.signin.GoogleAuthUiClient
 import com.example.empoweher.screen.app.App
+import com.example.empoweher.util.BarcodeScanner
 import com.google.android.gms.auth.api.identity.Identity
+import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
+
 
     private val googleAuthUiClient by lazy {
         GoogleAuthUiClient(

@@ -28,6 +28,8 @@ sealed class Screen(val route:String)
     object Profile: Screen(route = "profile")
     object CreateNote: Screen(route = "createEvent")
     object DetailedNote: Screen(route = "detailedEvent")
+    object NoteBarcode: Screen(route = "noteBarcode")
+
 
 
 }

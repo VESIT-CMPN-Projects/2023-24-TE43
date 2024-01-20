@@ -257,6 +257,7 @@ fun DetailedEventCard(eventId:String?="",navigateToNextScreen: (route: String)->
             Text(text = "Enroll Now", fontSize = 18.sp)
         }
     }
+
 }
 
 @Composable

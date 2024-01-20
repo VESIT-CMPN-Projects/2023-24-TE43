@@ -46,6 +46,7 @@ import com.example.empoweher.screen.events.Events
 import com.example.empoweher.screen.home.Home
 import com.example.empoweher.screen.notes.CreateNote
 import com.example.empoweher.screen.notes.DetailedNote
+import com.example.empoweher.screen.notes.NoteBarcode
 import com.example.empoweher.screen.profile.Profile
 import com.example.empoweher.screen.safety.*
 import com.example.empoweher.screen.temp.Temp1
@@ -416,6 +417,15 @@ fun App(
                             shouldShowScaffold = true
                         }
                     }
+                }
+                composable(route = Screen.NoteBarcode.route) {
+                    NoteBarcode(
+                //                    navigateToNextScreen = { route ->
+//                        navController.navigate(route)
+//                    }
+                )
+
+
                 }
 
 

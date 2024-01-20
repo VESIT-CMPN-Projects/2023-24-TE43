@@ -8,14 +8,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import com.example.empoweher.R
+import com.google.firebase.auth.FirebaseAuth
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 
 @SuppressLint("ResourceAsColor")
 @Composable
 fun DetailedNote(noteId:String?="", navigateToNextScreen: (route: String)->Unit, flag: Boolean? =false){
+
+    val auth= FirebaseAuth.getInstance().currentUser?.uid
+    var id="PCAPS"
+    if (auth!=null){
+        id=auth
+    }
+    val path="notes/notes/${id}/visible/${noteId}"
     val writer= QRCodeWriter()
-    val bitMatrix = writer.encode(noteId,BarcodeFormat.QR_CODE,512,512)
+    val bitMatrix = writer.encode(path,BarcodeFormat.QR_CODE,512,512)
     val width=bitMatrix.width
     val height=bitMatrix.height
     val bmp = Bitmap.createBitmap(width,height,Bitmap.Config.RGB_565)

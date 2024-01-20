@@ -1,5 +1,6 @@
 package com.example.empoweher.screen.notes
 
+import android.content.Intent
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
@@ -33,17 +34,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.empoweher.R
+import com.example.empoweher.activities.QR
 import com.example.empoweher.model.Note
+import com.example.empoweher.model.Screen
 import com.example.empoweher.screen.Details.converterHeight
+import com.example.empoweher.util.BarcodeScanner
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import java.time.LocalDateTime
 import java.util.Date
+import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CreateNote(navigateToNextScreen: (route: String)->Unit) {
+
+    lateinit var barcodeScanner: BarcodeScanner
+
     val context=LocalContext.current
     var description by remember {
         mutableStateOf("")
@@ -174,9 +184,16 @@ fun CreateNote(navigateToNextScreen: (route: String)->Unit) {
             )
 
         }
+        Button(onClick = {
+            context.startActivity(Intent(context, QR::class.java))
 
 
+        }) {
 
-
+        }
     }
+
+
+
+
 }
