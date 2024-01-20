@@ -119,4 +119,7 @@ dependencies {
 
     //Exo player
     implementation ("com.google.android.exoplayer:exoplayer:2.19.1")
+
+    //Image Slider
+    implementation ("com.google.accompanist:accompanist-pager:0.22.0-rc")
 }
