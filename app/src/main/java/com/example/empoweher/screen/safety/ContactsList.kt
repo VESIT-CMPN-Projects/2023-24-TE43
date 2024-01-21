@@ -1,6 +1,7 @@
 package com.example.empoweher.screen.safety
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -48,6 +49,7 @@ import com.example.empoweher.composables.ContactCard
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import com.example.empoweher.R
+import com.example.empoweher.activities.ContactActivity
 import com.example.empoweher.model.Screen
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -92,7 +94,8 @@ fun ContactsList(navigateToNextScreen: (route: String)->Unit) {
                         modifier = Modifier
                             .fillMaxWidth(.4f)
                             .clickable {
-                                navigateToNextScreen(Screen.AddContact.route)
+                                val navigate = Intent(context, ContactActivity::class.java)
+                                context.startActivity(navigate)
                             }
                     )
                     Text(

@@ -30,8 +30,6 @@ import com.example.empoweher.screen.Details.converterHeight
 fun ContactCard(fName: String, lName: String, pNum: String, checked: Boolean) {
     var context= LocalContext.current
     val convertedElevation = converterHeight(8, context).dp
-
-    if (checked) {
         Card(
             elevation = CardDefaults.cardElevation(defaultElevation = convertedElevation),
             colors = CardDefaults.cardColors(
@@ -57,40 +55,8 @@ fun ContactCard(fName: String, lName: String, pNum: String, checked: Boolean) {
                     text = "Contact Number : " + pNum,
                     fontFamily = FontFamily(Font(R.font.font1))
                 )
-                Text("Emergency Contact : Yes", fontFamily = FontFamily(Font(R.font.font1)))
             }
         }
-    } else {
-        Card(
-            elevation = CardDefaults.cardElevation(defaultElevation = convertedElevation),
-            colors = CardDefaults.cardColors(
-                containerColor = colorResource(id = R.color.mauve)
-            ),
-            modifier = Modifier
-                .padding(converterHeight(8, context).dp)
-                .fillMaxWidth()
-                .clickable {
-
-                },
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth()
-
-            ) {
-                Text(
-                    text = "Name : " + fName + " " + lName,
-                    fontFamily = FontFamily(Font(R.font.font1))
-                )
-                Text(
-                    text = "Contact Number : " + pNum,
-                    fontFamily = FontFamily(Font(R.font.font1))
-                )
-                Text("Emergency Contact : No", fontFamily = FontFamily(Font(R.font.font1)))
-            }
-        }
-    }
 
 }
 

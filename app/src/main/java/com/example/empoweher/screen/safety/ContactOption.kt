@@ -1,5 +1,8 @@
 package com.example.empoweher.screen.safety
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.provider.ContactsContract
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -25,12 +29,15 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.core.content.ContextCompat
 import com.example.empoweher.R
+import com.example.empoweher.activities.ContactActivity
 import com.example.empoweher.model.Screen
-
 @Composable
 fun ContactOption(navigateToNextScreen: (route: String)->Unit){
-    
+    val context=LocalContext.current
     Column(
         modifier= Modifier
             .fillMaxSize()
@@ -47,7 +54,8 @@ fun ContactOption(navigateToNextScreen: (route: String)->Unit){
                 .clip(RoundedCornerShape(30.dp))
                 .size(250.dp)
                 .clickable {
-                    navigateToNextScreen(Screen.AddContact.route)
+                    val navigate = Intent(context, ContactActivity::class.java)
+                    context.startActivity(navigate)
                 },
             contentScale = ContentScale.FillBounds
 
