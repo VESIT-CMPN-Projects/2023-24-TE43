@@ -33,6 +33,7 @@ import com.example.empoweher.auth.signin.SignInScreen
 import com.example.empoweher.auth.signin.SignInViewModel
 import com.example.empoweher.composables.DetailedEventCard
 import com.example.empoweher.composables.EventCard
+import com.example.empoweher.composables.onBoarding
 import com.example.empoweher.model.Screen
 import com.example.empoweher.screen.Details.Details
 import com.example.empoweher.screen.Details.DetailsDesignation
@@ -135,7 +136,7 @@ fun App(
                             }
                         },
                         navigateToHome = {
-                            navController.navigate(Screen.Details.route)
+                            navController.navigate(Screen.Onboarding.route)
                             viewModel.resetState()
                         }
                     )
@@ -393,7 +394,22 @@ fun App(
                     })
                 }
 
+                composable(route = Screen.Onboarding.route) {
+                    onBoarding(
+                        navigateToNextScreen = { route ->
+                            navController.navigate(route)
+                        }
+                    )
+                    LaunchedEffect(shouldShowScaffold){
+                        shouldShowScaffold = false
+                    }
+                    DisposableEffect(shouldShowScaffold) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
 
+                }
 
             }
         }

@@ -25,7 +25,6 @@ import com.example.empoweher.composables.slider
 @Composable
     fun Home() {
     val context = LocalContext.current
-    slider()
     LaunchedEffect(Unit) {
         android.widget.Toast.makeText(
             context,

@@ -200,6 +200,7 @@ fun TypewriterText(
             }
             textIndex = (textIndex + 1) % texts.size
             delay(1000)
+
         }
     }
 

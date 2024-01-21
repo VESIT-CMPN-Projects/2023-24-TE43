@@ -1,40 +1,32 @@
 package com.example.empoweher.composables
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.with
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.pager.HorizontalPager
-
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -50,22 +42,18 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import androidx.compose.ui.unit.sp
 import com.example.empoweher.R
+import com.example.empoweher.auth.signin.TypewriterText
 import com.example.empoweher.screen.Details.converterHeight
-import com.example.empoweher.screen.Details.converterWidth
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalFoundationApi::class)
 @Preview(showBackground = true, heightDp = 790, widthDp = 400, showSystemUi = true)
 @Composable
 fun slider() {
-    val images = listOf(R.drawable.alert, R.drawable.emergency,R.drawable.add_contact,R.drawable.alert1)
+    val images = listOf(R.drawable.indiragandhi, R.drawable.indranooyi,R.drawable.kalpanachawla,R.drawable.kiranbedi,R.drawable.marykom)
     val pagerState = rememberPagerState(
         pageCount ={ images.size}
     )
@@ -93,7 +81,7 @@ fun slider() {
                 Card(
                     Modifier
                         .wrapContentSize()
-                        .padding(top=26.dp)
+                        .padding(top=26.dp, start = 10.dp,end = 10.dp)
                         .height(converterHeight(400, LocalContext.current).dp),
                     elevation = CardDefaults.cardElevation(8.dp)
                 ) {
@@ -112,9 +100,20 @@ fun slider() {
             currentPage = pagerState.currentPage,
             modifier = Modifier
         )
-
+        TypewriterText(
+            texts = listOf(
+                "Welcome to EmpowerHer",
+                "What is common between all these women ?",
+                "They never gave up against all odds",
+                "There is no limit to what we, as women, can accomplish - Michelle Obama"
+            ),
+        )
     }
+
+
 }
+
+
 
 @Composable
 fun PageIndicator(pageCount: Int, currentPage: Int, modifier: Modifier) {
