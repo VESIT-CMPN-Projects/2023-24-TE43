@@ -63,7 +63,7 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.teal_450))
+            .background(colorResource(id = R.color.cream))
 
     ) {
         Card(
@@ -74,7 +74,7 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                 .padding(converterHeight(10,context).dp),
             colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.teal_200)),
             elevation = CardDefaults.cardElevation(20.dp),
-            shape = RoundedCornerShape(25.dp)
+            shape = RoundedCornerShape(converterHeight(25,context).dp)
         ){
 
             Text(
@@ -82,10 +82,10 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                 fontStyle = FontStyle(R.font.font1),
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
-                fontSize = 35.sp,
+                fontSize = converterHeight(35,context).sp,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .absoluteOffset(0.dp, 30.dp),
+                    .absoluteOffset(converterHeight(0,context).dp, converterHeight(30,context).dp),
                 fontFamily = FontFamily(Font(R.font.font1))
             )
 
@@ -93,22 +93,22 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
         Card(modifier = Modifier
             .align(Alignment.BottomStart)
             .fillMaxWidth()
-            .fillMaxHeight(.75f)
-            .padding(10.dp),
-            shape = RoundedCornerShape(25.dp),
-            colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.white)),
-            elevation = CardDefaults.cardElevation(20.dp)) {
+            .fillMaxHeight(.80f)
+            .padding(converterHeight(10,context).dp),
+            shape = RoundedCornerShape(converterHeight(25,context).dp),
+            colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.cream)),
+            elevation = CardDefaults.cardElevation(converterHeight(20,context).dp)) {
 
             Column(modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
-                Row(Modifier.padding(8.dp), Arrangement.SpaceBetween){
+                Row(Modifier.padding(converterHeight(8,context).dp), Arrangement.SpaceBetween){
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Card(modifier = Modifier
-                            .size(140.dp),colors = CardDefaults.cardColors(
+                            .size(converterHeight(140,context).dp),colors = CardDefaults.cardColors(
                             containerColor = Color.White),
-                            elevation = CardDefaults.cardElevation(20.dp)){
+                            elevation = CardDefaults.cardElevation(converterHeight(20,context).dp)){
                             Box(modifier = Modifier
                                     .size(converterHeight(140,context).dp)
                                     .clickable {
@@ -117,26 +117,26 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                                 Exoplayer(uri = Uri.parse("android.resource://com.example.empoweher/raw/fakecall"))
                             }
                         }
-                        Spacer(modifier = Modifier.height(10.dp))
+                        Spacer(modifier = Modifier.height(converterHeight(10,context).dp))
                         Text(
                             text = "FAKE CALL",
-                            fontSize = 30.sp,
+                            fontSize = converterHeight(30,context).sp,
                             fontFamily = FontFamily(Font(R.font.font1)),
                             fontWeight = FontWeight.Bold,
                             color = colorResource(R.color.teal_450),
                         )
                     }
-                    Spacer(modifier = Modifier.width(40.dp))
+                    Spacer(modifier = Modifier.width(converterHeight(40,context).dp))
 
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Card(modifier = Modifier
-                            .size(140.dp),
+                            .size(converterHeight(140,context).dp),
                             colors = CardDefaults.cardColors(
                             containerColor = Color.White),
-                            elevation = CardDefaults.cardElevation(20.dp)){
+                            elevation = CardDefaults.cardElevation(converterHeight(20,context).dp)){
                             Image(modifier= Modifier
-                                .size(140.dp)
-                                .clip(RoundedCornerShape(40.dp))
+                                .size(converterHeight(140,context).dp)
+                                .clip(RoundedCornerShape(converterHeight(40,context).dp))
                                 .clickable {
                                     val intent = Intent(
                                         Intent.ACTION_VIEW,
@@ -149,10 +149,10 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                                 contentScale = ContentScale.Fit)
 
                         }
-                        Spacer(modifier = Modifier.height(10.dp))
+                        Spacer(modifier = Modifier.height(converterHeight(10,context).dp))
                         Text(
                             text = "POLICE STN",
-                            fontSize = 30.sp,
+                            fontSize = converterHeight(30,context).sp,
                             fontFamily = FontFamily(Font(R.font.font1)),
                             fontWeight = FontWeight.Bold,
                             color = colorResource(R.color.teal_450),
@@ -160,16 +160,16 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                     }
 
                 }
-                Spacer(modifier = Modifier.height(20.dp))
-                Row(Modifier.padding(8.dp), Arrangement.SpaceBetween){
+                Spacer(modifier = Modifier.height(converterHeight(20,context).dp))
+                Row(Modifier.padding(converterHeight(8,context).dp), Arrangement.SpaceBetween){
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Card(modifier = Modifier
-                            .size(140.dp),colors = CardDefaults.cardColors(
+                            .size(converterHeight(140,context).dp),colors = CardDefaults.cardColors(
                             containerColor = Color.White),
-                            elevation = CardDefaults.cardElevation(20.dp)){
+                            elevation = CardDefaults.cardElevation(converterHeight(20,context).dp)){
                             Image(modifier= Modifier
-                                .size(140.dp)
-                                .clip(RoundedCornerShape(40.dp))
+                                .size(converterHeight(140,context).dp)
+                                .clip(RoundedCornerShape(converterHeight(0,context).dp))
                                 .clickable {
 //                                    val navigate = Intent(context, VideoConferencing::class.java)
 //                                    context.startActivity(navigate)
@@ -181,28 +181,28 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                                 contentScale = ContentScale.Fit)
 
                         }
-                        Spacer(modifier = Modifier.height(10.dp))
+                        Spacer(modifier = Modifier.height(converterHeight(10,context).dp))
                         Text(
                             text = "ALERT",
-                            fontSize = 30.sp,
+                            fontSize = converterHeight(30,context).sp,
                             fontFamily = FontFamily(Font(R.font.font1)),
                             fontWeight = FontWeight.Bold,
                             color = colorResource(R.color.teal_450),
                         )
                     }
 
-                    Spacer(modifier = Modifier.width(40.dp))
+                    Spacer(modifier = Modifier.width(converterHeight(40,context).dp))
 
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
                         Card(modifier = Modifier
-                            .size(140.dp),colors = CardDefaults.cardColors(
+                            .size(converterHeight(140,context).dp),colors = CardDefaults.cardColors(
                             containerColor = Color.White),
-                            elevation = CardDefaults.cardElevation(20.dp)){
+                            elevation = CardDefaults.cardElevation(converterHeight(20,context).dp)){
 
                             Image(modifier= Modifier
-                                .size(140.dp)
-                                .clip(RoundedCornerShape(40.dp))
+                                .size(converterHeight(140,context).dp)
+                                .clip(RoundedCornerShape(converterHeight(40,context).dp))
                                 .clickable {
                                     navigateToNextScreen(Screen.ContactOption.route)
                                 },
@@ -211,10 +211,10 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                                 contentScale = ContentScale.Fit)
 
                         }
-                        Spacer(modifier = Modifier.height(10.dp))
+                        Spacer(modifier = Modifier.height(converterHeight(10,context).dp))
                         Text(
                             text = "EMERGENCY",
-                            fontSize = 30.sp,
+                            fontSize = converterHeight(30,context).sp,
                             fontFamily = FontFamily(Font(R.font.font1)),
                             fontWeight = FontWeight.Bold,
                             color = colorResource(R.color.teal_450),
