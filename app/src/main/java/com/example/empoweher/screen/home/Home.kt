@@ -1,5 +1,6 @@
 package com.example.empoweher.screen.home
 
+import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
@@ -23,9 +24,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -43,6 +48,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -54,6 +61,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.empoweher.R
+import com.example.empoweher.activities.HiddenNotes
 import com.example.empoweher.composables.HeartAnimation
 import com.example.empoweher.composables.NoteCard
 import com.example.empoweher.composables.QuestionCard
@@ -117,7 +125,7 @@ import java.util.Calendar
                 Column(
                     modifier= Modifier
                         .fillMaxSize()
-                        .background(colorResource(id = R.color.cream)),
+                        .background(colorResource(id = R.color.black)),
                     horizontalAlignment = Alignment.CenterHorizontally
 
                 ) {
@@ -164,20 +172,57 @@ import java.util.Calendar
 //                    ) {
 //                        Text(text = "Pick Date")
 //                    }
+                    Card(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = colorResource(id = R.color.teal_700),
+                        ),
+                        shape = RoundedCornerShape(converterHeight(30,context).dp),
+                    ){
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Button(
+                                onClick = {
+                                context.startActivity(Intent(context, HiddenNotes::class.java)) },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Color.Black
+                                ),
+                                modifier = Modifier.padding(converterHeight(10,context).dp)
+                            ) {
+                                Text(
+                                    text = "Hidden Notes",
+                                    fontSize = converterHeight(18, context).sp,
+                                    fontFamily = FontFamily(Font(R.font.font1)),
+                                )
+
+                            }
+                            Spacer(Modifier.weight(1f))
+                            FloatingActionButton(
+                                modifier= Modifier
+                                    .padding(
+                                        converterHeight(10, context = context).dp,
+                                        converterHeight(10, context = context).dp
+                                    )
+                                    .size(converterHeight(50, context = context).dp),
+                                shape = CircleShape,
+                                containerColor = Color.Black,
+                                contentColor = Color.White,
+                                onClick = {
+                                    navigateToNextScreen(Screen.CreateNote.route)
+                                },
+                            ) {
+                                Icon(Icons.Filled.Add, "Floating action button.",modifier=Modifier.size(converterHeight(40, context =context).dp))
+                            }
+
+                        }
 
 
-                    FloatingActionButton(
-                        modifier=Modifier
-                            .align(Alignment.End)
-                            .padding(converterHeight(10, context =context).dp,converterHeight(10, context =context).dp)
-                            .size(converterHeight(50, context =context).dp),
-                        shape = CircleShape,
-                        onClick = {
-                            navigateToNextScreen(Screen.CreateNote.route)
-                        },
-                    ) {
-                        Icon(Icons.Filled.Add, "Floating action button.",modifier=Modifier.size(converterHeight(40, context =context).dp))
+
                     }
+
+
                 }
 
             }
@@ -216,10 +261,19 @@ fun ShowLazyListNote(note: MutableList<Note>, navigateToNextScreen: (route: Stri
 
     LazyColumn(
         modifier= Modifier
-        .fillMaxHeight(0.8f)
-        .fillMaxWidth(),
+            .fillMaxHeight(0.825f)
+            .fillMaxWidth()
+            .clip(
+                shape = RoundedCornerShape(
+                    converterHeight(
+                        30,
+                        context = LocalContext.current
+                    ).dp
+                )
+            ),
         reverseLayout = true,
         state = chatListState,
+
     ){
         items(note){each->
             Box(

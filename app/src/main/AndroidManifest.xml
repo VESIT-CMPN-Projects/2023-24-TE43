@@ -27,6 +27,11 @@
         android:theme="@style/Theme.EmpoweHer"
         tools:targetApi="31">
         <activity
+            android:name=".activities.HiddenNotes"
+            android:exported="false"
+            android:label="@string/title_activity_hidden_notes"
+            android:theme="@style/Theme.EmpoweHer" />
+        <activity
             android:name=".activities.QR"
             android:exported="false"
             android:label="@string/title_activity_qr"
@@ -47,10 +52,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.journeyapps.barcodescanner.CaptureActivity"
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
-            tools:replace="android:screenOrientation"
-            />
+            tools:replace="android:screenOrientation" />
     </application>
 
 </manifest>

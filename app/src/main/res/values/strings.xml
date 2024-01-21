@@ -4,4 +4,5 @@
     <string name="title_activity_location">LocationActivity</string>
     <string name="guest">Pokemon</string>
     <string name="title_activity_qr">QR</string>
+    <string name="title_activity_hidden_notes">HiddenNotes</string>
 </resources>
