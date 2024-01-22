@@ -1,6 +1,7 @@
 package com.example.empoweher.screen.notes
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
@@ -170,6 +171,8 @@ fun CreateNote(navigateToNextScreen: (route: String)->Unit) {
                     description=""
                     name=""
                     checked=false
+                    val mediaPlayer = MediaPlayer.create(context,R.raw.alert)
+                    mediaPlayer.start()
                 }
 
 
@@ -185,13 +188,7 @@ fun CreateNote(navigateToNextScreen: (route: String)->Unit) {
             )
 
         }
-        Button(onClick = {
-            context.startActivity(Intent(context, HiddenNotes::class.java))
 
-
-        }) {
-
-        }
     }
 
 

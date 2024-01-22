@@ -73,6 +73,8 @@ import com.example.empoweher.screen.Details.converterHeight
 import com.example.empoweher.screen.events.LoadingAnimation3
 import com.example.empoweher.viewmodel.NoteViewModel
 import com.example.empoweher.viewmodel.QuestionViewModel
+import com.google.accompanist.systemuicontroller.SystemUiController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.auth.FirebaseAuth
 import java.util.Calendar
 
@@ -80,6 +82,8 @@ import java.util.Calendar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
     fun Home(navigateToNextScreen: (route: String)->Unit) {
+        val systemUiController: SystemUiController = rememberSystemUiController()
+        systemUiController.isStatusBarVisible = false
         val context= LocalContext.current
         val auth= FirebaseAuth.getInstance().currentUser?.uid
         var id="PCAPS"

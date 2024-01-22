@@ -36,7 +36,7 @@ sealed class BottomNavigationItem(
         selectedIcon = Icons.Filled.Search,
         unselectedIcon = Icons.Outlined.Search,
         hasNews = false,
-        route = Screen.Ask.route,
+        route = Screen.Temp1.route,
     )
     object Events: BottomNavigationItem(
         title = "Events",

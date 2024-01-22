@@ -234,12 +234,11 @@ fun Greeting(name: String,a:(Boolean)->Unit) {
                     "error",
                     Toast.LENGTH_SHORT
                 ).show()
-                Espresso.pressBack()
+                Espresso.pressBackUnconditionally()
             }
 
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                 super.onAuthenticationSucceeded(result)
-                Toast.makeText(context, "succeeded!", Toast.LENGTH_LONG).show()
                 a(false)
             }
 

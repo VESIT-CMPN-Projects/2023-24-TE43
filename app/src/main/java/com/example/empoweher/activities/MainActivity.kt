@@ -9,6 +9,8 @@ import androidx.lifecycle.lifecycleScope
 import com.example.empoweher.auth.signin.GoogleAuthUiClient
 import com.example.empoweher.screen.app.App
 import com.example.empoweher.util.BarcodeScanner
+import com.google.accompanist.systemuicontroller.SystemUiController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.auth.api.identity.Identity
 import javax.inject.Inject
 
@@ -25,7 +27,9 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
+
 
 
             App(

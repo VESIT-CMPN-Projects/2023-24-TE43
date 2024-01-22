@@ -8,11 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import com.example.empoweher.activities.LocationActivity
+import com.example.empoweher.composables.Quote
 
 @Composable
 fun Temp1(){
-    val context= LocalContext.current
-   LaunchedEffect(Unit){
-       Toast.makeText(context,"WILL BE IMPLEMENTED SOON...",Toast.LENGTH_SHORT).show()
-   }
+    Quote()
 }

@@ -7,6 +7,7 @@ plugins {
     id("kotlin-kapt")
 }
 
+
 android {
     namespace = "com.example.empoweher"
     compileSdk = 34
@@ -133,5 +134,15 @@ dependencies {
 
     //Backpress
     implementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    implementation ("com.google.accompanist:accompanist-systemuicontroller:0.28.0")
+
+    // Fuel library
+    implementation("com.github.kittinunf.fuel:fuel:2.3.1")
+    implementation("com.github.kittinunf.fuel:fuel-android:2.3.1")
+    implementation("com.github.kittinunf.fuel:fuel-json:2.3.1")
+
+    // Serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
 }
