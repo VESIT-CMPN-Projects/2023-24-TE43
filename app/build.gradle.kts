@@ -122,4 +122,7 @@ dependencies {
 
     //Image Slider
     implementation ("com.google.accompanist:accompanist-pager:0.22.0-rc")
+
+    //Backpress
+    implementation("androidx.test.espresso:espresso-core:3.5.1")
 }

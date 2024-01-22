@@ -7,12 +7,14 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
+import androidx.test.espresso.Espresso
 import com.example.empoweher.R
 import com.example.empoweher.SQLIteDB.Contact
 import com.example.empoweher.SQLIteDB.ContactDatabase
@@ -71,11 +73,9 @@ class ContactActivity : AppCompatActivity() {
                         contact = Contact(0, fName, lName, numberList[i], true)
                         db.itemDao().insertContact(contact = contact)
                     }
+                    Espresso.pressBack()
                 }
             }
-            val navController= rememberNavController()
-            
         }
-
     }
 }
