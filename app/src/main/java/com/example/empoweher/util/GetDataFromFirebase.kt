@@ -10,10 +10,13 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-fun GetDataFromFirebase(nodePath:String?,child: String?): String {
+@Composable
+fun GetDataFromFirebase(nodePath:String?, child: String?): String {
     val dbref = FirebaseDatabase.getInstance().getReference();
     val node=dbref.child(nodePath!!)
-    var value =""
+    var value by remember {
+        mutableStateOf("")
+    }
     node.addValueEventListener(object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
             value=snapshot.child(child!!).getValue(String::class.java).toString();
