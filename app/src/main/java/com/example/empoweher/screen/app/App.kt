@@ -1,5 +1,6 @@
 package com.example.empoweher.screen.app
 
+import android.content.Intent
 import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -20,6 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -28,6 +30,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.empoweher.activities.ContactActivity
+import com.example.empoweher.activities.SafetyActivity
 import com.example.empoweher.auth.signin.GoogleAuthUiClient
 import com.example.empoweher.auth.signin.SignInScreen
 import com.example.empoweher.auth.signin.SignInViewModel
@@ -71,8 +75,8 @@ fun App(
     val startDestination = if (googleAuthUiClient.getSignedInUser() != null) {
         Screen.Home.route
     } else {
-        Screen.Login.route
-//        Screen.Home.route
+//        Screen.Login.route
+        Screen.Home.route
     }
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -145,11 +149,14 @@ fun App(
                     Home()
                 }
                 composable(route = Screen.Safety.route) {
-                    Safety(
-                        navigateToNextScreen = { route ->
-                            navController.navigate(route)
-                        }
-                    )
+//                    Safety(
+//                        navigateToNextScreen = { route ->
+//                            navController.navigate(route)
+//                        }
+//                    )
+                    val context= LocalContext.current
+                    val navigator = Intent(context, SafetyActivity::class.java)
+                    context.startActivity(navigator)
                 }
                 composable(route = Screen.FakeCall.route) {
                     LaunchedEffect(key1 = shouldShowScaffold){

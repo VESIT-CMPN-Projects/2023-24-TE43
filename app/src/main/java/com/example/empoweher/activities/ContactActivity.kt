@@ -5,14 +5,14 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import androidx.test.espresso.Espresso
 import com.example.empoweher.R
@@ -30,6 +30,13 @@ class ContactActivity : AppCompatActivity() {
     private var nameList:ArrayList<String> = ArrayList()
     private val REQUEST_CODE_PICK_CONTACT =57
 
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            event?.startTracking();
+            Toast.makeText(this@ContactActivity,"Key Long Pressed",Toast.LENGTH_SHORT).show()
+        }
+        return super.onKeyDown(keyCode, event)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_contact)

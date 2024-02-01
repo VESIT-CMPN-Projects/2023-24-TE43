@@ -76,7 +76,7 @@ fun Answer(questionId:String?="",navigateToNextScreen: (route: String)->Unit) {
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                         Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
                             Text(
-                                text = "Events Loading  ",
+                                text = "Question Loading  ",
                                 fontSize = 25.sp,
                                 textAlign = TextAlign.Center,
                                 fontWeight= FontWeight.Bold,

@@ -13,7 +13,6 @@ data class SignInState(
 )
 
 class SignInViewModel: ViewModel() {
-
     private val _state = MutableStateFlow(SignInState())
     val state = _state.asStateFlow()
 

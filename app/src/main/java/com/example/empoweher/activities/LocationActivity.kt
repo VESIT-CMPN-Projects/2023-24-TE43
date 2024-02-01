@@ -1,6 +1,7 @@
 package com.example.empoweher.activities
 
 import android.Manifest
+import android.app.Activity
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -11,6 +12,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -64,26 +66,29 @@ import com.google.android.gms.location.Priority
 import java.util.concurrent.TimeUnit
 
 class LocationActivity : ComponentActivity() {
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    private lateinit var locationCallback: LocationCallback
+    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    lateinit var locationCallback: LocationCallback
     private var locationRequired: Boolean = false
-    private lateinit var  periodicWorkRequest:PeriodicWorkRequest
+    private lateinit var periodicWorkRequest: PeriodicWorkRequest
     val channelId = "My_channel"
-    val channelName= "My channel name"
+    val channelName = "My channel name"
+    val mContext: Context? = null
     private lateinit var notificationChannel: NotificationChannel
     private lateinit var notificationBuilder: NotificationCompat.Builder
     private lateinit var notification: Notification
+
     @RequiresApi(Build.VERSION_CODES.Q)
-    private val permissions=arrayOf(
+    private val permissions = arrayOf(
         android.Manifest.permission.ACCESS_COARSE_LOCATION,
         android.Manifest.permission.ACCESS_FINE_LOCATION,
         android.Manifest.permission.SEND_SMS,
         android.Manifest.permission.POST_NOTIFICATIONS
     )
+
     override fun onResume() {
         super.onResume()
-        if (locationRequired){
-            startLocationUpdates()
+        if (locationRequired) {
+            startLocationUpdates(locationCallback,fusedLocationProviderClient, this@LocationActivity)
         }
     }
 
@@ -93,17 +98,20 @@ class LocationActivity : ComponentActivity() {
             fusedLocationProviderClient?.removeLocationUpdates(it)
         }
     }
-    private fun startLocationUpdates() {
-        locationCallback?.let{
-            val locationRequest=LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY,10000).setWaitForAccurateLocation(false).setMinUpdateIntervalMillis(10000).setMaxUpdateDelayMillis(100).build()
+
+    fun startLocationUpdates(locationCallback:LocationCallback,fusedLocationProviderClient: FusedLocationProviderClient,context: Context) {
+        locationCallback?.let {
+            val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000)
+                .setWaitForAccurateLocation(false).setMinUpdateIntervalMillis(10000)
+                .setMaxUpdateDelayMillis(100).build()
             if (ActivityCompat.checkSelfPermission(
-                    this,
+                    context,
                     Manifest.permission.ACCESS_FINE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                    this,
+                    context,
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                    this,
+                    context,
                     Manifest.permission.SEND_SMS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
@@ -116,88 +124,96 @@ class LocationActivity : ComponentActivity() {
                 // for ActivityCompat#requestPermissions for more details.
                 return
             }
-            fusedLocationProviderClient?.requestLocationUpdates(locationRequest,it, Looper.getMainLooper())
+            fusedLocationProviderClient?.requestLocationUpdates(
+                locationRequest,
+                it,
+                Looper.getMainLooper()
+            )
         }
     }
+
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fusedLocationProviderClient=LocationServices.getFusedLocationProviderClient(this)
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
         setContent {
             var currentLocation by remember {
-                mutableStateOf(LocationDetails(0.toDouble(),0.toDouble()))
+                mutableStateOf(LocationDetails(0.toDouble(), 0.toDouble()))
             }
-            locationCallback=object:LocationCallback(){
+            locationCallback = object : LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
                     super.onLocationResult(locationResult)
-                    for (location in locationResult.locations){
-                        currentLocation= LocationDetails(location.latitude,location.longitude)
+                    for (location in locationResult.locations) {
+                        currentLocation = LocationDetails(location.latitude, location.longitude)
                     }
                 }
             }
-            Surface(modifier=Modifier.fillMaxSize()){
+            Surface(modifier = Modifier.fillMaxSize()) {
                 LocationScreen(currentLocation)
             }
         }
     }
-    private fun showNotification(context: Context, title:String, msg:String){
-        val notificationManager = context.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            notificationChannel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH)
+
+    private fun showNotification(context: Context, title: String, msg: String) {
+        val notificationManager =
+            context.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationChannel =
+                NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(notificationChannel)
         }
         val intent = Intent(context, MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent =
+            PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         notificationBuilder = NotificationCompat.Builder(context, channelId)
         notificationBuilder.setSmallIcon(R.drawable.alert1)
-            .addAction(R.drawable.alert1, "Turn Off",pendingIntent)
+            .addAction(R.drawable.alert1, "Turn Off", pendingIntent)
             .setContentTitle(title)
             .setContentText(msg)
             .setOngoing(true)
             .setAutoCancel(true)
-        notification=notificationBuilder.build()
-        notificationManager.notify(100,notification)
+        notification = notificationBuilder.build()
+        notificationManager.notify(100, notification)
     }
 
-    private fun dismissNotification(){
+    private fun dismissNotification() {
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notification.flags = notification.flags or Notification.FLAG_AUTO_CANCEL
         notificationManager.cancel(100)
     }
+
     @RequiresApi(Build.VERSION_CODES.Q)
     @Composable
-    fun LocationScreen(currentLocation:LocationDetails){
-        val context= LocalContext.current
+    fun LocationScreen(currentLocation: LocationDetails) {
+        val context = LocalContext.current
         val launcherMultiplePermissions = rememberLauncherForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
-        ){
-                permissionMaps->
-            val areGranted=permissionMaps.values.reduce { acc, next -> acc && next }
-            if (areGranted){
-                locationRequired=true
-                startLocationUpdates()
-                Toast.makeText(context,"Permission Granted",Toast.LENGTH_SHORT).show()
-            }
-            else{
-                Toast.makeText(context,"Permission Denied",Toast.LENGTH_SHORT).show()
+        ) { permissionMaps ->
+            val areGranted = permissionMaps.values.reduce { acc, next -> acc && next }
+            if (areGranted) {
+                locationRequired = true
+                startLocationUpdates(locationCallback,fusedLocationProviderClient,this@LocationActivity)
+                Toast.makeText(context, "Permission Granted", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Permission Denied", Toast.LENGTH_SHORT).show()
             }
         }
 
         Column(modifier = Modifier.fillMaxSize()) {
             Column(
-                modifier= Modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .background(colorResource(id = R.color.teal_700)),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
 
-            ){
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.share_location),
                     contentDescription = "addContact",
-                    modifier= Modifier
-                        .padding(bottom=20.dp)
+                    modifier = Modifier
+                        .padding(bottom = 20.dp)
                         .clip(RoundedCornerShape(30.dp))
                         .size(250.dp)
                         .clickable {
@@ -213,7 +229,7 @@ class LocationActivity : ComponentActivity() {
                                     Toast.LENGTH_SHORT
                                 ).show()
 
-                                startLocationUpdates()
+                                startLocationUpdates(locationCallback,fusedLocationProviderClient,this@LocationActivity)
                                 if (currentLocation.latitude.toString() != "0.0" && currentLocation.longitude.toString() != "0.0" && currentLocation.latitude != null && currentLocation.longitude != null) {
                                     val location = arrayOf(
                                         currentLocation.latitude.toString(),
@@ -233,12 +249,15 @@ class LocationActivity : ComponentActivity() {
                                                 PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS,
                                                 TimeUnit.MILLISECONDS
                                             ).setInputData(data).build()
-                                    showNotification(this@LocationActivity,"Location","Work Manager is Running......")
+                                    showNotification(
+                                        this@LocationActivity,
+                                        "Location",
+                                        "Work Manager is Running......"
+                                    )
                                     WorkManager.getInstance(this@LocationActivity)
                                         .enqueue(periodicWorkRequest)
                                 }
-                            }
-                            else {
+                            } else {
                                 launcherMultiplePermissions.launch(permissions)
                             }
 
@@ -252,14 +271,14 @@ class LocationActivity : ComponentActivity() {
                     fontFamily = FontFamily(Font(R.font.font1)),
                     fontWeight = FontWeight.Bold,
                     color = colorResource(R.color.white),
-                    modifier = Modifier.padding(bottom=20.dp)
+                    modifier = Modifier.padding(bottom = 20.dp)
                 )
 
                 Image(
                     painter = painterResource(id = R.drawable.stop_location_sharing),
                     contentDescription = "viewContacts",
-                    modifier= Modifier
-                        .padding(bottom=20.dp)
+                    modifier = Modifier
+                        .padding(bottom = 20.dp)
                         .clip(RoundedCornerShape(30.dp))
                         .size(250.dp)
                         .clickable {
@@ -269,7 +288,8 @@ class LocationActivity : ComponentActivity() {
                             Toast.makeText(
                                 this@LocationActivity,
                                 "Stopped Location Sharing!!",
-                                Toast.LENGTH_SHORT).show()
+                                Toast.LENGTH_SHORT
+                            ).show()
                         },
                     contentScale = ContentScale.FillBounds,
 
@@ -280,12 +300,49 @@ class LocationActivity : ComponentActivity() {
                     fontFamily = FontFamily(Font(R.font.font1)),
                     fontWeight = FontWeight.Bold,
                     color = colorResource(R.color.white),
-                    modifier = Modifier.padding(bottom=20.dp)
+                    modifier = Modifier.padding(bottom = 20.dp)
                 )
 
 
             }
 
         }
-       }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    @Composable
+    fun LocationSharing(currentLocation: LocationDetails,context: Context,locationCallback: LocationCallback,fusedLocationProviderClient: FusedLocationProviderClient) {
+                Toast.makeText(
+                    context,
+                    "Started Location Sharing!!",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                startLocationUpdates(locationCallback, fusedLocationProviderClient,context)
+                if (currentLocation.latitude.toString() != "0.0" && currentLocation.longitude.toString() != "0.0" && currentLocation.latitude != null && currentLocation.longitude != null) {
+                    val location = arrayOf(
+                        currentLocation.latitude.toString(),
+                        currentLocation.longitude.toString()
+                    )
+                    val data: Data =
+                        Data.Builder().putStringArray("Location", location).build()
+                    periodicWorkRequest =
+                        PeriodicWorkRequest.Builder(
+                            SmsWorker::class.java,
+                            15,
+                            TimeUnit.MINUTES
+                        )
+                            .addTag("Location")
+                            .setBackoffCriteria(
+                                BackoffPolicy.LINEAR,
+                                PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS,
+                                TimeUnit.MILLISECONDS
+                            ).setInputData(data).build()
+//                showNotification(this@LocationActivity, "Location", "Work Manager is Running......")
+                    WorkManager.getInstance(this@LocationActivity)
+                        .enqueue(periodicWorkRequest)
+                    Toast.makeText(context,"Work Manager started",Toast.LENGTH_SHORT).show()
+                    Log.d("Hello","Work Manager started")
+                }
+    }
 }

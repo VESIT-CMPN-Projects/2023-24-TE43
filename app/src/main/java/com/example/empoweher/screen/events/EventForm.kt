@@ -599,9 +599,7 @@ fun EventForm(){
                         Icons.Filled.KeyboardArrowDown
 
                     Column(Modifier.padding(converterHeight(20, context).dp)) {
-
-                        // Create an Outlined Text Field
-                        // with icon and not expanded
+                        // Create an Outlined Text Field with icon and not expanded
                         OutlinedTextField(
                             value = tag,
                             onValueChange = { tag = it },

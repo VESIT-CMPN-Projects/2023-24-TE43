@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.empoweher.R
 import com.example.empoweher.activities.LocationActivity
+import com.example.empoweher.activities.SafetyActivity
 import com.example.empoweher.activities.VideoConferencing
 import com.example.empoweher.composables.Exoplayer
 import com.example.empoweher.model.Screen
@@ -73,7 +74,7 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                 .fillMaxHeight()
                 .padding(converterHeight(10,context).dp),
             colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.teal_200)),
-            elevation = CardDefaults.cardElevation(20.dp),
+            elevation = CardDefaults.cardElevation(converterHeight(20,context).dp),
             shape = RoundedCornerShape(converterHeight(25,context).dp)
         ){
 
@@ -93,7 +94,7 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
         Card(modifier = Modifier
             .align(Alignment.BottomStart)
             .fillMaxWidth()
-            .fillMaxHeight(.80f)
+            .fillMaxHeight(.85f)
             .padding(converterHeight(10,context).dp),
             shape = RoundedCornerShape(converterHeight(25,context).dp),
             colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.cream)),
@@ -126,7 +127,7 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                             color = colorResource(R.color.teal_450),
                         )
                     }
-                    Spacer(modifier = Modifier.width(converterHeight(40,context).dp))
+                    Spacer(modifier = Modifier.width(converterWidth(40,context).dp))
 
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Card(modifier = Modifier
@@ -138,11 +139,13 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                                 .size(converterHeight(140,context).dp)
                                 .clip(RoundedCornerShape(converterHeight(40,context).dp))
                                 .clickable {
-                                    val intent = Intent(
-                                        Intent.ACTION_VIEW,
-                                        Uri.parse("https://www.google.com/maps/search/nearby+police+station/")
-                                    ).setPackage("com.google.android.apps.maps")
-                                    context.startActivity(intent)
+//                                    val intent = Intent(
+//                                        Intent.ACTION_VIEW,
+//                                        Uri.parse("https://www.google.com/maps/search/nearby+police+station/")
+//                                    ).setPackage("com.google.android.apps.maps")
+//                                    context.startActivity(intent)
+                                    val navigate = Intent(context, SafetyActivity::class.java)
+                                    context.startActivity(navigate)
                                 },
                                 painter = painterResource(id = R.drawable.policestation1) ,
                                 contentDescription = "map",
@@ -191,7 +194,7 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                         )
                     }
 
-                    Spacer(modifier = Modifier.width(converterHeight(40,context).dp))
+                    Spacer(modifier = Modifier.width(converterWidth(40,context).dp))
 
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
