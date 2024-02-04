@@ -6,14 +6,18 @@ import android.graphics.Bitmap
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,6 +30,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -106,9 +111,17 @@ fun DetailedNote(noteId:String?="", navigateToNextScreen: (route: String)->Unit,
             modifier = Modifier.padding(converterHeight(5,context).dp),
             fontSize = converterHeight(20, context = context).sp)
 
-        Row {
+        Row(
+            modifier= Modifier
+                .padding(converterHeight(20, context).dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
 
             Button(
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(id = R.color.teal_450),
+                    contentColor = Color.White),
                 onClick = {
                     clipboardManager.setText(AnnotatedString((note)))
                     Toast.makeText(context,"Note Copied To Clipboard ",Toast.LENGTH_SHORT).show()
@@ -121,8 +134,12 @@ fun DetailedNote(noteId:String?="", navigateToNextScreen: (route: String)->Unit,
 
 
             }
+            Spacer(modifier = Modifier.width(converterHeight(30, context = context).dp))
 
             Button(
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(id = R.color.teal_450),
+                    contentColor = Color.White),
                 onClick = {
                     DeleteFireBaseNode(path)
                     Toast.makeText(context,"Note Deleted... ",Toast.LENGTH_SHORT).show()
