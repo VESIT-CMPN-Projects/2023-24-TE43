@@ -75,20 +75,20 @@ fun DetailsDesignation(navigateToNextScreen: (route: String)->Unit){
         modifier= Modifier
             .fillMaxSize()
             .background(colorResource(id = R.color.cream))
-            .padding(20.dp)
+            .padding(converterHeight(20, LocalContext.current).dp)
 
     ) {
         Image(
             imageVector = ImageVector.vectorResource(id = R.drawable.logo_svg),
             contentDescription = "Logo",
             modifier = Modifier
-                .size(80.dp),
+                .size(converterHeight(80, LocalContext.current).dp),
             contentScale = ContentScale.Crop
         )
-        Spacer(modifier = Modifier.height(75.dp))
+        Spacer(modifier = Modifier.height(converterHeight(75, LocalContext.current).dp))
         Text(
             text = "Add Designation",
-            fontSize = 25.sp,
+            fontSize = converterHeight(25, LocalContext.current).sp,
             fontFamily = FontFamily(Font(R.font.font1)),
             fontWeight = FontWeight.Bold,
             color = colorResource(R.color.black)
@@ -97,7 +97,7 @@ fun DetailsDesignation(navigateToNextScreen: (route: String)->Unit){
         OutlinedTextField(
             value = designation,
             label = { Text(text = "Designation") },
-            textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = 20.sp)),
+            textStyle = LocalTextStyle.current.merge(TextStyle(fontSize = converterHeight(20, LocalContext.current).sp)),
             onValueChange = { str ->
                 if(str.length<=100){
                     designation = str
@@ -108,16 +108,16 @@ fun DetailsDesignation(navigateToNextScreen: (route: String)->Unit){
                 }
 
             },modifier= Modifier
-                .padding(end = 10.dp)
-                .padding(top = 10.dp)
+                .padding(end = converterHeight(10, LocalContext.current).dp)
+                .padding(top = converterHeight(10, LocalContext.current).dp)
                 .fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(converterHeight(50, LocalContext.current).dp))
 
         Text(
             text = "Add Bio",
-            fontSize = 25.sp,
+            fontSize = converterHeight(25, LocalContext.current).sp,
             fontFamily = FontFamily(Font(R.font.font1)),
             fontWeight = FontWeight.Bold,
             color = colorResource(R.color.black)
@@ -137,13 +137,13 @@ fun DetailsDesignation(navigateToNextScreen: (route: String)->Unit){
                 }
 
             },modifier= Modifier
-                .padding(end = 10.dp)
-                .padding(top = 10.dp)
+                .padding(end = converterHeight(10, LocalContext.current).dp)
+                .padding(top = converterHeight(10, LocalContext.current).dp)
                 .fillMaxWidth()
-                .height(300.dp)
+                .height(converterHeight(300, LocalContext.current).dp)
         )
 
-        Spacer(modifier = Modifier.height(60.dp))
+        Spacer(modifier = Modifier.height(converterHeight(60, LocalContext.current).dp))
 
         Button(
             modifier = Modifier
@@ -164,7 +164,7 @@ fun DetailsDesignation(navigateToNextScreen: (route: String)->Unit){
 
             Text(
                 text = "Continue",
-                fontSize = 20.sp,
+                fontSize = converterHeight(25, LocalContext.current).sp,
                 fontFamily = FontFamily(Font(R.font.font1)),
                 fontWeight = FontWeight.Bold,
                 color = colorResource(R.color.white)
@@ -188,7 +188,7 @@ private fun GradientButton(
     Button(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 32.dp, end = 32.dp),
+            .padding(start = converterHeight(32, LocalContext.current).dp, end = 32.dp),
         onClick = {
             clickCount++
         },

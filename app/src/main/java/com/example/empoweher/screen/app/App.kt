@@ -53,6 +53,8 @@ import com.example.empoweher.screen.profile.Profile
 import com.example.empoweher.screen.safety.*
 import com.example.empoweher.screen.temp.Temp1
 import com.example.empoweher.screen.Details.Registration
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -75,8 +77,8 @@ fun App(
     val startDestination = if (googleAuthUiClient.getSignedInUser() != null) {
         Screen.Home.route
     } else {
-//        Screen.Login.route
-        Screen.Home.route
+        Screen.Login.route
+//        Screen.Home.route
     }
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -149,14 +151,24 @@ fun App(
                     Home()
                 }
                 composable(route = Screen.Safety.route) {
-//                    Safety(
-//                        navigateToNextScreen = { route ->
-//                            navController.navigate(route)
-//                        }
-//                    )
-                    val context= LocalContext.current
-                    val navigator = Intent(context, SafetyActivity::class.java)
-                    context.startActivity(navigator)
+                    LaunchedEffect(key1 = shouldShowScaffold){
+                        shouldShowScaffold = false
+                    }
+                    Safety(
+                        navigateToNextScreen = { route ->
+                            navController.navigate(route)
+                        }
+                    )
+                    DisposableEffect(shouldShowScaffold) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
+//                    val context = LocalContext.current
+//                    LaunchedEffect(key1=Unit) {
+//                        val navigator = Intent(context, SafetyActivity::class.java)
+//                        context.startActivity(navigator)
+//                    }
                 }
                 composable(route = Screen.FakeCall.route) {
                     LaunchedEffect(key1 = shouldShowScaffold){

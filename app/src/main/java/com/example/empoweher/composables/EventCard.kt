@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -34,6 +35,7 @@ import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.example.empoweher.R
 import com.example.empoweher.model.Screen
+import com.example.empoweher.screen.Details.converterHeight
 
 
 @Composable
@@ -106,7 +108,7 @@ fun EventCard(navigateToNextScreen: (route: String) -> Unit,
 fun SampleText(text: String,fontSize:Int?=12){
     Text(text = text,
         fontFamily = FontFamily(Font(R.font.font1)),
-        fontSize = fontSize!!.sp,
+        fontSize = converterHeight(fontSize!!, LocalContext.current).sp,
         modifier = Modifier
-            .padding(10.dp,0.dp))
+            .padding(converterHeight(5, LocalContext.current).dp))
 }

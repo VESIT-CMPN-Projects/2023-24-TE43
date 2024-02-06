@@ -146,13 +146,13 @@ fun DetailsDp(navigateToNextScreen: (route: String)->Unit){
             onClick = {
                 val storage= FirebaseStorage.getInstance()
                 val ref= storage.getReference()
-                    .child("${currentFirebaseUser}"+"/"+"Profile Picture")
+                    .child(currentFirebaseUser +"/"+"Profile Picture")
                 ref.putFile(selectedImage!!).addOnSuccessListener {
                     ref.getDownloadUrl().addOnSuccessListener { it
                         dbref.child(currentFirebaseUser).child("Dp").setValue(it.toString())
                     }
                 }
-                navigateToNextScreen(Screen.Registration.route)
+                navigateToNextScreen(Screen.Home.route)
 
             }) {
 

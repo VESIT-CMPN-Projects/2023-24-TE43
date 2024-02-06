@@ -67,8 +67,8 @@ fun slider() {
     val scope = rememberCoroutineScope()
 
     Column(
-        Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.height(converterHeight(700, LocalContext.current).dp)
     ) {
         Box(modifier = Modifier.wrapContentSize()) {
             HorizontalPager(
@@ -81,7 +81,7 @@ fun slider() {
                 Card(
                     Modifier
                         .wrapContentSize()
-                        .padding(top=26.dp, start = 10.dp,end = 10.dp)
+                        .padding(top = 26.dp, start = 10.dp, end = 10.dp)
                         .height(converterHeight(400, LocalContext.current).dp),
                     elevation = CardDefaults.cardElevation(8.dp)
                 ) {
@@ -100,6 +100,7 @@ fun slider() {
             currentPage = pagerState.currentPage,
             modifier = Modifier
         )
+        Spacer(modifier = Modifier.height(converterHeight(40, LocalContext.current).dp))
         TypewriterText(
             texts = listOf(
                 "Welcome to EmpowerHer",
@@ -132,7 +133,8 @@ fun PageIndicator(pageCount: Int, currentPage: Int, modifier: Modifier) {
 @Composable
 fun IndicatorDots(isSelected: Boolean, modifier: Modifier) {
     val size = animateDpAsState(targetValue = if (isSelected) 12.dp else 10.dp, label = "")
-    Box(modifier = modifier.padding(2.dp)
+    Box(modifier = modifier
+        .padding(2.dp)
         .size(size.value)
         .clip(CircleShape)
         .background(if (isSelected) Color(0xff373737) else Color(0xA8373737))
