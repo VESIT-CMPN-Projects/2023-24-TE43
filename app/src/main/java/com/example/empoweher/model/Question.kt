@@ -5,5 +5,6 @@ data class Question (
     var userId : String?=null,
     var question:String?=null,
     var userName:String?=null,
-    var designation:String?=null
+    var designation:String?=null,
+    var tag:String?=null
 )

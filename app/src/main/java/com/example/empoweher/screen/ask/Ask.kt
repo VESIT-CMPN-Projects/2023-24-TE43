@@ -65,7 +65,7 @@ fun Ask(navigateToNextScreen: (route: String)->Unit){
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                         Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
                             Text(
-                                text = "Events Loading  ",
+                                text = "Questions Loading",
                                 fontSize = 25.sp,
                                 textAlign = TextAlign.Center,
                                 fontWeight= FontWeight.Bold,
@@ -86,6 +86,18 @@ fun Ask(navigateToNextScreen: (route: String)->Unit){
 
             ) {
                 ShowLazyListQuestion(result.data,navigateToNextScreen)
+                FloatingActionButton(
+                    modifier=Modifier
+                        .align(Alignment.End)
+                        .padding(20.dp,10.dp)
+                        .size(50.dp),
+                    shape = CircleShape,
+                    onClick = {
+                        navigateToNextScreen(Screen.AskQuestion.route)
+                    },
+                ) {
+                    Icon(Icons.Filled.Add, "Floating action button.",modifier=Modifier.size(50.dp))
+                }
             }
 
         }
@@ -117,7 +129,7 @@ fun Ask(navigateToNextScreen: (route: String)->Unit){
 @Composable
 fun ShowLazyListQuestion(event: MutableList<Question>, navigateToNextScreen: (route: String)->Unit) {
     LazyColumn(modifier= Modifier
-        .fillMaxHeight(0.8f)
+        .fillMaxHeight(0.9f)
         .fillMaxWidth()){
         items(event){each->
             Box(

@@ -42,6 +42,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.empoweher.R
 import com.example.empoweher.composables.AnswerCard
 import com.example.empoweher.composables.EventCard
+import com.example.empoweher.composables.SampleText
+import com.example.empoweher.composables.getInfo
 import com.example.empoweher.model.Answer
 import com.example.empoweher.model.DataState
 import com.example.empoweher.model.Event
@@ -57,8 +59,27 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 @Composable
+fun getInfoQuestion(thing:String?,questionId: String?): String {
+    val dbref = FirebaseDatabase.getInstance().getReference();
+    val event=dbref.child("Questions").child(questionId!!)
+    var questionValue by remember {
+        mutableStateOf("")
+    }
+    event.addValueEventListener(object : ValueEventListener {
+        override fun onDataChange(snapshot: DataSnapshot) {
+            questionValue=snapshot.child(thing!!).getValue(String::class.java).toString();
+        }
+        override fun onCancelled(error: DatabaseError) {
+
+        }
+    })
+    return questionValue
+}
+@Composable
 fun Answer(questionId:String?="",navigateToNextScreen: (route: String)->Unit) {
-    val viewModel = viewModel { AnswerViewModel(questionId!!) }
+    val viewModel = viewModel { AnswerViewModel(questionId!!)
+    }
+    val question= getInfoQuestion(thing = "question", questionId = questionId)
     when( val result= viewModel.response.value){
         is DataState.Loading -> {
             Box(
@@ -76,7 +97,7 @@ fun Answer(questionId:String?="",navigateToNextScreen: (route: String)->Unit) {
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                         Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
                             Text(
-                                text = "Question Loading  ",
+                                text = "Answers Loading  ",
                                 fontSize = 25.sp,
                                 textAlign = TextAlign.Center,
                                 fontWeight= FontWeight.Bold,
@@ -96,9 +117,11 @@ fun Answer(questionId:String?="",navigateToNextScreen: (route: String)->Unit) {
                 horizontalAlignment = Alignment.CenterHorizontally
 
             ) {
+                Spacer(modifier = Modifier.height(converterHeight(10, LocalContext.current).dp))
+                SampleText(text = question, fontSize = 25)
+                Spacer(modifier = Modifier.height(converterHeight(10, LocalContext.current).dp))
                 ShowLazyListAnswer(questionId,result.data,navigateToNextScreen)
                 Spacer(modifier = Modifier.height(20.dp))
-
             }
 
         }
@@ -134,13 +157,13 @@ fun ShowLazyListAnswer(questionId:String?,answer: MutableList<Answer>, navigateT
     LazyColumn(modifier= Modifier
         .fillMaxHeight()
         .fillMaxWidth()
-        .background(colorResource(id = R.color.black))){
+        .background(colorResource(id = R.color.cream))){
         items(answer){each->
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
 //                    .height(converterHeight(170,context).dp)
-                    .padding(converterHeight(5,context).dp)
+                    .padding(converterHeight(5, context).dp)
                     .clickable {
 
                     },

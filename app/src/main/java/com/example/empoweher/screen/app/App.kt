@@ -53,6 +53,7 @@ import com.example.empoweher.screen.profile.Profile
 import com.example.empoweher.screen.safety.*
 import com.example.empoweher.screen.temp.Temp1
 import com.example.empoweher.screen.Details.Registration
+import com.example.empoweher.screen.ask.AskQuestion
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.launch
@@ -175,6 +176,17 @@ fun App(
                         shouldShowScaffold = false
                     }
                     FakeCall()
+                    DisposableEffect(shouldShowScaffold) {
+                        onDispose {
+                            shouldShowScaffold = true
+                        }
+                    }
+                }
+                composable(route = Screen.AskQuestion.route) {
+                    LaunchedEffect(key1 = shouldShowScaffold){
+                        shouldShowScaffold = false
+                    }
+                    AskQuestion()
                     DisposableEffect(shouldShowScaffold) {
                         onDispose {
                             shouldShowScaffold = true
