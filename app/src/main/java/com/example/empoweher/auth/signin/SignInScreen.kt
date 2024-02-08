@@ -199,17 +199,17 @@ fun TypewriterText(
                         startIndex = 0,
                         endIndex = charIndex + 1,
                     )
-                delay(90)
+                delay(110)
             }
             textIndex = (textIndex + 1) % texts.size
-            delay(1000)
+            delay(3000)
 
         }
     }
 
     Text(
         text = textToDisplay,
-        fontSize = 24.sp,
+        fontSize = 18.sp,
         fontWeight = FontWeight.Bold,
         modifier=Modifier.padding(20.dp),
         fontFamily = FontFamily(Font(R.font.font1))
