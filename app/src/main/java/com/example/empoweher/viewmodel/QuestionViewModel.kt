@@ -12,13 +12,12 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class QuestionViewModel(tag:String) : ViewModel(){
+class QuestionViewModel : ViewModel(){
     val response: MutableState<DataState> = mutableStateOf(DataState.Empty)
-    val tag=tag
     init {
-        fetch()
+        fetch("all")
     }
-    private fun fetch(){
+    fun fetch(tag: String){
         val questions= mutableListOf<Question>()
         response.value= DataState.Loading
 

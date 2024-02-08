@@ -3,6 +3,8 @@ package com.example.empoweher.screen.ask
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,10 +19,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
@@ -49,6 +53,7 @@ import com.example.empoweher.R
 import com.example.empoweher.composables.EventCard
 import com.example.empoweher.composables.Exoplayer
 import com.example.empoweher.composables.QuestionCard
+import com.example.empoweher.composables.SampleText
 import com.example.empoweher.model.DataState
 import com.example.empoweher.model.Event
 import com.example.empoweher.model.Question
@@ -59,12 +64,15 @@ import com.example.empoweher.viewmodel.QuestionViewModel
 
 @Composable
 fun Ask(navigateToNextScreen: (route: String)->Unit){
-    var tag by remember {
-        mutableStateOf("all")
-    }
-    val viewModel = viewModel { QuestionViewModel(tag) }
+
+    val viewModel = viewModel { QuestionViewModel() }
     val context= LocalContext.current
 
+    var tag by remember {
+
+        mutableStateOf("all")
+
+    }
     when( val result= viewModel.response.value){
         is DataState.Loading -> {
             Box(
@@ -102,9 +110,8 @@ fun Ask(navigateToNextScreen: (route: String)->Unit){
                 horizontalAlignment = Alignment.CenterHorizontally
 
             ) {
-                LaunchedEffect(key1 = Unit) {
 
-                }
+
                 ShowLazyListQuestion(result.data,navigateToNextScreen)
                 Card(
                     modifier = Modifier
@@ -115,11 +122,25 @@ fun Ask(navigateToNextScreen: (route: String)->Unit){
                     ),
                     shape = RoundedCornerShape(converterHeight(30,context).dp),
                 ) {
-                    Row(modifier = Modifier.fillMaxSize()) {
-                        LazyRow(modifier = Modifier.fillMaxWidth(0.7f)) {
+                    Row(modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(0.8f)
+                                .horizontalScroll(rememberScrollState())
+                                .clip(RoundedCornerShape(converterHeight(20, context).dp))
+                        ) {
+
+                            TagButton(tag = "Educational", viewModel = viewModel)
+                            TagButton(tag = "Exploratory", viewModel = viewModel)
+                            TagButton(tag = "Defence", viewModel = viewModel)
+                            TagButton(tag = "Discussion", viewModel = viewModel)
+                            TagButton(tag = "Empowerment", viewModel = viewModel)
+                            TagButton(tag = "Others", viewModel = viewModel)
 
                         }
 
+
+                        Spacer(modifier = Modifier.weight(1f))
                         FloatingActionButton(
                             modifier = Modifier
                                 .padding(20.dp, 10.dp)
@@ -177,8 +198,8 @@ fun ShowLazyListQuestion(event: MutableList<Question>, navigateToNextScreen: (ro
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(170.dp)
-                    .padding(5.dp)
+                    .height(converterHeight(170, LocalContext.current).dp)
+                    .padding(converterHeight(5, LocalContext.current).dp)
                     .clickable {
 
                     },
@@ -194,5 +215,18 @@ fun ShowLazyListQuestion(event: MutableList<Question>, navigateToNextScreen: (ro
             }
         }
     }
+}
+
+@Composable
+fun TagButton(tag:String,viewModel:QuestionViewModel){
+    Button(onClick = {
+        viewModel.fetch(tag)
+
+    },
+        modifier = Modifier.padding(start = converterHeight(5, LocalContext.current).dp)
+    ) {
+        SampleText(text = tag,16, colorResource(id = R.color.white))
+    }
+
 }
 
