@@ -17,8 +17,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -29,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -77,6 +82,7 @@ fun getInfoQuestion(thing:String?,questionId: String?): String {
 }
 @Composable
 fun Answer(questionId:String?="",navigateToNextScreen: (route: String)->Unit) {
+    val context= LocalContext.current
     val viewModel = viewModel { AnswerViewModel(questionId!!)
     }
     val question= getInfoQuestion(thing = "question", questionId = questionId)
@@ -113,15 +119,41 @@ fun Answer(questionId:String?="",navigateToNextScreen: (route: String)->Unit) {
             Column(
                 modifier= Modifier
                     .fillMaxSize()
-                    .background(colorResource(id = R.color.cream)),
+                    .background(colorResource(id = R.color.teal_450)),
                 horizontalAlignment = Alignment.CenterHorizontally
 
             ) {
                 Spacer(modifier = Modifier.height(converterHeight(10, LocalContext.current).dp))
-                SampleText(text = question, fontSize = 25)
-                Spacer(modifier = Modifier.height(converterHeight(10, LocalContext.current).dp))
+                Row(Modifier.fillMaxWidth().padding(converterHeight(20, LocalContext.current).dp), horizontalArrangement = Arrangement.Center) {
+                    SampleText(text = question, fontSize = 22, colorResource(id = R.color.white))
+
+                }
+
                 ShowLazyListAnswer(questionId,result.data,navigateToNextScreen)
-                Spacer(modifier = Modifier.height(20.dp))
+                Card(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top=converterHeight(10, context = context).dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = colorResource(id = R.color.teal_700),
+                    ),
+                    shape = RoundedCornerShape(converterHeight(30,context).dp),
+                ){
+                    FloatingActionButton(
+                        modifier= Modifier
+                            .align(Alignment.End)
+                            .padding(20.dp, 10.dp)
+                            .size(50.dp),
+                        shape = CircleShape,
+                        onClick = {
+                            navigateToNextScreen(Screen.GiveAnswer.route + "/" + questionId!!)
+                        },
+                    ) {
+                        Icon(Icons.Filled.Add, "Floating action button.",modifier=Modifier.size(50.dp))
+                    }
+
+                }
+
             }
 
         }
@@ -155,9 +187,10 @@ fun Answer(questionId:String?="",navigateToNextScreen: (route: String)->Unit) {
 fun ShowLazyListAnswer(questionId:String?,answer: MutableList<Answer>, navigateToNextScreen: (route: String)->Unit) {
     val context=LocalContext.current
     LazyColumn(modifier= Modifier
-        .fillMaxHeight()
+        .fillMaxHeight(0.9f)
         .fillMaxWidth()
-        .background(colorResource(id = R.color.cream))){
+        .clip(shape = RoundedCornerShape(25.dp))
+        .background(colorResource(id = R.color.teal_450))){
         items(answer){each->
             Box(
                 modifier = Modifier

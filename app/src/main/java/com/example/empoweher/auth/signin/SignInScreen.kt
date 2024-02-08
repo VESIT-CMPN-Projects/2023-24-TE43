@@ -51,6 +51,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.empoweher.R
+import com.example.empoweher.screen.Details.converterHeight
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -91,6 +92,7 @@ fun SignInScreen(
                 .size(120.dp),
             contentScale = ContentScale.Crop
         )
+//        )
         Image(
             painter = painterResource(id = R.drawable.women_login),
             contentDescription = "Login Pic",
@@ -100,8 +102,9 @@ fun SignInScreen(
         )
 
         TypewriterText(
+
             texts = listOf(
-                "Login With Google"
+                "Get Connected For Better Experience"
             ),
         )
 
