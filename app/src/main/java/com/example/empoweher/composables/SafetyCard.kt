@@ -1,9 +1,11 @@
 package com.example.empoweher.composables
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,7 +13,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
@@ -27,11 +31,12 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.example.empoweher.model.Screen
 import com.example.empoweher.screen.Details.converterHeight
 import com.example.empoweher.screen.Details.converterWidth
 
 @Composable
-fun SafetyCard(navigateToNextScreen: (route: String)->Unit, route: String, painter: Painter, title:String,description:String,color: Color,routed:()->Unit?,boolean: Boolean){
+fun SafetyCard(navigateToNextScreen: (route: String)->Unit, route: String, uristring: String, title:String,description:String,color: Color,routed:()->Unit?,boolean: Boolean){
     val context= LocalContext.current
     Card(
         modifier = Modifier
@@ -56,6 +61,7 @@ fun SafetyCard(navigateToNextScreen: (route: String)->Unit, route: String, paint
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
+
             ) {
                 Spacer(modifier = Modifier.width(converterWidth(10, LocalContext.current).dp))
                 Column(modifier=Modifier.fillMaxWidth(.67f)
@@ -65,9 +71,13 @@ fun SafetyCard(navigateToNextScreen: (route: String)->Unit, route: String, paint
                     SampleText(text = description, 16)
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                Image(painter = painter, contentDescription = title,
-                    modifier=Modifier.fillMaxHeight(),
-                    contentScale = ContentScale.FillBounds)
+                Box(modifier = Modifier
+                    .size(converterHeight(150,context).dp)
+                    .padding(start = converterHeight(5, context).dp)
+                    .offset(x = 13.dp, y = 0.dp)
+                     ) {
+                    Exoplayer(uri = Uri.parse(uristring))
+                }
             }
         }
     }

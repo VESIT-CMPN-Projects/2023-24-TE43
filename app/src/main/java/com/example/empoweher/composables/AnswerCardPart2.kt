@@ -51,7 +51,7 @@ fun AnswerCard(){
     ) {
 
         Row() {
-            Image(painter = painterResource(id = R.drawable.alert),
+            Image(painter = painterResource(id = R.drawable.alert_new),
                 contentDescription = "alert",
                 modifier = Modifier
                     .padding(start = 10.dp, top = 10.dp)

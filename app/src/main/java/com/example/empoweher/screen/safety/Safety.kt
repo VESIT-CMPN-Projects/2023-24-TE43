@@ -2,6 +2,7 @@
 
 package com.example.empoweher.screen.safety
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.background
@@ -37,6 +38,7 @@ import com.example.empoweher.composables.SafetyCard
 import com.example.empoweher.model.Screen
 import com.example.empoweher.screen.Details.converterHeight
 
+@SuppressLint("SuspiciousIndentation")
 @Preview()
 @Composable
 fun Safety(navigateToNextScreen: (route: String)->Unit) {
@@ -78,27 +80,28 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
             .fillMaxHeight(.90f)
             .padding(converterHeight(10, context).dp),
             shape = RoundedCornerShape(converterHeight(25,context).dp),
-            colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.teal_200)),
+            colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.white)),
             elevation = CardDefaults.cardElevation(converterHeight(20,context).dp))
         {
             Spacer(modifier = Modifier.height(converterHeight(15, LocalContext.current).dp))
             SafetyCard(
                 navigateToNextScreen = navigateToNextScreen,
                 route = Screen.FakeCall.route,
-                painter = painterResource(id = R.drawable.fakecall) ,
+                uristring = "android.resource://com.example.empoweher/raw/safety_incomingcall_icon",
                 title = "Fake Call",
                 description="You Can Do the fake call with this",
-                color= Color.White,
+                color= colorResource(id = R.color.yellow),
                 routed = {},
                 false
             )
             SafetyCard(
                 navigateToNextScreen = navigateToNextScreen,
                 route = Screen.Alerts.route,
-                painter = painterResource(id = R.drawable.alert) ,
+//                painter = painterResource(id = R.drawable.alert_new) ,
+                uristring = "android.resource://com.example.empoweher/raw/safety_alert_icon",
                 title = "Alert",
                 description="You Can Do the fake call with this",
-                color= Color.White,
+                color= colorResource(id = R.color.lightgreen),
                 routed = {
                     val navigate = Intent(context, LocationActivity::class.java)
                     context.startActivity(navigate)
@@ -108,20 +111,22 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
             SafetyCard(
                 navigateToNextScreen = navigateToNextScreen,
                 route = Screen.ContactOption.route,
-                painter = painterResource(id = R.drawable.emergency) ,
+//                painter = painterResource(id = R.drawable.emergency) ,
+                uristring = "android.resource://com.example.empoweher/raw/safety_sos_icon",
                 title = "Emergency",
                 description="You Can Do the fake call with this",
-                color= Color.White,
+                color= colorResource(id = R.color.lightblue),
                 routed={},
                 false
             )
             SafetyCard(
                 navigateToNextScreen = navigateToNextScreen,
                 route = Screen.FakeCall.route,
-                painter = painterResource(id = R.drawable.policestation1) ,
+//                painter = painterResource(id = R.drawable.police_new) ,
+                uristring = "android.resource://com.example.empoweher/raw/safety_policestn_icon",
                 title = "Nearby Police Station",
                 description="You Can Do the fake call with this",
-                color= Color.White,
+                color= colorResource(id = R.color.purple),
                 routed={
                     val intent = Intent(
                             Intent.ACTION_VIEW,
@@ -131,8 +136,6 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                 },
                 true
             )
-
-
         }
     }
 }
