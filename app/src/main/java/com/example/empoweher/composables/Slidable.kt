@@ -59,7 +59,7 @@ fun slider() {
     )
     LaunchedEffect(Unit) {
         while (true) {
-            delay(2000)
+            delay(3000)
             val nextPage = (pagerState.currentPage + 1) % pagerState.pageCount
             pagerState.scrollToPage(nextPage)
         }
@@ -100,7 +100,7 @@ fun slider() {
             currentPage = pagerState.currentPage,
             modifier = Modifier
         )
-        Spacer(modifier = Modifier.height(converterHeight(40, LocalContext.current).dp))
+        Spacer(modifier = Modifier.height(converterHeight(20, LocalContext.current).dp))
         TypewriterText(
             texts = listOf(
                 "Welcome to EmpowerHer",
