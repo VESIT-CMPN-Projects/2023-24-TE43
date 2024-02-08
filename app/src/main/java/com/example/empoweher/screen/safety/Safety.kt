@@ -92,7 +92,7 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                 description="You Can Do the fake call with this",
                 color= colorResource(id = R.color.yellow),
                 routed = {},
-                false
+                false,
             )
             SafetyCard(
                 navigateToNextScreen = navigateToNextScreen,

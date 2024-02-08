@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -66,7 +67,7 @@ fun EventCard(navigateToNextScreen: (route: String) -> Unit,
             .height(150.dp)
             .padding(5.dp)
             .clickable {
-                navigateToNextScreen(Screen.DetailedEventCard.route+"/"+eventId!!)
+                navigateToNextScreen(Screen.DetailedEventCard.route + "/" + eventId!!)
             },
         colors = CardDefaults.cardColors(containerColor = color,
     )
@@ -105,8 +106,9 @@ fun EventCard(navigateToNextScreen: (route: String) -> Unit,
 }
 
 @Composable
-fun SampleText(text: String,fontSize:Int?=12){
+fun SampleText(text: String,fontSize:Int?=12, textColor: Color = colorResource(id = R.color.black)){
     Text(text = text,
+        color = textColor,
         fontFamily = FontFamily(Font(R.font.font1)),
         fontSize = converterHeight(fontSize!!, LocalContext.current).sp,
         modifier = Modifier

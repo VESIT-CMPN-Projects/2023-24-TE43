@@ -30,7 +30,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import com.example.empoweher.R
 import com.example.empoweher.model.Screen
 import com.example.empoweher.screen.Details.converterHeight
 import com.example.empoweher.screen.Details.converterWidth
@@ -44,10 +46,9 @@ fun SafetyCard(navigateToNextScreen: (route: String)->Unit, route: String, urist
             .height(converterHeight(150, context).dp)
             .padding(converterHeight(15, context).dp)
             .clickable {
-                if(boolean==false){
+                if (boolean == false) {
                     navigateToNextScreen(route)
-                }
-                else{
+                } else {
                     routed()
                 }
             },
@@ -67,14 +68,14 @@ fun SafetyCard(navigateToNextScreen: (route: String)->Unit, route: String, urist
                 Column(modifier=Modifier.fillMaxWidth(.67f)
                     .wrapContentSize())
                 {
-                    SampleText(text = title, 24)
-                    SampleText(text = description, 16)
+                    SampleText(text = title, 24, textColor = colorResource(id = R.color.white))
+                    SampleText(text = description, 16, textColor = colorResource(id = R.color.white))
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Box(modifier = Modifier
                     .size(converterHeight(150,context).dp)
                     .padding(start = converterHeight(5, context).dp)
-                    .offset(x = 13.dp, y = 0.dp)
+                    .offset(x = converterHeight(15, context).dp, y = 0.dp)
                      ) {
                     Exoplayer(uri = Uri.parse(uristring))
                 }

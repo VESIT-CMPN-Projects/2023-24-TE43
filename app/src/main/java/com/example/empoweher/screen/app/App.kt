@@ -152,19 +152,11 @@ fun App(
                     Home()
                 }
                 composable(route = Screen.Safety.route) {
-                    LaunchedEffect(key1 = shouldShowScaffold){
-                        shouldShowScaffold = false
-                    }
                     Safety(
                         navigateToNextScreen = { route ->
                             navController.navigate(route)
                         }
                     )
-                    DisposableEffect(shouldShowScaffold) {
-                        onDispose {
-                            shouldShowScaffold = true
-                        }
-                    }
 //                    val context = LocalContext.current
 //                    LaunchedEffect(key1=Unit) {
 //                        val navigator = Intent(context, SafetyActivity::class.java)
