@@ -1,5 +1,6 @@
 package com.example.empoweher.composables
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,6 +42,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.launch
+
 
 @Composable
 fun QuestionCard (navigateToNextScreen:(route:String)->Unit,
@@ -53,20 +57,19 @@ fun QuestionCard (navigateToNextScreen:(route:String)->Unit,
         mutableStateOf("")
     }
     dp= getValue(thing = "Dp", userId = userId)
-    var painter= rememberAsyncImagePainter(model = dp)
-    var color = colorResource(id = R.color.mauve)
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(150.dp)
             .padding(5.dp)
             .clickable {
-                navigateToNextScreen(Screen.Answer.route+"/"+questionId!!)
+                navigateToNextScreen(Screen.Answer.route + "/" + questionId!!)
             },
         colors =CardDefaults.cardColors(containerColor = colorResource(id = R.color.pale_brown), contentColor = Color.White)
     ){
         Row {
             Box(modifier=Modifier.padding(10.dp)) {
+                val painter = rememberAsyncImagePainter(model = dp)
                 Image(
                     painter = painter,
                     contentDescription = "cd",

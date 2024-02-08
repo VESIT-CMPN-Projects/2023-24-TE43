@@ -54,6 +54,7 @@ import com.example.empoweher.screen.safety.*
 import com.example.empoweher.screen.temp.Temp1
 import com.example.empoweher.screen.Details.Registration
 import com.example.empoweher.screen.ask.AskQuestion
+import com.example.empoweher.screen.ask.GiveAnswer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.launch
@@ -78,8 +79,8 @@ fun App(
     val startDestination = if (googleAuthUiClient.getSignedInUser() != null) {
         Screen.Home.route
     } else {
-        Screen.Login.route
-//        Screen.Home.route
+//        Screen.Login.route
+        Screen.Home.route
     }
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -432,6 +433,20 @@ fun App(
                         }
                     }
 
+                }
+
+                composable(route = Screen.GiveAnswer.route+"/{questionId}",arguments = listOf(
+                    navArgument("questionId"){
+                        type = NavType.StringType
+                    }
+                )) {
+                    val questionId = it.arguments!!.getString("questionId")
+                    if (questionId!= null) {
+                        GiveAnswer(questionId = questionId,
+                            navigateToNextScreen = { route ->
+                                navController.navigate(route)
+                            })
+                    }
                 }
 
             }

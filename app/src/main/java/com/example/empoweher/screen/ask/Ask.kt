@@ -15,16 +15,27 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -42,12 +53,18 @@ import com.example.empoweher.model.DataState
 import com.example.empoweher.model.Event
 import com.example.empoweher.model.Question
 import com.example.empoweher.model.Screen
+import com.example.empoweher.screen.Details.converterHeight
 import com.example.empoweher.screen.events.LoadingAnimation3
 import com.example.empoweher.viewmodel.QuestionViewModel
 
 @Composable
 fun Ask(navigateToNextScreen: (route: String)->Unit){
-    val viewModel = viewModel { QuestionViewModel() }
+    var tag by remember {
+        mutableStateOf("all")
+    }
+    val viewModel = viewModel { QuestionViewModel(tag) }
+    val context= LocalContext.current
+
     when( val result= viewModel.response.value){
         is DataState.Loading -> {
             Box(
@@ -65,7 +82,7 @@ fun Ask(navigateToNextScreen: (route: String)->Unit){
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                         Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
                             Text(
-                                text = "Questions Loading",
+                                text = "Questions Loading ",
                                 fontSize = 25.sp,
                                 textAlign = TextAlign.Center,
                                 fontWeight= FontWeight.Bold,
@@ -85,18 +102,42 @@ fun Ask(navigateToNextScreen: (route: String)->Unit){
                 horizontalAlignment = Alignment.CenterHorizontally
 
             ) {
+                LaunchedEffect(key1 = Unit) {
+
+                }
                 ShowLazyListQuestion(result.data,navigateToNextScreen)
-                FloatingActionButton(
-                    modifier=Modifier
-                        .align(Alignment.End)
-                        .padding(20.dp,10.dp)
-                        .size(50.dp),
-                    shape = CircleShape,
-                    onClick = {
-                        navigateToNextScreen(Screen.AskQuestion.route)
-                    },
+                Card(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = converterHeight(10, context = context).dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = colorResource(id = R.color.teal_700),
+                    ),
+                    shape = RoundedCornerShape(converterHeight(30,context).dp),
                 ) {
-                    Icon(Icons.Filled.Add, "Floating action button.",modifier=Modifier.size(50.dp))
+                    Row(modifier = Modifier.fillMaxSize()) {
+                        LazyRow(modifier = Modifier.fillMaxWidth(0.7f)) {
+
+                        }
+
+                        FloatingActionButton(
+                            modifier = Modifier
+                                .padding(20.dp, 10.dp)
+                                .size(50.dp),
+                            shape = CircleShape,
+                            onClick = {
+                                navigateToNextScreen(Screen.AskQuestion.route)
+                            },
+                        ) {
+                            Icon(
+                                Icons.Filled.Add,
+                                "Floating action button.",
+                                modifier = Modifier.size(50.dp)
+                            )
+                        }
+
+                    }
+
                 }
             }
 
@@ -129,6 +170,7 @@ fun Ask(navigateToNextScreen: (route: String)->Unit){
 @Composable
 fun ShowLazyListQuestion(event: MutableList<Question>, navigateToNextScreen: (route: String)->Unit) {
     LazyColumn(modifier= Modifier
+        .clip(shape = RoundedCornerShape(25.dp))
         .fillMaxHeight(0.9f)
         .fillMaxWidth()){
         items(event){each->

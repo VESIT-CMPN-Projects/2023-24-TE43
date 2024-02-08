@@ -71,8 +71,7 @@ fun AnswerCard(navigateToNextScreen: (route: String) -> Unit,
                userId : String?=null,
                answer:String?=null,
                like:String?=null,
-               dislike:String?=null,
-               )
+               dislike:String?=null,)
 {
     var userImage= getInfoUser(thing = "Dp", userId = userId!!)
     var userName= getInfoUser(thing = "name", userId = userId)
@@ -80,10 +79,19 @@ fun AnswerCard(navigateToNextScreen: (route: String) -> Unit,
     val context=LocalContext.current
     var dp = rememberAsyncImagePainter(model = userImage)
     var currentUser="Aman Hande"
-    val currentFirebaseUser = FirebaseAuth.getInstance().currentUser!!.uid
+    var currentFirebaseUser:String?=""
+    try {
+        currentFirebaseUser = FirebaseAuth.getInstance().currentUser!!.uid
+
+    }
+    catch (e:Exception){
+
+    }
+
     if(currentFirebaseUser != null){
         currentUser = currentFirebaseUser;
     }
+
     var path="Questions/$questionId/answers/$answerId/likes"
     var likes= getChildCount(path = path).toString()
 

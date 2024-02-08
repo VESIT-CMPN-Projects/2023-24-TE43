@@ -12,8 +12,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class QuestionViewModel : ViewModel(){
+class QuestionViewModel(tag:String) : ViewModel(){
     val response: MutableState<DataState> = mutableStateOf(DataState.Empty)
+    val tag=tag
     init {
         fetch()
     }
@@ -24,12 +25,28 @@ class QuestionViewModel : ViewModel(){
         FirebaseDatabase.getInstance().getReference("Questions").addListenerForSingleValueEvent(object:
             ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                for (data in snapshot.children){
-                    val e=data.getValue(Question::class.java)
-                    if (e!=null) {
-                        questions.add(e)
+                if (tag=="all"){
+                    for (data in snapshot.children){
+                        val e=data.getValue(Question::class.java)
+                        if (e!=null) {
+                            questions.add(e)
+                        }
                     }
+
                 }
+                else{
+                    for (data in snapshot.children){
+                        val e=data.getValue(Question::class.java)
+                        if (e!=null && e.tag==tag) {
+                            questions.add(e)
+                        }
+                    }
+
+                }
+
+
+
+
                 Log.d("hello",questions.toString())
                 response.value= DataState.SuccessQuestion(questions)
             }
