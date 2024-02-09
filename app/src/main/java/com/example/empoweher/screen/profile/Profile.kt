@@ -27,12 +27,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.empoweher.R
+import com.example.empoweher.activities.VideoConferencing
 import com.example.empoweher.composables.SampleText
 import com.example.empoweher.composables.getChildCount
 import com.example.empoweher.composables.getInfoUser
@@ -96,6 +98,9 @@ fun Profile(userId : String?=null,navigateToNextScreen: (route: String)->Unit) {
         }
 
 //        var slide = listOf<>()
+//        val context = LocalContext.current
+//        val videoConferencing = VideoConferencing()
+//        videoConferencing.video(context)
 
         Button(
             onClick = {

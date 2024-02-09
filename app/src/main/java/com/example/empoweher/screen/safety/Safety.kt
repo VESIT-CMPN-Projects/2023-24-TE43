@@ -100,7 +100,7 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
 //                painter = painterResource(id = R.drawable.alert_new) ,
                 uristring = "android.resource://com.example.empoweher/raw/safety_alert_icon",
                 title = "Alert",
-                description="You Can Do the fake call with this",
+                description="You Can Send your Location to your emergency Contacts",
                 color= colorResource(id = R.color.lightgreen),
                 routed = {
                     val navigate = Intent(context, LocationActivity::class.java)
@@ -114,7 +114,7 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
 //                painter = painterResource(id = R.drawable.emergency) ,
                 uristring = "android.resource://com.example.empoweher/raw/safety_sos_icon",
                 title = "Emergency",
-                description="You Can Do the fake call with this",
+                description="Add Emergency Contacts here",
                 color= colorResource(id = R.color.lightblue),
                 routed={},
                 false
@@ -125,7 +125,7 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
 //                painter = painterResource(id = R.drawable.police_new) ,
                 uristring = "android.resource://com.example.empoweher/raw/safety_policestn_icon",
                 title = "Nearby Police Station",
-                description="You Can Do the fake call with this",
+                description="Get Location of nearest police station",
                 color= colorResource(id = R.color.purple),
                 routed={
                     val intent = Intent(
