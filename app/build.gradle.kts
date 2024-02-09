@@ -125,4 +125,7 @@ dependencies {
 
     //Backpress
     implementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    //Glow
+    implementation("io.coil-kt:coil-compose:2.5.0")
 }
