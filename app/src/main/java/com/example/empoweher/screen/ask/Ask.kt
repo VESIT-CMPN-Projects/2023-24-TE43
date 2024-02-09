@@ -125,7 +125,7 @@ fun Ask(navigateToNextScreen: (route: String)->Unit){
                     Row(modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
                         Row(
                             modifier = Modifier
-                                .fillMaxWidth(0.8f)
+                                .fillMaxWidth(0.75f)
                                 .horizontalScroll(rememberScrollState())
                                 .clip(RoundedCornerShape(converterHeight(20, context).dp))
                         ) {
@@ -218,7 +218,7 @@ fun ShowLazyListQuestion(event: MutableList<Question>, navigateToNextScreen: (ro
 }
 
 @Composable
-fun TagButton(tag:String,viewModel:QuestionViewModel){
+fun TagButton(tag:String,viewModel: QuestionViewModel){
     Button(onClick = {
         viewModel.fetch(tag)
 

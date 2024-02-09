@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -59,7 +60,7 @@ fun slider() {
     )
     LaunchedEffect(Unit) {
         while (true) {
-            delay(3000)
+            delay(5000)
             val nextPage = (pagerState.currentPage + 1) % pagerState.pageCount
             pagerState.scrollToPage(nextPage)
         }
@@ -68,7 +69,7 @@ fun slider() {
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.height(converterHeight(700, LocalContext.current).dp)
+        modifier = Modifier.fillMaxSize()
     ) {
         Box(modifier = Modifier.wrapContentSize()) {
             HorizontalPager(
@@ -81,8 +82,7 @@ fun slider() {
                 Card(
                     Modifier
                         .wrapContentSize()
-                        .padding(top = 26.dp, start = 10.dp, end = 10.dp)
-                        .height(converterHeight(400, LocalContext.current).dp),
+                        .fillMaxHeight(0.9f),
                     elevation = CardDefaults.cardElevation(8.dp)
                 ) {
                     Image(
@@ -99,15 +99,6 @@ fun slider() {
             pageCount = images.size,
             currentPage = pagerState.currentPage,
             modifier = Modifier
-        )
-        Spacer(modifier = Modifier.height(converterHeight(20, LocalContext.current).dp))
-        TypewriterText(
-            texts = listOf(
-                "Welcome to EmpowerHer",
-                "What is common between all these women ?",
-                "They never gave up against all odds",
-                "There is no limit to what we, as women, can accomplish - Michelle Obama"
-            ),
         )
     }
 

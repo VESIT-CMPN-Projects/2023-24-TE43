@@ -150,7 +150,9 @@ fun App(
                     )
                 }
                 composable(route = Screen.Home.route) {
-                    Home()
+                    Home(navigateToNextScreen = { route ->
+                        navController.navigate(route)
+                    })
                 }
                 composable(route = Screen.Safety.route) {
                     Safety(
