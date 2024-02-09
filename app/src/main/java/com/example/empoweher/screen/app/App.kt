@@ -144,7 +144,7 @@ fun App(
                             }
                         },
                         navigateToHome = {
-                            navController.navigate(Screen.Onboarding.route)
+                            navController.navigate(Screen.Details.route)
                             viewModel.resetState()
                         }
                     )
@@ -153,6 +153,9 @@ fun App(
                     Home(navigateToNextScreen = { route ->
                         navController.navigate(route)
                     })
+                    LaunchedEffect(key1 = shouldShowScaffold){
+                        shouldShowScaffold = true
+                    }
                 }
                 composable(route = Screen.Safety.route) {
                     Safety(
