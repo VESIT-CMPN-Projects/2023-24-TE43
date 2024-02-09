@@ -181,6 +181,7 @@ fun SignInScreen(
 @Composable
 fun TypewriterText(
     texts: List<String>,
+    color: Color=Color.Black
 ) {
     var textIndex by remember {
         mutableStateOf(0)
@@ -212,6 +213,7 @@ fun TypewriterText(
         fontSize = 18.sp,
         fontWeight = FontWeight.Bold,
         modifier=Modifier.padding(20.dp),
-        fontFamily = FontFamily(Font(R.font.font1))
+        fontFamily = FontFamily(Font(R.font.font1)),
+        color=color
     )
 }

@@ -5,6 +5,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -68,10 +69,11 @@ import com.example.empoweher.viewmodel.mainviewmodel
             .fillMaxHeight(0.9f)
             .fillMaxWidth()
             .verticalScroll(scrollState)
+            .background(colorResource(id = R.color.cream))
     ){
         Row(modifier = Modifier
             .fillMaxWidth()
-            .border(width = 2.dp, color = Color.Black)
+            .background(colorResource(id = R.color.pale_brown))
         ){
             Box(modifier = Modifier
                 .size(converterHeight(70, context).dp)
@@ -84,13 +86,13 @@ import com.example.empoweher.viewmodel.mainviewmodel
                     contentScale = ContentScale.Crop
                 )
             }
-            TypewriterText(texts = listOf("Welcome to EmpowerHer"))
+            TypewriterText(texts = listOf("Welcome to EmpowerHer"),Color.White)
             Spacer(modifier = Modifier.weight(1f))
             Box(modifier = Modifier
                 .size(converterHeight(70, context).dp)
                 .padding(converterHeight(5, context).dp)) {
                 Image(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.profile_svg),
+                    imageVector = ImageVector.vectorResource(id = R.drawable.baseline_account_circle_24),
                     contentDescription = "Profile",
                     modifier = Modifier
                         .size(120.dp),
@@ -102,22 +104,25 @@ import com.example.empoweher.viewmodel.mainviewmodel
             .fillMaxWidth()
             .height(converterHeight(400, context).dp)
             .padding(converterHeight(10, context).dp)
-            .border(width = 2.dp, color = Color.Black)
         )
         {
             slider()
         }
         Column(modifier= Modifier
-            .border(width = 2.dp, color = Color.Black)
             .padding(converterHeight(10, context).dp)
             .height(converterHeight(200, context).dp)
+            .clip(RoundedCornerShape(converterHeight(10, context).dp))
+            .background(colorResource(id = R.color.lightorange))
             .verticalScroll(rememberScrollState())
+            .border(width = 2.dp, color = colorResource(id = R.color.lightpurple))
         ) {
             Text(text = "Recent Schemes",
                 fontSize = converterHeight(20,context).sp,
                 fontFamily = FontFamily(Font(R.font.font1)),
                 textAlign = TextAlign.Center,
-                modifier=Modifier.fillMaxWidth()
+                modifier= Modifier
+                    .fillMaxWidth()
+                    .padding(top = converterHeight(5, context).dp)
             )
             SchemeCard(schemeName = "Beti Bachao Beti Padhao","https://wcd.nic.in/schemes/beti-bachao-beti-padhao-scheme")
             SchemeCard(schemeName = "One Stop Centre","https://wcd.nic.in/schemes/one-stop-centre-scheme-1")
@@ -129,14 +134,19 @@ import com.example.empoweher.viewmodel.mainviewmodel
             SchemeCard(schemeName = "Nirbhaya","https://wcd.nic.in/schemes/nirbhaya")
         }
         Column(
-            modifier=Modifier.padding(converterHeight(10,context).dp)
-                .border(width = 2.dp, color = Color.Black)
+            modifier= Modifier
+                .padding(converterHeight(10, context).dp)
+                .clip(RoundedCornerShape(converterHeight(10, context).dp))
+                .background(colorResource(id = R.color.lightblue))
         ) {
             Text(text = "Recommended Events",
                 fontSize = converterHeight(20,context).sp,
                 fontFamily = FontFamily(Font(R.font.font1)),
                 textAlign = TextAlign.Center,
-                modifier=Modifier.fillMaxWidth()
+                modifier= Modifier
+                    .fillMaxWidth()
+                    .padding(top = converterHeight(5, context).dp),
+                color=Color.White
             )
             val eventId="-Njp7ySPE-z629UhUxVk"
             val eventImage= "https://firebasestorage.googleapis.com/v0/b/empowerher-39d60.appspot.com/o/b0Yra1fWvHbPuGJgsijrfFvHaSD2%2F2023-11-22T09%3A17%3A32.545967?alt=media&token=f58cb4fa-9b31-487f-a59e-b7ca13440502"
@@ -146,14 +156,19 @@ import com.example.empoweher.viewmodel.mainviewmodel
             EventCard(navigateToNextScreen = navigateToNextScreen,eventId=eventId,eventCost=eventCost, eventTag = eventTag, eventImage = eventImage, eventTitle = eventName)
         }
         Column(
-            modifier=Modifier.padding(converterHeight(10,context).dp)
-                .border(width = 2.dp, color = Color.Black)
+            modifier= Modifier
+                .padding(converterHeight(10, context).dp)
+                .clip(RoundedCornerShape(converterHeight(10, context).dp))
+                .background(colorResource(id = R.color.emeraldgreen))
+
         ) {
             Text(text = "Top Questions",
                 fontSize = converterHeight(20,context).sp,
                 fontFamily = FontFamily(Font(R.font.font1)),
                 textAlign = TextAlign.Center,
                 modifier=Modifier.fillMaxWidth()
+                    .padding(top = converterHeight(5, context).dp),
+                color=Color.White
             )
             val questionId="-NqBEgazxLJGkzmu2N29"
             val question="how to study AIML ??"
@@ -172,9 +187,9 @@ fun SchemeCard(schemeName:String,uriString:String){
     val context= LocalContext.current
     Card(modifier= Modifier
         .fillMaxWidth()
-        .padding(converterHeight(5, context).dp),
+        .padding(converterHeight(10, context).dp),
         colors=CardDefaults.cardColors(
-            containerColor = colorResource(id = R.color.lightblue)
+            containerColor = colorResource(id = R.color.white)
         )
         ){
         Text(text = schemeName,
