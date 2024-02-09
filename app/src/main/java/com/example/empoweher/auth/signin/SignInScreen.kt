@@ -2,6 +2,7 @@ package com.example.empoweher.auth.signin
 
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -52,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.empoweher.R
 import com.example.empoweher.screen.Details.converterHeight
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -60,7 +62,12 @@ fun SignInScreen(
     state: SignInState,
     onSignInClick: () -> Unit,
     navigateToHome: () -> Unit,
+    navigateToDetails:()->Unit,
 ) {
+    var alreadySignedIn by remember {
+        mutableStateOf(true)
+    }
+
     val context = LocalContext.current
     LaunchedEffect(key1 = state.signInError) {
         state.signInError?.let { error ->
@@ -73,7 +80,16 @@ fun SignInScreen(
     }
     LaunchedEffect(key1 = state.isSignInSuccessful) {
         if (state.isSignInSuccessful) {
-            navigateToHome()
+            val currentFirebaseUser=FirebaseAuth.getInstance().currentUser
+            if (currentFirebaseUser==null){
+                alreadySignedIn=false
+            }
+            if (alreadySignedIn) {
+                navigateToHome()
+            }
+            else{
+                navigateToDetails()
+            }
         }
     }
 
@@ -86,7 +102,7 @@ fun SignInScreen(
     ) {
         Spacer(Modifier.height(40.dp))
         Image(
-            imageVector = ImageVector.vectorResource(id = R.drawable.logo_svg),
+            imageVector = ImageVector.vectorResource(id = R.drawable.logo_sign),
             contentDescription = "Logo",
             modifier = Modifier
                 .size(120.dp),
