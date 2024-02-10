@@ -62,12 +62,16 @@ fun SignInScreen(
     state: SignInState,
     onSignInClick: () -> Unit,
     navigateToHome: () -> Unit,
-    navigateToDetails:()->Unit,
+//    navigateToDetails:()->Unit,
 ) {
-    var alreadySignedIn by remember {
-        mutableStateOf(true)
-    }
-
+//    var alreadySignedIn by remember {
+//        mutableStateOf(false)
+//    }
+//    val currentFirebaseUser=FirebaseAuth.getInstance().currentUser
+//    Log.d("Cure")
+//    if (currentFirebaseUser!=null){
+//        alreadySignedIn=true
+//    }
     val context = LocalContext.current
     LaunchedEffect(key1 = state.signInError) {
         state.signInError?.let { error ->
@@ -80,16 +84,12 @@ fun SignInScreen(
     }
     LaunchedEffect(key1 = state.isSignInSuccessful) {
         if (state.isSignInSuccessful) {
-            val currentFirebaseUser=FirebaseAuth.getInstance().currentUser
-            if (currentFirebaseUser==null){
-                alreadySignedIn=false
-            }
-            if (alreadySignedIn) {
+//            if (alreadySignedIn) {
+//                navigateToDetails()
+//            }
+//            else{
                 navigateToHome()
-            }
-            else{
-                navigateToDetails()
-            }
+//            }
         }
     }
 

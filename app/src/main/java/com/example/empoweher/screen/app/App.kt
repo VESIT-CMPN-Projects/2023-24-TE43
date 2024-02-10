@@ -147,13 +147,13 @@ fun App(
                             }
                         },
                         navigateToHome = {
-                            navController.navigate(Screen.Home.route)
-                            viewModel.resetState()
-                        },
-                        navigateToDetails={
                             navController.navigate(Screen.Details.route)
                             viewModel.resetState()
-                        }
+                        },
+//                        navigateToDetails={
+//                            navController.navigate(Screen.Details.route)
+//                            viewModel.resetState()
+//                        }
                     )
                 }
                 composable(route = Screen.Home.route) {
