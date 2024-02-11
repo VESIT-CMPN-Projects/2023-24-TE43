@@ -45,6 +45,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -76,17 +77,20 @@ import com.example.empoweher.viewmodel.QuestionViewModel
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
 import java.util.Calendar
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
     fun Home(navigateToNextScreen: (route: String)->Unit) {
+
         val systemUiController: SystemUiController = rememberSystemUiController()
         systemUiController.isStatusBarVisible = false
         val context= LocalContext.current
         val auth= FirebaseAuth.getInstance().currentUser?.uid
         var id="PCAPS"
+
         if (auth!=null){
             id=auth
         }
@@ -95,7 +99,11 @@ import java.util.Calendar
         var startDate by remember {
             mutableLongStateOf(0) // or use mutableStateOf(calendar.timeInMillis)
         }
-        val viewModel = viewModel { NoteViewModel(userId = id, mode = 0,startDate) }
+        val viewModel = viewModel { NoteViewModel(userId = id, mode = 0) }
+
+        LaunchedEffect(key1 = Unit) {
+            viewModel.fetch(0)
+        }
         when( val result= viewModel.response.value){
             is DataState.Loading -> {
                 Box(
@@ -136,7 +144,6 @@ import java.util.Calendar
                     ShowLazyListNote(result.data,navigateToNextScreen)
 //                    Spacer(modifier = Modifier.height(20.dp))
 
-
                     val datePickerState = rememberDatePickerState(initialSelectedDateMillis = calender.timeInMillis)
                     var showDatePicker by remember {
                         mutableStateOf(false)
@@ -147,10 +154,14 @@ import java.util.Calendar
                                 showDatePicker = false
                             },
                             confirmButton = {
+
                                 TextButton(onClick = {
+
                                         showDatePicker = false
-                                        startDate = datePickerState.selectedDateMillis!!
-                                    Log.d("kkk",startDate.toString())
+                                        startDate = datePickerState.selectedDateMillis?:System.currentTimeMillis()
+                                        viewModel.fetch(startDate)
+
+
                                 }) {
                                     Text(text = "Confirm")
                                 }
@@ -168,14 +179,6 @@ import java.util.Calendar
                             )
                         }
                     }
-//                    Button(
-//                        onClick = {
-//                            showDatePicker = true
-//                            startDate = datePickerState.selectedDateMillis!!
-//                        }
-//                    ) {
-//                        Text(text = "Pick Date")
-//                    }
                     Card(
                         modifier = Modifier
                             .fillMaxSize(),
@@ -201,6 +204,15 @@ import java.util.Calendar
                                     fontFamily = FontFamily(Font(R.font.font1)),
                                 )
 
+                            }
+                            val scope= rememberCoroutineScope()
+                            val scoped= rememberCoroutineScope()
+                            Button(
+                                onClick = {
+                                    showDatePicker = true
+                                }
+                            ) {
+                                Text(text = "Pick Date")
                             }
                             Spacer(Modifier.weight(1f))
                             FloatingActionButton(

@@ -154,6 +154,15 @@ fun CreateNote(navigateToNextScreen: (route: String)->Unit) {
             id=auth
         }
         Spacer(modifier = Modifier.width(converterHeight(15, context).dp))
+
+        Button(onClick = {
+            context.startActivity(Intent(context, QR::class.java))
+
+        }) {
+
+        }
+
+
         Button(onClick ={
 
             if (description.isNotBlank()){

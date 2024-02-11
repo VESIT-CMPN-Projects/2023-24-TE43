@@ -13,17 +13,16 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 
-class NoteViewModel(userId:String,mode:Int,date:Long) : ViewModel() {
+class NoteViewModel(userId:String,mode:Int) : ViewModel() {
     val response: MutableState<DataState> = mutableStateOf(DataState.Empty)
     val mode=mode
     val userId=userId
     var path=""
-    val date=date
     init {
-        fetch()
+        fetch(0)
     }
 
-    private fun fetch(){
+    fun fetch(date:Long){
         path = if (mode==1){
             "notes/notes/${userId}/hidden/"
         } else{

@@ -105,7 +105,7 @@ class HiddenNotes : FragmentActivity() {
                 var startDate by remember {
                     mutableLongStateOf(0) // or use mutableStateOf(calendar.timeInMillis)
                 }
-                val viewModel = viewModel { NoteViewModel(userId = id, mode = 1,startDate) }
+                val viewModel = viewModel { NoteViewModel(userId = id, mode = 1) }
                 when( val result= viewModel.response.value){
                     is DataState.Loading -> {
                         Box(

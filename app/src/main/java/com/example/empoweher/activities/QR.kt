@@ -42,10 +42,6 @@ class QR : ComponentActivity() {
         }
     }
 
-
-
-
-
     fun showCamera(){
         val options = ScanOptions()
         options.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
@@ -85,28 +81,31 @@ class QR : ComponentActivity() {
                 Text(text = textResult.value)
 
             }
+            if (textResult.value != "") {
+                val auth = FirebaseAuth.getInstance().currentUser?.uid
+                var id = "PCAPS"
 
-//                    val auth = FirebaseAuth.getInstance().currentUser?.uid
-//                    var id = "PCAPS"
-//                    if (auth != null) {
-//                        id = auth
-//                    }
-//                    val time = System.currentTimeMillis()
-//                    val path = "notes/notes/${id}/visible"
-//                    val dbref = FirebaseDatabase.getInstance()
-//                        .getReference(path)
-//
-//                    val body = GetDataFromFirebase(nodePath = textResult.value, child = "note")
-//                    val name = GetDataFromFirebase(nodePath = textResult.value, child = "name")
-//                    val note = Note(note = body, noteId = time.toString(), name = name)
-//                    if (textResult.value != "") {
-//                        dbref.child(time.toString()).setValue(note).addOnSuccessListener {
-//                            Toast.makeText(this, "Successfully Created", Toast.LENGTH_SHORT).show()
-//                            finish()
-//
-//                        }
-//                    }
+                if (auth != null) {
+                    id = auth
+                }
 
+                val time = System.currentTimeMillis()
+                val path = "notes/notes/${id}/visible"
+                val dbref = FirebaseDatabase.getInstance()
+                    .getReference(path)
+
+                val body = GetDataFromFirebase(nodePath = textResult.value, child = "note")
+                val name = GetDataFromFirebase(nodePath = textResult.value, child = "name")
+
+                val note = Note(note = body, noteId = time.toString(), name = name)
+
+                if (body.isNotEmpty()&&name.isNotEmpty()) {
+                    dbref.child(time.toString()).setValue(note).addOnSuccessListener {
+                        Toast.makeText(this, "Successfully Created", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                }
+            }
 
         }
     }
