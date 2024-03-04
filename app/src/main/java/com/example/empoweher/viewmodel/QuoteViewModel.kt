@@ -7,10 +7,8 @@ import androidx.lifecycle.ViewModel
 import com.example.empoweher.model.QuoteRepo
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.json.responseJson
-import kotlinx.serialization.decodeFromString
 import com.github.kittinunf.result.Result
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
 import org.json.JSONObject
 
 class QuoteViewModel:ViewModel() {
@@ -23,7 +21,7 @@ class QuoteViewModel:ViewModel() {
 
     val repo:MutableState<QuoteRepo> =_repo
     fun getUsers(){
-        val url = "https://zenquotes.io/api/random/"
+        val url = "https://zenquotes.io/api/random/g"
 
         val header: HashMap<String, String> = hashMapOf()
         Fuel.get(url).header(header).responseJson{ request, response, result ->
@@ -39,9 +37,17 @@ class QuoteViewModel:ViewModel() {
                 }
 
                 is Result.Success -> {
-                    val tmp = Json.decodeFromString<QuoteRepo>(result.get().toString())
+
 //                    var tmp = UserRepositories(users = listOf())
-                    _repo.value = tmp
+//                    val tmp = Json.decodeFromString<QuoteRepo>(result.get().toString())
+//
+//                    val obj = JSONObject()
+//                    obj.put()
+//
+//                    Log.d("API",tmp.toString())
+
+//                    _repo.value = tmp
+
                 }
 
                 else -> {

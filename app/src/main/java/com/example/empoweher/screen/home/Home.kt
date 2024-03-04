@@ -1,12 +1,8 @@
 package com.example.empoweher.screen.home
 
 import android.content.Intent
-import android.util.Log
-import android.widget.Toast
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -61,23 +56,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.example.empoweher.R
 import com.example.empoweher.activities.HiddenNotes
-import com.example.empoweher.composables.HeartAnimation
 import com.example.empoweher.composables.NoteCard
-import com.example.empoweher.composables.QuestionCard
 import com.example.empoweher.model.DataState
 import com.example.empoweher.model.Note
-import com.example.empoweher.model.Question
 import com.example.empoweher.model.Screen
 import com.example.empoweher.screen.Details.converterHeight
 import com.example.empoweher.screen.events.LoadingAnimation3
 import com.example.empoweher.viewmodel.NoteViewModel
-import com.example.empoweher.viewmodel.QuestionViewModel
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.launch
 import java.util.Calendar
 
 
@@ -307,7 +300,10 @@ fun ShowLazyListNote(note: MutableList<Note>, navigateToNextScreen: (route: Stri
             }
         }
     }
+
+
 }
+
 
     
 

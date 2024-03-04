@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,8 +39,11 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.empoweher.R
+import com.example.empoweher.activities.ExternalApi
 import com.example.empoweher.activities.HiddenNotes
 import com.example.empoweher.activities.QR
+import com.example.empoweher.activities.TimeApi
+import com.example.empoweher.composables.SampleText
 import com.example.empoweher.model.Note
 import com.example.empoweher.model.Screen
 import com.example.empoweher.screen.Details.converterHeight
@@ -57,18 +61,19 @@ fun CreateNote(navigateToNextScreen: (route: String)->Unit) {
     lateinit var barcodeScanner: BarcodeScanner
 
     val context=LocalContext.current
-    var description by remember {
+    var description by rememberSaveable {
         mutableStateOf("")
     }
-    var checked by remember { mutableStateOf(false) }
-    var name by remember {
+    var checked by rememberSaveable { mutableStateOf(false) }
+    var name by rememberSaveable {
         mutableStateOf("")
     }
     val scrollForDescription= rememberScrollState(0)
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(converterHeight(5, context).dp, converterHeight(10, context).dp),
+            .padding(converterHeight(5, context).dp, converterHeight(10, context).dp)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
 
     ) {
@@ -154,51 +159,64 @@ fun CreateNote(navigateToNextScreen: (route: String)->Unit) {
             id=auth
         }
         Spacer(modifier = Modifier.width(converterHeight(15, context).dp))
+        
+        Row(
+            modifier= Modifier.fillMaxWidth()
+        ) {
+            Button(onClick = {
+                context.startActivity(Intent(context, ExternalApi::class.java))
 
-        Button(onClick = {
-            context.startActivity(Intent(context, QR::class.java))
+            }) {
 
-        }) {
+                Text(
+                    text = "Scan",
+                    fontSize = converterHeight(18, context).sp,
+                    fontFamily = FontFamily(Font(R.font.font1)),
+                )
 
-        }
+            }
+            Spacer(modifier = Modifier.weight(1f))
 
 
-        Button(onClick ={
+            Button(onClick ={
 
-            if (description.isNotBlank()){
-                var path="notes/notes/${id}/visible"
-                if (checked){
-                    path="notes/notes/${id}/hidden"
+                if (description.isNotBlank()){
+                    var path="notes/notes/${id}/visible"
+                    if (checked){
+                        path="notes/notes/${id}/hidden"
+                    }
+
+                    val dbref = FirebaseDatabase.getInstance()
+                        .getReference(path)
+
+                    val note= Note(note=description, noteId = time.toString(), name = name)
+                    dbref.child(time.toString()).setValue(note).addOnSuccessListener {
+                        Toast.makeText(context,"Successfully Created",Toast.LENGTH_SHORT).show()
+                        description=""
+                        name=""
+                        checked=false
+                        val mediaPlayer = MediaPlayer.create(context,R.raw.alert)
+                        mediaPlayer.start()
+                    }
+
+
                 }
 
-                val dbref = FirebaseDatabase.getInstance()
-                    .getReference(path)
 
-                val note= Note(note=description, noteId = time.toString(), name = name)
-                dbref.child(time.toString()).setValue(note).addOnSuccessListener {
-                    Toast.makeText(context,"Successfully Created",Toast.LENGTH_SHORT).show()
-                    description=""
-                    name=""
-                    checked=false
-                    val mediaPlayer = MediaPlayer.create(context,R.raw.alert)
-                    mediaPlayer.start()
-                }
 
+            }) {
+                Text(
+                    text = "Create",
+                    fontSize = converterHeight(18, context).sp,
+                    fontFamily = FontFamily(Font(R.font.font1)),
+                )
 
             }
 
-
-
-        }) {
-            Text(
-                text = "Create",
-                fontSize = converterHeight(18, context).sp,
-                fontFamily = FontFamily(Font(R.font.font1)),
-            )
-
         }
-
     }
+
+        
 
 
 
