@@ -22,12 +22,12 @@ class ExternalApi : AppCompatActivity() {
         setContentView(R.layout.activity_external_api)
 
         val data:TextView = findViewById(R.id.data)
-        val url="https://worldtimeapi.org/api/timezone/Asia/Kolkata"
+        val url="https://3325-49-43-25-34.ngrok-free.app/Users"
         val request = JsonObjectRequest(
             com.android.volley.Request.Method.GET, url, null,
             { response ->
                 try {
-                    val datetime = response.getString("datetime")
+                    val datetime = response.getString("users")
                     data.setText(datetime)
                 } catch (e: Exception) {
                 }

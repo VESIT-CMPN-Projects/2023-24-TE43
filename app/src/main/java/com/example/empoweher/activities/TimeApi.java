@@ -31,13 +31,14 @@ public class TimeApi extends AppCompatActivity {
         setContentView(R.layout.activity_time_api);
 
         data=findViewById(R.id.data);
-        url="https://worldtimeapi.org/api/timezone/Asia/Kolkata";
+        url="https://3325-49-43-25-34.ngrok-free.app/Users";
 
         JsonObjectRequest request= new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    String datetime = response.getString("datetime");
+//                    String datetime = response.getString("datetime");
+                    String datetime = response.getString("users");
                     data.setText(datetime);
 
 
