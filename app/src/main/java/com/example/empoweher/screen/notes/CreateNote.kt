@@ -41,8 +41,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.empoweher.R
 import com.example.empoweher.activities.ExternalApi
 import com.example.empoweher.activities.HiddenNotes
+import com.example.empoweher.activities.LeftRight
 import com.example.empoweher.activities.QR
 import com.example.empoweher.activities.TimeApi
+import com.example.empoweher.activities.Turn
 import com.example.empoweher.composables.SampleText
 import com.example.empoweher.model.Note
 import com.example.empoweher.model.Screen
@@ -164,7 +166,7 @@ fun CreateNote(navigateToNextScreen: (route: String)->Unit) {
             modifier= Modifier.fillMaxWidth()
         ) {
             Button(onClick = {
-                context.startActivity(Intent(context, ExternalApi::class.java))
+                context.startActivity(Intent(context, LeftRight::class.java))
 
             }) {
 
