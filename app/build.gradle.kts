@@ -36,19 +36,12 @@ android {
             productFlavors { }
             sourceSets { }
         }
-//
+////
         chaquopy {
             defaultConfig {
-                version = "3.8"
-//                buildPython("C:/Users/DELL/AppData/Local/Programs/Python/Python38/python.exe")
+                version = "3.12"
+                buildPython("C:/Users/ruksa/AppData/Local/Programs/Python/Python312/python.exe")
 //                pythonVersionInfo(".py","")
-            }
-        }
-
-        chaquopy {
-            defaultConfig {
-//                buildPython("C:/path/to/python.exe")
-//                buildPython("C:/path/to/py.exe", "-3.8")
             }
         }
 //
@@ -78,7 +71,13 @@ android {
         jvmTarget = "18"
     }
 
-
+    chaquopy {
+        sourceSets {
+            getByName("main") {
+                srcDir("src/main/python")
+            }
+        }
+    }
 
     buildFeatures {
         compose = true
