@@ -1,10 +1,13 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+import com.chaquo.python.pythonVersionInfo
 
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
     id("kotlin-kapt")
+    id("com.chaquo.python")
+
+
 }
 
 android {
@@ -22,6 +25,40 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        ndk {
+            abiFilters.add("arm64-v8a")
+            abiFilters.add("x86_64")
+        }
+
+        chaquopy {
+            defaultConfig { }
+            productFlavors { }
+            sourceSets { }
+        }
+//
+        chaquopy {
+            defaultConfig {
+                version = "3.8"
+//                buildPython("C:/Users/DELL/AppData/Local/Programs/Python/Python38/python.exe")
+//                pythonVersionInfo(".py","")
+            }
+        }
+
+        chaquopy {
+            defaultConfig {
+//                buildPython("C:/path/to/python.exe")
+//                buildPython("C:/path/to/py.exe", "-3.8")
+            }
+        }
+//
+//        sourceSets {
+//            main {
+//                python.srcDir "src/main/python"
+//            }
+//        }
+//
+
     }
 
     buildTypes {
@@ -40,6 +77,9 @@ android {
     kotlinOptions {
         jvmTarget = "18"
     }
+
+
+
     buildFeatures {
         compose = true
         viewBinding=true
