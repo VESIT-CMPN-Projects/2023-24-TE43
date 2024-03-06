@@ -71,7 +71,7 @@ fun DetailsDp(navigateToNextScreen: (route: String)->Unit){
 
     ) {
         Image(
-            imageVector = ImageVector.vectorResource(id = R.drawable.logo_svg),
+            imageVector = ImageVector.vectorResource(id = R.drawable.logo_sign),
             contentDescription = "Logo",
             modifier = Modifier
                 .size(80.dp),

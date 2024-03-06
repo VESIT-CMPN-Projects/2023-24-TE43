@@ -37,6 +37,8 @@ import com.example.empoweher.auth.signin.SignInScreen
 import com.example.empoweher.auth.signin.SignInViewModel
 import com.example.empoweher.composables.DetailedEventCard
 import com.example.empoweher.composables.EventCard
+import com.example.empoweher.composables.getInfo
+import com.example.empoweher.composables.getValue
 import com.example.empoweher.composables.onBoarding
 import com.example.empoweher.model.Screen
 import com.example.empoweher.screen.Details.Details
@@ -55,6 +57,7 @@ import com.example.empoweher.screen.temp.Temp1
 import com.example.empoweher.screen.Details.Registration
 import com.example.empoweher.screen.ask.AskQuestion
 import com.example.empoweher.screen.ask.GiveAnswer
+import com.google.firebase.auth.EmailAuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.launch
@@ -146,7 +149,11 @@ fun App(
                         navigateToHome = {
                             navController.navigate(Screen.Details.route)
                             viewModel.resetState()
-                        }
+                        },
+//                        navigateToDetails={
+//                            navController.navigate(Screen.Details.route)
+//                            viewModel.resetState()
+//                        }
                     )
                 }
                 composable(route = Screen.Home.route) {
@@ -419,7 +426,9 @@ fun App(
                 )) {
                     val userId = it.arguments?.getString("userId")
                     Profile(userId, navigateToNextScreen = { route ->
-                        navController.navigate(route)
+                        navController.navigate(route){
+                            popUpTo(0)
+                        }
                     })
                 }
 

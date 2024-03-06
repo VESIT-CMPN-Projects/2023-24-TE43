@@ -41,7 +41,7 @@
         <activity
             android:name=".activities.ContactActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:theme="@style/Theme.AppCompat"
             />
         <activity
             android:name=".screen.ask.Navigation"

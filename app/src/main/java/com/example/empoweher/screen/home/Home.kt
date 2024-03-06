@@ -57,6 +57,7 @@ import com.example.empoweher.composables.slider
 import com.example.empoweher.model.Screen
 import com.example.empoweher.screen.Details.converterHeight
 import com.example.empoweher.viewmodel.mainviewmodel
+import com.google.firebase.auth.FirebaseAuth
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,6 +65,13 @@ import com.example.empoweher.viewmodel.mainviewmodel
     fun Home(navigateToNextScreen: (route: String)->Unit) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
+    var currentFirebaseUser ="PCAPS"
+    try {
+        currentFirebaseUser = FirebaseAuth.getInstance().currentUser!!.uid
+    }
+    catch (e:Exception){
+
+    }
     Column(
         modifier = Modifier
             .fillMaxHeight(0.9f)
@@ -90,7 +98,10 @@ import com.example.empoweher.viewmodel.mainviewmodel
             Spacer(modifier = Modifier.weight(1f))
             Box(modifier = Modifier
                 .size(converterHeight(70, context).dp)
-                .padding(converterHeight(5, context).dp)) {
+                .padding(converterHeight(5, context).dp)
+                .clickable {
+                    navigateToNextScreen(Screen.Profile.route + "/" + currentFirebaseUser)
+                }) {
                 Image(
                     imageVector = ImageVector.vectorResource(id = R.drawable.baseline_account_circle_24),
                     contentDescription = "Profile",
@@ -170,12 +181,12 @@ import com.example.empoweher.viewmodel.mainviewmodel
                     .padding(top = converterHeight(5, context).dp),
                 color=Color.White
             )
-            val questionId="-NqBEgazxLJGkzmu2N29"
-            val question="how to study AIML ??"
+            val questionId="-NqG5OKIeJ8EXxsUsR4z"
+            val question="How do you empower yourself and the women around you"
             val designation="student"
-            val tag= "Educational"
-            val userId="4rqHpl2DhXeU2FX76rf7G9H5nlR2"
-            val userName="dhruv"
+            val tag= "Empowerment"
+            val userId="24Si2cNeD8Uq7vIbGCTDUSAHNOg1"
+            val userName="Aman"
             QuestionCard(navigateToNextScreen = navigateToNextScreen, questionId = questionId, question = question, profession = designation, userId = userId, userName = userName)
         }
     }

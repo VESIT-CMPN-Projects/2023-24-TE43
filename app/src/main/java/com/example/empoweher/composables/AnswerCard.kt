@@ -146,7 +146,7 @@ fun AnswerCard(navigateToNextScreen: (route: String) -> Unit,
                 color = colorResource(id = R.color.teal_700),
                 modifier = Modifier
                     .clickable {
-                        navigateToNextScreen(Screen.Profile.route + "/" + userId)
+//                        navigateToNextScreen(Screen.Profile.route + "/" + userId)
                     }
                     .padding(
                         start = converterHeight(10, context).dp,

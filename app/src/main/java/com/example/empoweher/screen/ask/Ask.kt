@@ -130,6 +130,7 @@ fun Ask(navigateToNextScreen: (route: String)->Unit){
                                 .clip(RoundedCornerShape(converterHeight(20, context).dp))
                         ) {
 
+                            TagButton(tag = "all", viewModel = viewModel)
                             TagButton(tag = "Educational", viewModel = viewModel)
                             TagButton(tag = "Exploratory", viewModel = viewModel)
                             TagButton(tag = "Defence", viewModel = viewModel)

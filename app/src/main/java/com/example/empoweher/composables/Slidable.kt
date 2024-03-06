@@ -61,7 +61,7 @@ import kotlinx.coroutines.delay
 fun slider() {
     val images = listOf(R.drawable.indiragandhi, R.drawable.indranooyi,R.drawable.kalpanachawla,R.drawable.kiranbedi,R.drawable.marykom)
     val links= listOf("https://www.history.com/topics/asian-history/indira-gandhi","https://hbr.org/2015/09/how-indra-nooyi-turned-design-thinking-into-strategy","https://www.linkedin.com/pulse/inspiring-story-women-achiever-kalpana-chawla-karemullasha-m-p","https://www.britannica.com/biography/Kiran-Bedi","https://www.potsandpans.in/blogs/articles/mary-kom-the-epitome-of-women-empowerment#:~:text=Mary%20had%20a%20tough%20childhood,in%20Asian%20Games%20in%201998.")
-    val achievments= listOf("First Women Prime Minister of India - Indira Gandhi","CEO of PepsiCo - Indra Nooyi","Indian American Astronaut and Aerospace Engineer - Kalpana Chawla","Former Liutenant Governor of Puducherry - Kiran Bedi","Indian Boxer and 2012 Olympic Medalist - Mary Kom")
+    val achievments= listOf("First Women Prime Minister of India - Indira Gandhi","CEO of PepsiCo - Indra Nooyi","Indian American Astronaut and Aerospace Engineer - Kalpana Chawla","Former Lieutenant Governor of Puducherry - Kiran Bedi","Indian Boxer and 2012 Olympic Medalist - Mary Kom")
     val pagerState = rememberPagerState(
         pageCount ={ images.size}
     )

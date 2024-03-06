@@ -1,5 +1,6 @@
 package com.example.empoweher.screen.profile
 
+import android.content.Intent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -50,6 +51,7 @@ fun Profile(userId : String?=null,navigateToNextScreen: (route: String)->Unit) {
     val image = rememberAsyncImagePainter(model = dp)
     val followers=getChildCount(path = "/Users/$userId/followers")
     val following=getChildCount(path = "/Users/$userId/following")
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -98,14 +100,23 @@ fun Profile(userId : String?=null,navigateToNextScreen: (route: String)->Unit) {
         }
 
 //        var slide = listOf<>()
-//        val context = LocalContext.current
+
+        Button(onClick = {
+            val navigate = Intent(context, VideoConferencing::class.java)
+            context.startActivity(navigate)
+        },
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            Text(text = "Create or Join a Meet",)
+        }
+//
 //        val videoConferencing = VideoConferencing()
-//        videoConferencing.video(context)
+//        videoConferencing.Video(context)
 
         Button(
             onClick = {
                          FirebaseAuth.getInstance().signOut()
-//                         navigateToNextScreen(Screen.Login.route)
+                         navigateToNextScreen(Screen.Login.route)
                       },
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
