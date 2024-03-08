@@ -39,7 +39,7 @@ android {
         chaquopy {
             defaultConfig {
                 version = "3.12"
-                buildPython("C:/Users/ruksa/AppData/Local/Programs/Python/Python312/python.exe")
+                buildPython("C:/Users/pradh/AppData/Local/Programs/Python/Python312/python.exe/")
 
                 pip {
                     install("tweepy")
@@ -170,4 +170,7 @@ dependencies {
 
     //Glow
     implementation("io.coil-kt:coil-compose:2.5.0")
+
+    //Payment
+    implementation("com.razorpay:checkout:1.6.33")
 }
