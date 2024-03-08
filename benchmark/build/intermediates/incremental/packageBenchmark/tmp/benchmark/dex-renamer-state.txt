@@ -1,0 +1,10 @@
+#Wed Mar 06 20:13:43 IST 2024
+base.0=C\:\\Users\\pradh\\ProjectsAndroid\\benchmark\\build\\intermediates\\dex\\benchmark\\mergeExtDexBenchmark\\classes.dex
+base.1=C\:\\Users\\pradh\\ProjectsAndroid\\benchmark\\build\\intermediates\\dex\\benchmark\\mergeProjectDexBenchmark\\0\\classes.dex
+base.2=C\:\\Users\\pradh\\ProjectsAndroid\\benchmark\\build\\intermediates\\dex\\benchmark\\mergeProjectDexBenchmark\\8\\classes.dex
+path.0=classes.dex
+path.1=0/classes.dex
+path.2=8/classes.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex
+renamed.2=classes3.dex

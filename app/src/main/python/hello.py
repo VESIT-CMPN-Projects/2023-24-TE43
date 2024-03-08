@@ -1,4 +1,4 @@
-import tweepy
+from tweepy
 
 access_token = '1765406326190956544-NhagkIzDxnMWx4qgOrmAmZbnvOAPfE'
 access_secret = 'N8lQpHZbH6isNCUl8Hg20he6hY0CUaqt9m49u7OhIn3ti'

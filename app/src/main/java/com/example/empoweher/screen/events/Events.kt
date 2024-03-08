@@ -96,6 +96,7 @@ fun Events(navigateToNextScreen: (route: String)->Unit){
             }
         }
         is DataState.Success -> {
+
             Column(
                 modifier= Modifier
                     .fillMaxSize()
@@ -120,7 +121,15 @@ fun Events(navigateToNextScreen: (route: String)->Unit){
                                 .horizontalScroll(rememberScrollState())
                                 .clip(RoundedCornerShape(converterHeight(20, context).dp))
                         ) {
+                            Button(onClick = {
 
+                                       navigateToNextScreen(Screen.BookedEvents.route)
+
+                            },
+                                modifier = Modifier.padding(start = converterHeight(5, LocalContext.current).dp)
+                            ) {
+                                SampleText(text = "Booked",16, colorResource(id = R.color.white))
+                            }
                             TagButtonEvent(tag = "Educational", viewModel = viewModel)
                             TagButtonEvent(tag = "Exploratory", viewModel = viewModel)
                             TagButtonEvent(tag = "Defence", viewModel = viewModel)

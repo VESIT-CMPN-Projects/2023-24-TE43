@@ -30,7 +30,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -60,6 +62,51 @@ import java.time.LocalDateTime
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DetailedEventCard(eventId:String?="",navigateToNextScreen: (route: String)->Unit) {
+
+
+    var currentUser="24Si2cNeD8Uq7vIbGCTDUSAHNOg1"
+    var currentFirebaseUser:String?=""
+    try {
+        currentFirebaseUser = FirebaseAuth.getInstance().currentUser!!.uid
+
+    }
+    catch (e:Exception){
+
+    }
+
+    val list = remember { mutableStateListOf<String>()}
+
+    LaunchedEffect(key1 = Unit) {
+        FirebaseDatabase.getInstance().getReference("Users/24Si2cNeD8Uq7vIbGCTDUSAHNOg1/bookedEvents").addListenerForSingleValueEvent(object:ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (data in snapshot.children) {
+                    val e = data.getValue(String::class.java)
+                    Log.d("jwsh",e.toString())
+                    list.add(e!!)
+                }
+
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+
+    }
+
+
+    var booked by remember {
+        mutableStateOf(false)
+    }
+
+    if (list.contains(eventId)){
+        booked=true
+    }
+
+
+    if(currentFirebaseUser != ""&& currentFirebaseUser!=null){
+        currentUser = currentFirebaseUser;
+    }
+
     var context= LocalContext.current
     var eventTitle by remember {
         mutableStateOf("")
@@ -244,20 +291,33 @@ fun DetailedEventCard(eventId:String?="",navigateToNextScreen: (route: String)->
             .fillMaxHeight(),
             shape = RoundedCornerShape(0),
             onClick = {
-                if (Integer.parseInt(vacancy)>0){
+
+                if (Integer.parseInt(vacancy)>0 && !booked){
                     Toast.makeText(context,"Enrolled",Toast.LENGTH_SHORT).show()
                     var vacancyUpdated=Integer.parseInt(vacancy)-1
                     val dbref = FirebaseDatabase.getInstance().getReference("Event");
                     dbref.child(eventId!!).child("vacancy").setValue(vacancyUpdated.toString())
+                    val Users = FirebaseDatabase.getInstance().getReference("Users");
+                    Users.child(currentUser).child("bookedEvents").child(eventId).setValue(eventId)
+
                 }
+
                 else{
-                    Toast.makeText(context,"No Seats Left",Toast.LENGTH_SHORT).show()
+                    if (booked){
+                        Toast.makeText(context,"Already Booked",Toast.LENGTH_SHORT).show()
+
+                    }
+                    else{
+                        Toast.makeText(context,"No Seats Left",Toast.LENGTH_SHORT).show()
+                    }
                 }
         }) {
+
             Text(text = "Enroll Now", fontSize = 18.sp)
         }
     }
 }
+
 
 @Composable
 fun getInfo(thing:String?,eventId: String?): String {
