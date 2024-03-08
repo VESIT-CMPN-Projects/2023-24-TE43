@@ -3,6 +3,7 @@ package com.example.empoweher.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -12,6 +13,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.empoweher.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
 
@@ -19,17 +22,27 @@ import org.json.JSONObject;
 
 public class Payment extends AppCompatActivity implements PaymentResultListener {
 
+    String currentFirebaseUser="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_payment);
 
-        findViewById(R.id.payButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+//        String  newString= (String) savedInstanceState.getSerializable("eventId");
+//
+//        Button btn=findViewById(R.id.payButton);
+//        btn.setOnClickListener(view -> startPayment());
 
-                startPayment();
-            }
-        });
+        startPayment();
+
+        try{
+            currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
+        catch(Exception e){
+
+        }
+
 
     }
     public void startPayment() {
@@ -55,8 +68,8 @@ public class Payment extends AppCompatActivity implements PaymentResultListener 
             options.put("amount", "100");
 
             JSONObject preFill=new JSONObject();
-            preFill.put("prefill.email", "email");
-            preFill.put("prefill.contact","phone");
+            preFill.put("prefill.email", "2021.rajveer.tolani@ves.ac.in");
+            preFill.put("prefill.contact","9324569397");
 
             options.put("prefill",preFill);
 
@@ -71,7 +84,15 @@ public class Payment extends AppCompatActivity implements PaymentResultListener 
 
     @Override
     public void onPaymentSuccess(String s) {
-        Toast.makeText(this,"Payment Success"+s,Toast.LENGTH_SHORT).show();
+
+        if(currentFirebaseUser!=null && currentFirebaseUser!=""){
+
+
+
+        }
+
+
+
     }
 
     @Override
