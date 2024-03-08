@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.empoweher"
-        minSdk = 24
+        minSdk = 21
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -39,16 +39,19 @@ android {
         chaquopy {
             defaultConfig {
                 version = "3.12"
-                buildPython("C:/Users/pradh/AppData/Local/Programs/Python/Python312/python.exe/")
-//                pythonVersionInfo(".py","")
+                buildPython("C:/Users/ruksa/AppData/Local/Programs/Python/Python312/python.exe")
+
+                pip {
+                    install("tweepy")
+                }
             }
+//            sourceSets {
+//                main {
+//                    python.srcDir("src/main/python")
+//                }
+//            }
         }
 //
-//        sourceSets {
-//            main {
-//                python.srcDir "src/main/python"
-//            }
-//        }
 //
 
     }
