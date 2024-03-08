@@ -5,6 +5,7 @@ buildscript {
     val agp_version1 by extra("8.2.0")
     val agp_version2 by extra("8.2.0")
     val agp_version3 by extra("8.2.0")
+    val agp_version4 by extra("8.3.0")
     dependencies {
         classpath ("com.google.gms:google-services:4.4.0")
     }

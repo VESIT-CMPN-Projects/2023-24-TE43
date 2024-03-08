@@ -24,11 +24,10 @@ class Twitter : AppCompatActivity() {
             Python.start(AndroidPlatform(this));
         }
         val py=Python.getInstance()
-        val module=py.getModule("hello.main")
+        val module=py.getModule("hello")
         val num=module["num"]
         val response=module["response"]
         Log.d("Hostel Praful",num.toString())
         Log.d("Hostel Praful",response.toString())
-
     }
 }

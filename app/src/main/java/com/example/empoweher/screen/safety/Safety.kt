@@ -104,6 +104,8 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                 description="You Can Send your Location to your emergency Contacts",
                 color= colorResource(id = R.color.lightgreen),
                 routed = {
+//                    val navigate = Intent(context, LocationActivity::class.java)
+//                    context.startActivity(navigate)
                     val navigate = Intent(context, Twitter::class.java)
                     context.startActivity(navigate)
                 },
