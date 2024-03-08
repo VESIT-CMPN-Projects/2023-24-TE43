@@ -167,4 +167,7 @@ dependencies {
 
     //Glow
     implementation("io.coil-kt:coil-compose:2.5.0")
+
+    //Payment
+    implementation("com.razorpay:checkout:1.6.33")
 }
