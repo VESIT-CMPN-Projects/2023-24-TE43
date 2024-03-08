@@ -58,7 +58,7 @@ import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CreateNote(navigateToNextScreen: (route: String)->Unit) {
+fun CreateNote(navigateToNextScreen: (route: String)->Unit={}) {
 
     lateinit var barcodeScanner: BarcodeScanner
 

@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "EmpoweHer"
 include(":app")
+include(":benchmark")

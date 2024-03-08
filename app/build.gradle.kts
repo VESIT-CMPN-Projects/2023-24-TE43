@@ -34,6 +34,12 @@ android {
                 "proguard-rules.pro"
             )
         }
+        create("benchmark") {
+            initWith(buildTypes.getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            isDebuggable = false
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_18
@@ -153,5 +159,20 @@ dependencies {
 
     //API
     implementation("com.android.volley:volley:1.2.1")
+
+
+
+    //Ui testing
+
+    // Test rules and transitive dependencies:
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.6.2")
+    // Needed for createAndroidComposeRule, but not createComposeRule:
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.6.2")
+
+    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.3.0")
+
+
+    //Performance
+
 
 }
