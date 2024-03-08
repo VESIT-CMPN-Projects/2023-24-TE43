@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.empoweher.R
 import com.example.empoweher.activities.LocationActivity
+import com.example.empoweher.activities.Twitter
 import com.example.empoweher.composables.SafetyCard
 import com.example.empoweher.model.Screen
 import com.example.empoweher.screen.Details.converterHeight
@@ -103,7 +104,7 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
                 description="You Can Send your Location to your emergency Contacts",
                 color= colorResource(id = R.color.lightgreen),
                 routed = {
-                    val navigate = Intent(context, LocationActivity::class.java)
+                    val navigate = Intent(context, Twitter::class.java)
                     context.startActivity(navigate)
                 },
                 true
@@ -139,132 +140,7 @@ fun Safety(navigateToNextScreen: (route: String)->Unit) {
         }
     }
 }
-//Column(modifier = Modifier.fillMaxSize(),
-//verticalArrangement = Arrangement.Center,
-//horizontalAlignment = Alignment.CenterHorizontally
-//){
-//    Row(Modifier.padding(converterHeight(8,context).dp), Arrangement.SpaceBetween){
-//        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-//            Card(modifier = Modifier
-//                .size(converterHeight(140,context).dp),colors = CardDefaults.cardColors(
-//                containerColor = Color.White),
-//                elevation = CardDefaults.cardElevation(converterHeight(20,context).dp)){
-//                Box(modifier = Modifier
-//                    .size(converterHeight(140,context).dp)
-//                    .clickable {
-//                        navigateToNextScreen(Screen.FakeCall.route)
-//                    } ) {
-//                    Exoplayer(uri = Uri.parse("android.resource://com.example.empoweher/raw/fakecall"))
-//                }
-//            }
-//            Spacer(modifier = Modifier.height(converterHeight(10,context).dp))
-//            Text(
-//                text = "FAKE CALL",
-//                fontSize = converterHeight(30,context).sp,
-//                fontFamily = FontFamily(Font(R.font.font1)),
-//                fontWeight = FontWeight.Bold,
-//                color = colorResource(R.color.teal_450),
-//            )
-//        }
-//        Spacer(modifier = Modifier.width(converterWidth(40,context).dp))
-//
-//        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-//            Card(modifier = Modifier
-//                .size(converterHeight(140,context).dp),
-//                colors = CardDefaults.cardColors(
-//                    containerColor = Color.White),
-//                elevation = CardDefaults.cardElevation(converterHeight(20,context).dp)){
-//                Image(modifier= Modifier
-//                    .size(converterHeight(140,context).dp)
-//                    .clip(RoundedCornerShape(converterHeight(40,context).dp))
-//                    .clickable {
-//                        val intent = Intent(
-//                            Intent.ACTION_VIEW,
-//                            Uri.parse("https://www.google.com/maps/search/nearby+police+station/")
-//                        ).setPackage("com.google.android.apps.maps")
-//                        context.startActivity(intent)
-////                                    val navigate = Intent(context, SafetyActivity::class.java)
-////                                    context.startActivity(navigate)
-//                    },
-//                    painter = painterResource(id = R.drawable.policestation1) ,
-//                    contentDescription = "map",
-//                    contentScale = ContentScale.Fit)
-//
-//            }
-//            Spacer(modifier = Modifier.height(converterHeight(10,context).dp))
-//            Text(
-//                text = "POLICE STN",
-//                fontSize = converterHeight(30,context).sp,
-//                fontFamily = FontFamily(Font(R.font.font1)),
-//                fontWeight = FontWeight.Bold,
-//                color = colorResource(R.color.teal_450),
-//            )
-//        }
-//
-//    }
-//    Spacer(modifier = Modifier.height(converterHeight(20,context).dp))
-//    Row(Modifier.padding(converterHeight(8,context).dp), Arrangement.SpaceBetween){
-//        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-//            Card(modifier = Modifier
-//                .size(converterHeight(140,context).dp),colors = CardDefaults.cardColors(
-//                containerColor = Color.White),
-//                elevation = CardDefaults.cardElevation(converterHeight(20,context).dp)){
-//                Image(modifier= Modifier
-//                    .size(converterHeight(140,context).dp)
-//                    .clip(RoundedCornerShape(converterHeight(0,context).dp))
-//                    .clickable {
-////                                    val navigate = Intent(context, VideoConferencing::class.java)
-////                                    context.startActivity(navigate)
-//                        val navigate = Intent(context, LocationActivity::class.java)
-//                        context.startActivity(navigate)
-//                    },
-//                    painter = painterResource(id = R.drawable.alert1) ,
-//                    contentDescription = "",
-//                    contentScale = ContentScale.Fit)
-//
-//            }
-//            Spacer(modifier = Modifier.height(converterHeight(10,context).dp))
-//            Text(
-//                text = "ALERT",
-//                fontSize = converterHeight(30,context).sp,
-//                fontFamily = FontFamily(Font(R.font.font1)),
-//                fontWeight = FontWeight.Bold,
-//                color = colorResource(R.color.teal_450),
-//            )
-//        }
-//
-//        Spacer(modifier = Modifier.width(converterWidth(40,context).dp))
-//
-//        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-//
-//            Card(modifier = Modifier
-//                .size(converterHeight(140,context).dp),colors = CardDefaults.cardColors(
-//                containerColor = Color.White),
-//                elevation = CardDefaults.cardElevation(converterHeight(20,context).dp)){
-//
-//                Image(modifier= Modifier
-//                    .size(converterHeight(140,context).dp)
-//                    .clip(RoundedCornerShape(converterHeight(40,context).dp))
-//                    .clickable {
-//                        navigateToNextScreen(Screen.ContactOption.route)
-//                    },
-//                    painter = painterResource(id = R.drawable.emergency1) ,
-//                    contentDescription = "contactOptions",
-//                    contentScale = ContentScale.Fit)
-//
-//            }
-//            Spacer(modifier = Modifier.height(converterHeight(10,context).dp))
-//            Text(
-//                text = "EMERGENCY",
-//                fontSize = converterHeight(30,context).sp,
-//                fontFamily = FontFamily(Font(R.font.font1)),
-//                fontWeight = FontWeight.Bold,
-//                color = colorResource(R.color.teal_450),
-//            )
-//        }
-//
-//    }
-//}
+
 
 
 
