@@ -25,10 +25,9 @@ class Twitter : AppCompatActivity() {
         }
         val py=Python.getInstance()
         val module=py.getModule("hello")
-        val number=module["number"]?.toInt()
-        val text=module["text"]?.toString()
-        Log.d("Hostel Praful","The value of num is $number")
-        Log.d("Hostel Praful","The value of text is $text")
-
+        val num=module["num"]
+        val response=module["response"]
+        Log.d("Hostel Praful",num.toString())
+        Log.d("Hostel Praful",response.toString())
     }
 }
