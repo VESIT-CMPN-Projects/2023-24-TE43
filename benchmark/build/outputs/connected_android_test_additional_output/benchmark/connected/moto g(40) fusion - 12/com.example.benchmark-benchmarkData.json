@@ -1,0 +1,44 @@
+{
+    "context": {
+        "build": {
+            "brand": "motorola",
+            "device": "hanoip",
+            "fingerprint": "motorola/hanoip_retail/hanoip:12/S2RI32.32-20-9-9-2/1591b-5bf47:user/release-keys",
+            "model": "moto g(40) fusion",
+            "version": {
+                "sdk": 31
+            }
+        },
+        "cpuCoreCount": 8,
+        "cpuLocked": false,
+        "cpuMaxFreqHz": 2304000000,
+        "memTotalBytes": 3828129792,
+        "sustainedPerformanceModeEnabled": false
+    },
+    "benchmarks": [
+        {
+            "name": "startup",
+            "params": {},
+            "className": "com.example.benchmark.ExampleStartupBenchmark",
+            "totalRunTimeNs": 40426249131,
+            "metrics": {
+                "timeToInitialDisplayMs": {
+                    "minimum": 621.492979,
+                    "maximum": 740.348251,
+                    "median": 702.876737,
+                    "runs": [
+                        708.341842,
+                        621.492979,
+                        740.348251,
+                        702.876737,
+                        701.683611
+                    ]
+                }
+            },
+            "sampledMetrics": {},
+            "warmupIterations": 0,
+            "repeatIterations": 5,
+            "thermalThrottleSleepSeconds": 0
+        }
+    ]
+}

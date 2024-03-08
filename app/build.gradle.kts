@@ -35,6 +35,7 @@ android {
             productFlavors { }
             sourceSets { }
         }
+////
         chaquopy {
             defaultConfig {
                 version = "3.12"

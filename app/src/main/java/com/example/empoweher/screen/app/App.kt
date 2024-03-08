@@ -57,6 +57,7 @@ import com.example.empoweher.screen.temp.Temp1
 import com.example.empoweher.screen.Details.Registration
 import com.example.empoweher.screen.ask.AskQuestion
 import com.example.empoweher.screen.ask.GiveAnswer
+import com.example.empoweher.screen.events.BookedEvents
 import com.google.firebase.auth.EmailAuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -462,6 +463,17 @@ fun App(
                             })
                     }
                 }
+
+                composable(route = Screen.BookedEvents.route) {
+                    BookedEvents(navigateToNextScreen = { route ->
+                        navController.navigate(route)
+                    })
+
+                }
+
+
+
+
 
             }
         }

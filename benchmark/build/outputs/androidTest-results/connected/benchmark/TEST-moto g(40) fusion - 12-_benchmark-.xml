@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="com.example.benchmark.ExampleStartupBenchmark" tests="1" failures="0" errors="0" skipped="0" time="50.089" timestamp="2024-03-06T14:47:55" hostname="localhost">
+  <properties>
+    <property name="device" value="moto g(40) fusion - 12" />
+    <property name="flavor" value="" />
+    <property name="project" value=":benchmark" />
+  </properties>
+  <testcase name="startup" classname="com.example.benchmark.ExampleStartupBenchmark" time="45.134" />
+</testsuite>
