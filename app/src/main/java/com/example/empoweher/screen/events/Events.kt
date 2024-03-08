@@ -60,10 +60,22 @@ import com.example.empoweher.screen.Details.converterHeight
 import com.example.empoweher.screen.ask.TagButton
 import com.example.empoweher.viewmodel.QuestionViewModel
 import com.example.empoweher.viewmodel.mainviewmodel
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 
 @Composable
 fun Events(navigateToNextScreen: (route: String)->Unit){
+
+    var currentUser="24Si2cNeD8Uq7vIbGCTDUSAHNOg1"
+    var currentFirebaseUser:String?=""
+    try {
+        currentFirebaseUser = FirebaseAuth.getInstance().currentUser!!.uid
+
+    }
+    catch (e:Exception){
+
+    }
+
     val viewModel = viewModel { mainviewmodel() }
     val context= LocalContext.current
     when( val result= viewModel.response.value){
