@@ -1,5 +1,7 @@
 package com.example.empoweher.screen.events
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.tween
@@ -34,7 +36,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,6 +56,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.empoweher.composables.EventCard
 import com.example.empoweher.R
 import com.example.empoweher.composables.SampleText
+import com.example.empoweher.composables.getInfoUser
 import com.example.empoweher.model.DataState
 import com.example.empoweher.model.Event
 import com.example.empoweher.model.Screen
@@ -66,8 +70,15 @@ import kotlinx.coroutines.delay
 @Composable
 fun Events(navigateToNextScreen: (route: String)->Unit){
 
-    var currentUser="24Si2cNeD8Uq7vIbGCTDUSAHNOg1"
-    var currentFirebaseUser:String?=""
+    val context= LocalContext.current
+
+    var currentUser by remember{
+        mutableStateOf("24Si2cNeD8Uq7vIbGCTDUSAHNOg1")
+    }
+
+    var currentFirebaseUser by remember{
+        mutableStateOf("")
+    }
     try {
         currentFirebaseUser = FirebaseAuth.getInstance().currentUser!!.uid
 
@@ -76,8 +87,19 @@ fun Events(navigateToNextScreen: (route: String)->Unit){
 
     }
 
+    if (currentFirebaseUser!=null && currentFirebaseUser!=""){
+        currentUser=currentFirebaseUser
+    }
+
+    var flag by remember{
+        mutableStateOf(false)
+    }
+
+    if (getInfoUser(thing = "flag", userId =currentUser )=="1"){
+        flag=true
+    }
+
     val viewModel = viewModel { mainviewmodel() }
-    val context= LocalContext.current
     when( val result= viewModel.response.value){
         is DataState.Loading -> {
             Box(
@@ -159,7 +181,17 @@ fun Events(navigateToNextScreen: (route: String)->Unit){
                                 .size(50.dp),
                             shape = CircleShape,
                             onClick = {
-                                navigateToNextScreen(Screen.EventForm.route)
+                                if (flag){
+                                    navigateToNextScreen(Screen.EventForm.route)
+                                }
+                                else{
+                                    val intent = Intent(
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse("https://postimg.cc/Bjp9qzQ7")
+                                    ).setPackage("com.android.chrome")
+                                    context.startActivity(intent)
+                                }
+
                             },
                         ) {
                             Icon(
