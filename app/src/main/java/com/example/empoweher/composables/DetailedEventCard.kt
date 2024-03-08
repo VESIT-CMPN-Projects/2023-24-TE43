@@ -1,5 +1,6 @@
 package com.example.empoweher.composables
 
+import android.content.Intent
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
@@ -51,6 +52,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.empoweher.R
+import com.example.empoweher.activities.Payment
 import com.example.empoweher.model.Screen
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -298,7 +300,12 @@ fun DetailedEventCard(eventId:String?="",navigateToNextScreen: (route: String)->
                     val dbref = FirebaseDatabase.getInstance().getReference("Event");
                     dbref.child(eventId!!).child("vacancy").setValue(vacancyUpdated.toString())
                     val Users = FirebaseDatabase.getInstance().getReference("Users");
-                    Users.child(currentUser).child("bookedEvents").child(eventId).setValue(eventId)
+
+                    Users.child(currentUser).child("bookedEvents").child(eventId).setValue(eventId).addOnSuccessListener {
+                        booked=true
+                        context.startActivity(Intent(context, Payment::class.java))
+                    }
+
 
                 }
 
