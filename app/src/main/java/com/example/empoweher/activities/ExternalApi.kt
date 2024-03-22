@@ -22,7 +22,7 @@ class ExternalApi : AppCompatActivity() {
         setContentView(R.layout.activity_external_api)
 
         val data:TextView = findViewById(R.id.data)
-        val url="https://3325-49-43-25-34.ngrok-free.app/Users"
+        val url="https://81ef-49-43-26-201.ngrok-free.app/Users"
         val request = JsonObjectRequest(
             com.android.volley.Request.Method.GET, url, null,
             { response ->

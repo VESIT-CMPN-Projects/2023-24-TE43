@@ -8,6 +8,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission
         android:name="android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS"
         tools:ignore="ProtectedPermissions" />
@@ -26,6 +27,15 @@
         android:supportsRtl="true"
         android:theme="@style/EmpoweHer"
         tools:targetApi="31">
+        <activity
+            android:name=".activities.Bluetooth"
+            android:theme="@style/Theme.AppCompat"
+            android:exported="false" />
+        <activity
+            android:name=".activities.LocationNew"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat" />
+
         <profileable
             android:shell="true"
             tools:targetApi="29" />
@@ -40,7 +50,8 @@
             android:theme="@style/Theme.AppCompat" />
         <activity
             android:name=".activities.TimeApi"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat" />
         <activity
             android:name=".activities.ExternalApi"
             android:exported="false"

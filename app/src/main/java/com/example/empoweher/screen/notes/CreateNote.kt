@@ -39,9 +39,11 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.empoweher.R
+import com.example.empoweher.activities.Bluetooth
 import com.example.empoweher.activities.ExternalApi
 import com.example.empoweher.activities.HiddenNotes
 import com.example.empoweher.activities.LeftRight
+import com.example.empoweher.activities.LocationNew
 import com.example.empoweher.activities.QR
 import com.example.empoweher.activities.TimeApi
 import com.example.empoweher.activities.Turn
@@ -166,7 +168,7 @@ fun CreateNote(navigateToNextScreen: (route: String)->Unit={}) {
             modifier= Modifier.fillMaxWidth()
         ) {
             Button(onClick = {
-                context.startActivity(Intent(context, LeftRight::class.java))
+                context.startActivity(Intent(context, Bluetooth::class.java))
 
             }) {
 
