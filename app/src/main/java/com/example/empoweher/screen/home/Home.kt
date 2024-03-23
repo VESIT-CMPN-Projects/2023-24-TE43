@@ -1,6 +1,7 @@
 package com.example.empoweher.screen.home
 
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -83,6 +84,7 @@ import java.util.Calendar
         val context= LocalContext.current
         val auth= FirebaseAuth.getInstance().currentUser?.uid
         var id="PCAPS"
+        val time=System.currentTimeMillis()
 
         if (auth!=null){
             id=auth
@@ -127,6 +129,7 @@ import java.util.Calendar
                 }
             }
             is DataState.SuccessNote -> {
+
                 Column(
                     modifier= Modifier
                         .fillMaxSize()
@@ -233,6 +236,7 @@ import java.util.Calendar
 
 
                 }
+                Log.d("Response Time In Milliseconds","Response Time In Milliseconds: "+(System.currentTimeMillis()-time).toString())
 
             }
             is DataState.Failure -> {

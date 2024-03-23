@@ -5,13 +5,13 @@
       <entry key="ExampleStartupBenchmark">
         <State />
       </entry>
-      <entry key="Testing">
-        <State />
-      </entry>
       <entry key="app">
         <State />
       </entry>
       <entry key="enterTest()">
+        <State />
+      </entry>
+      <entry key="startup()">
         <State />
       </entry>
     </value>
